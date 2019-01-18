@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1798645c5b276e4489347f79dfb14422, type: 3}
+  m_Name: BlueSoldier
+  m_EditorClassIdentifier: 
+  actorPrefab: {fileID: 2280749764747396178, guid: 70d2f14804a6d7b4d825aa37bf3508f0,
+    type: 3}
+  faction: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
+  material: {fileID: 2100000, guid: 6ea5e410f03a4bf408df1fdaf4d87cd9, type: 2}
