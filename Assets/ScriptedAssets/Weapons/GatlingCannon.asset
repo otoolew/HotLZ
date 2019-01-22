@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c77a93713555d704c8e0a78e570ed1d2, type: 3}
-  m_Name: InfantryRifle
+  m_Name: GatlingCannon
   m_EditorClassIdentifier: 
   WeaponDamage: 25
   WeaponRange: 50
-  WeaponCooldown: 0.25
+  WeaponCooldown: 0.1

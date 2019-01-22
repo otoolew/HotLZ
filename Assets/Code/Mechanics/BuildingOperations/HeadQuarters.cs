@@ -12,6 +12,7 @@ public class HeadQuarters : MonoBehaviour
     private Barracks barracks;
     public Barracks Barracks { get => barracks; set => barracks = value; }
 
+    public Territory[] territories;
 
     // Start is called before the first frame update
     void Start()

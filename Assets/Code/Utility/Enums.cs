@@ -12,4 +12,6 @@ public class Enums
     [Serializable] public enum NavStatus { INROUTE, ARRIVED }
     [Serializable] public enum RotorAxisRotation { X, Y, Z }
     [Serializable] public enum UnitType { Soldier, Helicopter, Vehicle }
+    [Serializable] public enum SoldierType { Rifleman, Rocket, Medic }
+
 }

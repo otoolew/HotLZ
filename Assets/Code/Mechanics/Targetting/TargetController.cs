@@ -89,22 +89,18 @@ public class TargetController : MonoBehaviour
     /// <param name="other">The other collider in the collision</param>
     private void OnTriggerEnter(Collider other)
     {
-        try
+        var targetable = other.GetComponentInParent<UnitActor>();
+        if (targetable == null)
+            return;
+        //Debug.Log(gameObject.GetComponentInParent<UnitActor>().name + " is tracking "+ targetable.name);
+        if (!IsTargetableValid(targetable))
         {
-            var targetable = other.GetComponentInParent<UnitActor>();
-            Debug.Log(gameObject.GetComponentInParent<UnitActor>().name + " is tracking "+ targetable.name);
-            if (!IsTargetableValid(targetable))
-            {
-                return;
-            }
-            targetable.removed += OnTargetRemoved;
-            targetsInRange.Add(targetable);
-            targetEntersRange?.Invoke(targetable);
+            return;
         }
-        catch (NullReferenceException)
-        {
-            Debug.Log("No Controller to target");
-        }
+        targetable.removed += OnTargetRemoved;
+        targetsInRange.Add(targetable);
+        targetEntersRange?.Invoke(targetable);
+       
     }
     /// <summary>
     /// On exiting the trigger, a valid targetable is removed from the tracking list.

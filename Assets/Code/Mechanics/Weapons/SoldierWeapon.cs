@@ -15,23 +15,23 @@ public class SoldierWeapon : WeaponComponent
 
     [SerializeField]
     private int weaponDamage;
-    public override int WeaponDamage { get => weaponDamage; set => weaponDamage = value; }
+    public int WeaponDamage { get => weaponDamage; set => weaponDamage = value; }
 
     [SerializeField]
     private float weaponCooldown;
-    public override float WeaponCooldown { get => weaponCooldown; set => weaponCooldown = value; }
+    public float WeaponCooldown { get => weaponCooldown; set => weaponCooldown = value; }
 
     [SerializeField]
     private float weaponRange;
-    public override float WeaponRange { get => weaponRange; set => weaponRange = value; }
+    public float WeaponRange { get => weaponRange; set => weaponRange = value; }
 
     [SerializeField]
     private float weaponTimer;
-    public override float WeaponTimer { get => weaponTimer; set => weaponTimer = value; }
+    public float WeaponTimer { get => weaponTimer; set => weaponTimer = value; }
 
     [SerializeField]
     private bool weaponReady;
-    public override bool WeaponReady { get => weaponReady; set => weaponReady = value; }
+    public bool WeaponReady { get => weaponReady; set => weaponReady = value; }
 
     [SerializeField]
     private ParticleSystem particleEffect;
@@ -42,12 +42,18 @@ public class SoldierWeapon : WeaponComponent
     public LayerMask LayerMask { get => layerMask; set => layerMask = value; }
     #endregion
 
+    public void InitWeapon()
+    {
+        weaponDamage = weaponSchematic.WeaponDamage;
+        weaponRange = weaponSchematic.WeaponRange;
+        weaponTimer = weaponSchematic.WeaponCooldown;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         targetController = GetComponentInChildren<TargetController>();
-        weaponSchematic.InitComponent(this);
+        InitWeapon();
     }
 
     // Update is called once per frame
@@ -75,10 +81,10 @@ public class SoldierWeapon : WeaponComponent
     {
         if (weaponReady)
         {
-            weaponTimer = weaponCooldown;
             InSightLine();
             particleEffect.Play();
             weaponReady = false;
+            weaponTimer = weaponSchematic.WeaponCooldown;
         }
 
     }

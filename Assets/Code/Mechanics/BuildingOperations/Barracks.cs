@@ -26,6 +26,10 @@ public class Barracks : MonoBehaviour
     private Transform soldierReturnPoint;
     public Transform SoldierReturnPoint { get => soldierReturnPoint; set => soldierReturnPoint = value; }
 
+    [SerializeField]
+    private RallyPoint rallyPoint;
+    public RallyPoint RallyPoint { get => rallyPoint; set => rallyPoint = value; }
+
     public List<UnitActor> soldierList = new List<UnitActor>();
 
     // Start is called before the first frame update
@@ -34,7 +38,6 @@ public class Barracks : MonoBehaviour
 
         for (int i = 0; i < riflemenPoolCount; i++)
         {
-
             UnitActor newUnit = UnitActorFactory.InstantiatePrefab(soldierAsset);
             newUnit.Pooled = true;
             //newUnit.Faction = faction;
@@ -75,6 +78,7 @@ public class Barracks : MonoBehaviour
                 infantry.Pooled = false;
                 infantry.transform.position = soldierSpawnPoint.position;
                 infantry.gameObject.SetActive(true);
+                infantry.GetComponent<NavigationAgent>().GoToPosition(RallyPoint.transform.position);
                 return;
             }
         }

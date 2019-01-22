@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RaycastWeapon : WeaponComponent
 {
+    private RaycastHit raycastHit;
 
     [SerializeField]
     private WeaponSchematic weaponSchematic;
@@ -11,23 +12,23 @@ public class RaycastWeapon : WeaponComponent
 
     [SerializeField]
     private int weaponDamage;
-    public override int WeaponDamage { get => weaponDamage; set => weaponDamage = value; }
+    public int WeaponDamage { get => weaponDamage; set => weaponDamage = value; }
 
     [SerializeField]
     private float weaponCooldown;
-    public override float WeaponCooldown { get => weaponCooldown; set => weaponCooldown = value; }
+    public float WeaponCooldown { get => weaponCooldown; set => weaponCooldown = value; }
 
     [SerializeField]
     private float weaponRange;
-    public override float WeaponRange { get => weaponRange; set => weaponRange = value; }
+    public float WeaponRange { get => weaponRange; set => weaponRange = value; }
 
     [SerializeField]
     private float weaponTimer;
-    public override float WeaponTimer { get => weaponTimer; set => weaponTimer = value; }
+    public float WeaponTimer { get => weaponTimer; set => weaponTimer = value; }
 
     [SerializeField]
     private bool weaponReady;
-    public override bool WeaponReady { get => weaponReady; set => weaponReady = value; }
+    public bool WeaponReady { get => weaponReady; set => weaponReady = value; }
 
     [SerializeField]
     private LineRenderer lineRenderer;
@@ -44,10 +45,17 @@ public class RaycastWeapon : WeaponComponent
     [SerializeField]
     private LayerMask layerMask;
     public LayerMask LayerMask { get => layerMask; set => layerMask = value; }
+
+    public void InitWeapon()
+    {
+        weaponDamage = weaponSchematic.WeaponDamage;
+        weaponRange = weaponSchematic.WeaponRange;
+        weaponTimer = weaponSchematic.WeaponCooldown;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        WeaponSchematic.InitComponent(this);
+        InitWeapon();
     }
 
     // Update is called once per frame
@@ -70,30 +78,66 @@ public class RaycastWeapon : WeaponComponent
             WeaponReady = false;
         }
     }
+
+
     public override void FireWeapon()
     {
-        Vector3 startPos = FirePoint.transform.localPosition;
-        Vector3 endPos = -FirePoint.transform.right * weaponRange;
-        //Vector3 endPos = FirePoint.transform.forward * weaponRange;
-        //Debug.DrawRay(startPos, endPos);
-        if (Physics.Raycast(startPos, endPos, out RaycastHit rayHit, weaponRange, layerMask))
-        {
-            lineRenderer.SetPosition(0, startPos);
-            lineRenderer.SetPosition(1, rayHit.point);
-            //lineRenderer.SetPosition(1, rayHit.collider.gameObject.GetComponent<Transform>().transform.position);
-            Debug.Log(rayHit.collider.gameObject.name + " Hit");
+        //lineRenderer.enabled = true;
+        //lineRenderer.SetPosition(0, FirePoint.transform.forward);
 
-        }
-        else
-        {
-            lineRenderer.SetPosition(1, endPos);
-        }
+        //Ray ray = new Ray
+        //{
+        //    origin = transform.position,
+        //    direction = transform.forward,
+        //};
+
+        //if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
+        //{
+        //    Vector3 hitPoint = rayHit.point;
+        //    Vector3 targetDir = hitPoint - transform.position;
+        //    Debug.DrawRay(ray.origin, targetDir);
+        //    lineRenderer.SetPosition(0, rayHit.point);
+        //    HealthController hitUnit = rayHit.collider.GetComponentInParent<HealthController>();
+        //    if (hitUnit != null)
+        //    {
+        //        hitUnit.ApplyDamage(weaponDamage);
+        //    }
+        //}
+
         StopCoroutine(FireFX());
         StartCoroutine(FireFX());
     }
     IEnumerator FireFX()
     {
         lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, transform.position);
+        Ray ray = new Ray
+        {
+            origin = transform.position,
+            direction = transform.forward,
+        };
+
+        if (Physics.Raycast(ray, out raycastHit, weaponRange, layerMask))
+        {
+            Vector3 hitPoint = raycastHit.point;
+            Vector3 targetDir = hitPoint - transform.position;
+            Debug.DrawRay(ray.origin, targetDir);
+            lineRenderer.SetPosition(0, raycastHit.point);
+            HealthController hitUnit = raycastHit.collider.GetComponentInParent<HealthController>();
+            if (hitUnit != null)
+            {
+                hitUnit.ApplyDamage(weaponDamage);
+            }
+
+            lineRenderer.SetPosition(1, raycastHit.point);
+
+            Debug.Log("Hit Success " + raycastHit.collider.GetComponent<HealthController>());
+        }
+        else
+        {
+            lineRenderer.SetPosition(1, ray.origin + ray.direction * weaponRange);
+        }
+
         yield return new WaitForSeconds(fxDuration);
         lineRenderer.enabled = false;
     }

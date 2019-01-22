@@ -78,6 +78,12 @@ public class HelicopterCommands : MonoBehaviour
                 Soldier unit = troops[i].GetComponentInParent<Soldier>();
                 if (unit != null)
                 {
+                    if(unit.DefensePosition != null)
+                    {
+                        unit.DefensePosition.GetComponent<Collider>().enabled = true;
+                        unit.DefensePosition = null;
+                    }
+
                     unit.NavigationAgent.GoToPosition(transform.position);
                 }
             }

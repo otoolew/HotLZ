@@ -26,6 +26,9 @@ public class Soldier : MonoBehaviour
     private SoldierWeapon weapon;
     public SoldierWeapon Weapon { get => weapon; set => weapon = value; }
 
+    [SerializeField] private DefensePosition defensePosition;
+    public DefensePosition DefensePosition { get => defensePosition; set => defensePosition = value; }
+
     // Start is called before the first frame update
     void Start()
     {
