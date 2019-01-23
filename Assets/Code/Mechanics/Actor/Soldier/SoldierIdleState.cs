@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierMoveState : StateMachineBehaviour
+public class SoldierIdleState : StateMachineBehaviour
 {
     UnitActor unit;
 

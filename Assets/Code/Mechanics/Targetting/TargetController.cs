@@ -52,6 +52,11 @@ public class TargetController : MonoBehaviour
     /// The current targetables in the collider
     /// </summary>
     public List<UnitActor> targetsInRange = new List<UnitActor>();
+
+    private void OnEnable()
+    {
+        ResetTargetter();
+    }
     /// <summary>
     /// Starts the search timer
     /// </summary>
@@ -127,6 +132,10 @@ public class TargetController : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        ResetTargetter();
+    }
     /// <summary>
     /// Returns the current target
     /// </summary>
@@ -142,7 +151,6 @@ public class TargetController : MonoBehaviour
     {
         targetsInRange.Clear();
         CurrentTarget = null;
-
         targetEntersRange = null;
         targetExitsRange = null;
         acquiredTarget = null;
@@ -205,8 +213,6 @@ public class TargetController : MonoBehaviour
 
         return nearest;
     }
-
-
 
     /// <summary>
     /// Fired by the agents died event or when the current target moves out of range,

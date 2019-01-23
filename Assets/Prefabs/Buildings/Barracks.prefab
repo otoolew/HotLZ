@@ -1544,6 +1544,9 @@ MonoBehaviour:
   soldierSpawnPoint: {fileID: 5443232194156032393}
   soldierReturnPoint: {fileID: 2619988200719421590}
   rallyPoint: {fileID: 1493568256536763553}
+  spawnCooldown: 2
+  spawnTimer: 2
+  spawnReady: 0
   soldierList: []
 --- !u!1 &5326492646761811647
 GameObject:

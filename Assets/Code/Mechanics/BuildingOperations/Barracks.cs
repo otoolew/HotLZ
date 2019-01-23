@@ -30,6 +30,18 @@ public class Barracks : MonoBehaviour
     private RallyPoint rallyPoint;
     public RallyPoint RallyPoint { get => rallyPoint; set => rallyPoint = value; }
 
+    [SerializeField]
+    private float spawnCooldown;
+    public float SpawnCooldown { get => spawnCooldown; set => spawnCooldown = value; }
+
+    [SerializeField]
+    private float spawnTimer;
+    public float SpawnTimer { get => spawnTimer; set => spawnTimer = value; }
+
+    [SerializeField]
+    private bool spawnReady;
+    public bool SpawnReady { get => spawnReady; set => spawnReady = value; }
+
     public List<UnitActor> soldierList = new List<UnitActor>();
 
     // Start is called before the first frame update
@@ -51,8 +63,11 @@ public class Barracks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (debugSpawnKey.KeyDownValue())
+        if (!spawnReady)
+            CooldownSpawn();
+        else
             SpawnRifleman();
+      
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,20 +77,37 @@ public class Barracks : MonoBehaviour
             Soldier unit = other.GetComponentInParent<Soldier>();
             if (unit == null)
                 return;
+
             unit.GetComponent<UnitActor>().Pooled = true;
-            unit.GetComponent<UnitActor>().Dead = false;
-            unit.GetComponent<HealthController>().totalHealthPoints = 100;
+            unit.GetComponent<UnitActor>().Dead = false;           
             unit.gameObject.SetActive(false);
         }
     }
-
+    public void CooldownSpawn()
+    {
+        if (spawnTimer <= 0)
+        {
+            spawnTimer = 0;
+            spawnReady = true;
+        }
+        else
+        {
+            spawnTimer -= Time.deltaTime;
+            spawnReady = false;
+        }
+    }
     public void SpawnRifleman()
     {
+        spawnReady = false;
+        spawnTimer = spawnCooldown;
         foreach (var infantry in soldierList)
         {
             if (!infantry.isActiveAndEnabled && infantry.Pooled)
             {
+                infantry.GetComponent<Animator>().SetBool("IsDead", false);
                 infantry.Pooled = false;
+                infantry.Dead = false;
+                infantry.GetComponent<HealthController>().totalHealthPoints = 100;
                 infantry.transform.position = soldierSpawnPoint.position;
                 infantry.gameObject.SetActive(true);
                 infantry.GetComponent<NavigationAgent>().GoToPosition(RallyPoint.transform.position);

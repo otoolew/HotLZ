@@ -62,7 +62,15 @@ public class RallyPoint : MonoBehaviour
     {
         for (int i = 1; i <= squadSize; i++)
         {
-            squadUnits.Pop().GetComponent<NavigationAgent>().GoToPosition(nextTerritory.blueEntrance.transform.position);
+            try
+            {
+                squadUnits.Pop().GetComponent<NavigationAgent>().GoToPosition(nextTerritory.blueEntrance.transform.position);
+            }
+            catch (System.NullReferenceException)
+            {
+                Debug.Log(gameObject.name + " Throw Catch");
+            }
+            
         }
         squadSize = squadUnits.Count;
         StopCoroutine(TriggerColliderActivation());

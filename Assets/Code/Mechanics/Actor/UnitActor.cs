@@ -14,6 +14,9 @@ public class UnitActor : MonoBehaviour
     private FactionAlignment faction;
     public FactionAlignment Faction { get => faction; set => faction = value; }
 
+    [SerializeField] private HealthController healthController;
+    public HealthController HealthController { get => healthController; set => healthController = value; }
+
     [SerializeField]
     private bool dead;
     public bool Dead { get => dead; set => dead = value; }
@@ -29,7 +32,8 @@ public class UnitActor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<HealthController>().OnDeath.AddListener(UnitActorDeath);
+        healthController = GetComponent<HealthController>();
+        healthController.OnDeath.AddListener(UnitActorDeath);
     }
 
     private void UnitActorDeath()
@@ -47,6 +51,7 @@ public class UnitActor : MonoBehaviour
     IEnumerator DeathSequence()
     {
         yield return new WaitForSeconds(2.5f);
+        Pooled = true;
         gameObject.SetActive(false);
     }
 }
