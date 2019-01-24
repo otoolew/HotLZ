@@ -96,7 +96,7 @@ public class HelicopterCommands : MonoBehaviour
         {
             unit.gameObject.SetActive(false);
             loadedUnits.Push(unit);
-            Debug.Log("Loaded " + unit.name);
+            //Debug.Log("Loaded " + unit.name);
         }
         seatTotal = loadedUnits.Count;
     }
@@ -109,11 +109,11 @@ public class HelicopterCommands : MonoBehaviour
             UnitActor unit = loadedUnits.Pop();
             unit.transform.position = unitDropPoint.position;
             unit.gameObject.SetActive(true);
-            Debug.Log("Unloaded " + unit.name);
+            //Debug.Log("Unloaded " + unit.name);
         }
         else
         {
-            Debug.Log("Nothing Loaded");
+            //Debug.Log("Nothing Loaded");
         }
         seatTotal = loadedUnits.Count;
     }

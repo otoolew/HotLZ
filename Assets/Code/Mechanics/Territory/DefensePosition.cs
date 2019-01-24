@@ -38,11 +38,11 @@ public class DefensePosition : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         UnitActor occupant = other.GetComponentInParent<UnitActor>();
-
-        if (occupant != null)
-        {
-            OnOccupantRemoved(occupant);
-        }
+        OnOccupantRemoved(occupant);
+        //if (currentOccupant != null)
+        //{
+        //   OnOccupantRemoved(occupant);
+        //}
     }
     public void TakeClaim(UnitActor defender)
     {
@@ -51,7 +51,7 @@ public class DefensePosition : MonoBehaviour
     public void OnOccupantRemoved(UnitActor occupant)
     {
         occupant.removed -= OnOccupantRemoved;
-        if (CurrentOccupant != null && occupant == CurrentOccupant)
+        if (CurrentOccupant != null && occupant.Equals(CurrentOccupant))
         {
             currentOccupant = null;
         }

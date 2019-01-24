@@ -55,6 +55,7 @@ public class Barracks : MonoBehaviour
             //newUnit.Faction = faction;
             newUnit.name = faction.name + " Soldier";
             newUnit.transform.parent = null;
+            newUnit.GetComponent<Soldier>().NavigationAgent.NavAgent.isStopped = false;
             newUnit.gameObject.SetActive(false);
             soldierList.Add(newUnit);
         }

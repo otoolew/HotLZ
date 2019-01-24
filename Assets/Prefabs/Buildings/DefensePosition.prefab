@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7997259482435923743}
   - component: {fileID: 4461859970427516926}
   - component: {fileID: 4461859970427516927}
-  m_Layer: 10
+  m_Layer: 2
   m_Name: DefensePosition
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc177e17751d4574dae156bc31ac5954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  territory: {fileID: 0}
   preferedUnitType: 0
   currentOccupant: {fileID: 0}
 --- !u!1 &4461859971045668514
@@ -119,6 +120,10 @@ PrefabInstance:
     - target: {fileID: 178672, guid: 260f268a09a81fb4a9a816f9dc0c926b, type: 3}
       propertyPath: m_Name
       value: Sandbags
+      objectReference: {fileID: 0}
+    - target: {fileID: 178672, guid: 260f268a09a81fb4a9a816f9dc0c926b, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 461480, guid: 260f268a09a81fb4a9a816f9dc0c926b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -182,6 +187,10 @@ PrefabInstance:
     - target: {fileID: 178672, guid: 260f268a09a81fb4a9a816f9dc0c926b, type: 3}
       propertyPath: m_Name
       value: Sandbags
+      objectReference: {fileID: 0}
+    - target: {fileID: 178672, guid: 260f268a09a81fb4a9a816f9dc0c926b, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 461480, guid: 260f268a09a81fb4a9a816f9dc0c926b, type: 3}
       propertyPath: m_LocalPosition.x

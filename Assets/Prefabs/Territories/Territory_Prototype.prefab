@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 0}
-  blueEntrance: {fileID: 0}
-  redEntrance: {fileID: 0}
+  blueEntrance: {fileID: 2613164786454593603}
+  redEntrance: {fileID: 7312116569005992882}
   defensePositions:
   - {fileID: 2334268878073161573}
   - {fileID: 5028648639044861831}

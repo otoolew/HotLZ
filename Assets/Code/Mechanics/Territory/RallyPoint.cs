@@ -45,7 +45,6 @@ public class RallyPoint : MonoBehaviour
             squadSize = squadUnits.Count;
             AssignPosition(unit);
         }
-
     }
     public void AssignPosition(UnitActor unit)
     {

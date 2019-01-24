@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 2196812373710561585}
   - component: {fileID: 2196812373710561584}
   - component: {fileID: 2196812373710561591}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RallyPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}

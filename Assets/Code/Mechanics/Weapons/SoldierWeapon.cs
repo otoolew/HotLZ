@@ -106,7 +106,9 @@ public class SoldierWeapon : WeaponComponent
             //Debug.Log( GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name );
             if (hitUnit != null)
             {
-                hitUnit.ApplyDamage(weaponDamage);
+                int damage = weaponDamage + UnityEngine.Random.Range(1, 10);
+                //Debug.Log(GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name + " for " + damage + " damage");
+                hitUnit.ApplyDamage(damage);
             }
 
         }
