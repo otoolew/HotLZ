@@ -23,7 +23,7 @@ public class DefensePosition : MonoBehaviour
                 return;
             if (currentOccupant == null)
             {
-                Debug.Log(unit.name + " is defending!");
+                //Debug.Log(unit.name + " is defending!");
                 TakeClaim(unit.GetComponent<UnitActor>());
                 currentOccupant.removed += OnOccupantRemoved;
             }

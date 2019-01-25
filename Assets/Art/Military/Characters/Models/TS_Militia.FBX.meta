@@ -68,6 +68,7 @@ ModelImporter:
     100124: Bip001 L Toe0Nub
     100126: Bip001 R Toe0Nub
     100128: Backpack_container
+    100130: WeaponContainer_L
     400000: Bip001
     400002: Bip001 Head
     400004: Bip001 L Calf
@@ -133,6 +134,7 @@ ModelImporter:
     400124: Bip001 L Toe0Nub
     400126: Bip001 R Toe0Nub
     400128: Backpack_container
+    400130: WeaponContainer_L
     2300000: weapon_stg44
     3300000: weapon_stg44
     4300000: legs_A
