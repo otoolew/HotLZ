@@ -14,6 +14,11 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private Actor currentOccupant;
     public Actor CurrentOccupant { get => currentOccupant; set => currentOccupant = value; }
 
+    private void Start()
+    {
+        
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("UnitActor"))
@@ -47,15 +52,18 @@ public class DefensePosition : MonoBehaviour
     public void TakeClaim(Actor defender)
     {
         currentOccupant = defender;
+        territory.UpdateFactionOwnership();
     }
+
     public void OnOccupantRemoved(Actor occupant)
     {
         occupant.OnActorRemoved -= OnOccupantRemoved;
         if (CurrentOccupant != null && occupant.Equals(CurrentOccupant))
         {
+
             currentOccupant = null;
         }
-
+        territory.UpdateFactionOwnership();
     }
 
 }

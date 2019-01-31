@@ -10,6 +10,9 @@ public class Territory : MonoBehaviour
     public EntryPoint redEntrance;
     public DefensePosition[] defensePositions;
 
+    public int blueFactionDefense;
+    public int redFactionDefense;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,26 @@ public class Territory : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void UpdateFactionOwnership()
+    {
+        blueFactionDefense = 0;
+        redFactionDefense = 0;
+        for (int i = 0; i < defensePositions.Length; i++)
+        { 
+            if(defensePositions[i].CurrentOccupant != null)
+            {
+                if (defensePositions[i].CurrentOccupant.Faction.factionName == "Blue")
+                {
+                    blueFactionDefense++;
+                }
+                if (defensePositions[i].CurrentOccupant.Faction.factionName == "Red")
+                {
+                    redFactionDefense++;
+                }
+            }
+        }
     }
 
     public bool FindDefensePosition(UnitActor unitActor)
