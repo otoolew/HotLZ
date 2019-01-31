@@ -133,8 +133,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 926565483472535460}
-  - component: {fileID: 7246116378129457517}
   - component: {fileID: 2094554272240414618}
+  - component: {fileID: 5529586981475554289}
   m_Layer: 2
   m_Name: TargetController
   m_TagString: Untagged
@@ -156,34 +156,6 @@ Transform:
   m_Father: {fileID: 3072240971071388012}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7246116378129457517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950924417567486506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fb675e4feacd5d4495005b37a426635, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: {fileID: 0}
-  searchRate: 1
-  searchTimer: 1
-  currentTarget: {fileID: 0}
-  hadTarget: 0
-  OnAcquiredTarget:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Events+AcquiredTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnLostTarget:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Events+LostTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  targetsInRange: []
 --- !u!135 &2094554272240414618
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -197,6 +169,44 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5529586981475554289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950924417567486506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f60a1b52b4588c84dbc8fdfc4e063ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: {fileID: 0}
+  searchRate: 0
+  searchTimer: 0
+  currentTarget: {fileID: 0}
+  hadTarget: 0
+  ActorsTrackedList: []
+  OnActorEntersRange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventActorEnteredRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnActorExitsRange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventActorExitedRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnAcquiredActor:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventAcquiredActor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnLostActor:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventLostActor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &2563382570394768624
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff7804d82bfba1488caf6ffa4c5f0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetController: {fileID: 7246116378129457517}
+  targetController: {fileID: 0}
   weaponSchematic: {fileID: 11400000, guid: 26673d8c071aa0e41a335eb9e05dedb6, type: 2}
   weaponDamage: 0
   weaponCooldown: 0
@@ -5805,12 +5815,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3072240971071388012}
+  - component: {fileID: 249838099249256061}
   - component: {fileID: 1830029870431724166}
-  - component: {fileID: 2280749764747396178}
   - component: {fileID: 581166468070580100}
   - component: {fileID: 9040462231738959592}
   - component: {fileID: 6125251845471742466}
   - component: {fileID: 2618062095159236372}
+  - component: {fileID: 5445638024263197856}
   m_Layer: 9
   m_Name: ProtoSoldier
   m_TagString: Untagged
@@ -5835,6 +5846,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &249838099249256061
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067911645427161985}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!95 &1830029870431724166
 Animator:
   serializedVersion: 3
@@ -5854,23 +5881,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2280749764747396178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8067911645427161985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d2fba62e63d7b440b5c8c057582f172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitType: 0
-  faction: {fileID: 0}
-  healthController: {fileID: 0}
-  dead: 0
-  pooled: 0
 --- !u!195 &581166468070580100
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5922,12 +5932,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c492a4a825bfa4097ed20e8d6450dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitActor: {fileID: 2280749764747396178}
+  faction: {fileID: 0}
+  unitType: 0
   animator: {fileID: 1830029870431724166}
   navigationAgent: {fileID: 9040462231738959592}
-  targetController: {fileID: 7246116378129457517}
+  healthController: {fileID: 2618062095159236372}
+  targetController: {fileID: 5529586981475554289}
   weapon: {fileID: 4779312312172172898}
   defensePosition: {fileID: 0}
+  dead: 0
+  pooled: 0
 --- !u!114 &2618062095159236372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5947,6 +5961,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!135 &5445638024263197856
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067911645427161985}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 1.48, z: 0}
 --- !u!1 &8114162356396693042
 GameObject:
   m_ObjectHideFlags: 0

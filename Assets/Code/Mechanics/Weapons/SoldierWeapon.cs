@@ -5,9 +5,6 @@ using UnityEngine;
 public class SoldierWeapon : WeaponComponent
 {
     #region Properties and Variables
-    [SerializeField]
-    private TargetController targetController;
-    public TargetController TargetController { get => targetController; set => targetController = value; }
 
     [SerializeField]
     private WeaponSchematic weaponSchematic;
@@ -52,7 +49,6 @@ public class SoldierWeapon : WeaponComponent
     // Start is called before the first frame update
     void Start()
     {
-        targetController = GetComponentInChildren<TargetController>();
         InitWeapon();
     }
 

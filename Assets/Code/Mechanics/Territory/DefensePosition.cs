@@ -11,8 +11,8 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private Enums.SoldierType preferedUnitType;
     public Enums.SoldierType PreferedUnitType { get => preferedUnitType; set => preferedUnitType = value; }
 
-    [SerializeField] private UnitActor currentOccupant;
-    public UnitActor CurrentOccupant { get => currentOccupant; set => currentOccupant = value; }
+    [SerializeField] private Actor currentOccupant;
+    public Actor CurrentOccupant { get => currentOccupant; set => currentOccupant = value; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,8 +24,8 @@ public class DefensePosition : MonoBehaviour
             if (currentOccupant == null)
             {
                 //Debug.Log(unit.name + " is defending!");
-                TakeClaim(unit.GetComponent<UnitActor>());
-                currentOccupant.removed += OnOccupantRemoved;
+                TakeClaim(unit.GetComponent<Actor>());
+                currentOccupant.OnActorRemoved += OnOccupantRemoved;
             }
             if (unit.GetComponent<UnitActor>() != currentOccupant)
             {
@@ -44,13 +44,13 @@ public class DefensePosition : MonoBehaviour
         //   OnOccupantRemoved(occupant);
         //}
     }
-    public void TakeClaim(UnitActor defender)
+    public void TakeClaim(Actor defender)
     {
         currentOccupant = defender;
     }
-    public void OnOccupantRemoved(UnitActor occupant)
+    public void OnOccupantRemoved(Actor occupant)
     {
-        occupant.removed -= OnOccupantRemoved;
+        occupant.OnActorRemoved -= OnOccupantRemoved;
         if (CurrentOccupant != null && occupant.Equals(CurrentOccupant))
         {
             currentOccupant = null;

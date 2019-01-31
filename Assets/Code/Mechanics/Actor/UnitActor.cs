@@ -4,54 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 [RequireComponent(typeof(HealthController))]
-public class UnitActor : MonoBehaviour
+public abstract class UnitActor : Actor
 {
-    [SerializeField]
-    private Enums.UnitType unitType;
-    public Enums.UnitType UnitType { get => unitType; set => unitType = value; }
-
-    [SerializeField]
-    private FactionAlignment faction;
-    public FactionAlignment Faction { get => faction; set => faction = value; }
-
-    [SerializeField] private HealthController healthController;
-    public HealthController HealthController { get => healthController; set => healthController = value; }
-
-    [SerializeField]
-    private bool dead;
-    public bool Dead { get => dead; set => dead = value; }
-
-    [SerializeField]
-    private bool pooled;
-    public bool Pooled { get => pooled; set => pooled = value; }
+    public abstract Enums.UnitType UnitType { get; set; }
+    public abstract HealthController HealthController { get; set; }
+    public abstract bool Dead { get; set; }
+    public abstract bool Pooled { get; set; }
 
     #region Events and Handlers
-    public event Action<UnitActor> removed;
+    //public event Action<UnitActor> removed;
+    //public abstract event Action<Actor> OnActorRemoved;
 
     #endregion
-    // Start is called before the first frame update
-    void Start()
-    {
-        healthController = GetComponent<HealthController>();
-        healthController.OnDeath.AddListener(UnitActorDeath);
-    }
 
-    private void UnitActorDeath()
-    {
-        dead = true;
-        GetComponent<Animator>().SetBool("IsDead", true);
-        GetComponent<Animator>().Play("Dead");
-        if (removed != null)
-        {
-            removed(this);
-        }
-        StartCoroutine("DeathSequence");
-    }
+    public abstract void UnitActorDeath();
 
-    IEnumerator DeathSequence()
-    {
-        yield return new WaitForSeconds(2.5f);
-        Pooled = true;
-        gameObject.SetActive(false);
-    }
+
 }
