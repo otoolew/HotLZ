@@ -7,6 +7,9 @@ public class HelicopterCommands : MonoBehaviour
     public KeyCodeVariable offerPickUpKey;
     public KeyCodeVariable debugDropKey;
 
+    [SerializeField] private HeadQuarters headQuarters;
+    public HeadQuarters HeadQuarters { get => headQuarters; set => headQuarters = value; }
+
     [SerializeField]
     private int seatCapacity;
     public int SeatCapacity { get => seatCapacity; set => seatCapacity = value; }
@@ -23,9 +26,9 @@ public class HelicopterCommands : MonoBehaviour
     private bool grounded;
     public bool Grounded { get => grounded; set => grounded = value; }
 
-    public Stack<UnitActor> loadedUnits = new Stack<UnitActor>();
-    [SerializeField]
-    private LayerMask layerMask;
+    public Stack<Soldier> loadedUnits = new Stack<Soldier>();
+
+    [SerializeField] private LayerMask layerMask;
     public LayerMask LayerMask { get => layerMask; set => layerMask = value; }
 
     // Start is called before the first frame update
@@ -53,10 +56,10 @@ public class HelicopterCommands : MonoBehaviour
         {
             grounded = true;
         }
-        UnitActor unit = other.GetComponentInParent<UnitActor>();
+        Soldier unit = other.GetComponentInParent<Soldier>();
         if (unit == null)
             return;
-        if (unit.Faction == GetComponentInParent<UnitActor>().Faction)
+        if (unit.Faction == GetComponentInParent<HelicopterUnit>().Faction)
             LoadUnit(unit);
 
     }
@@ -67,6 +70,23 @@ public class HelicopterCommands : MonoBehaviour
             grounded = false;
         }
     }
+
+    public Territory ClosestTerritory()
+    {
+        if (headQuarters.territories.Length <= 0)
+            return null;
+
+        Territory closest = headQuarters.territories[0];
+        float closestDistance = 0f;
+        for (int i = 0; i < headQuarters.territories.Length; i++)
+        {
+            float distance = Vector3.Distance(closest.transform.position, headQuarters.territories[i].transform.position);
+            if (distance < closestDistance)
+                closest = headQuarters.territories[i];
+        }
+        return closest;
+    }
+
     public void OfferPickUp()
     {
         Collider[] troops = Physics.OverlapSphere(transform.position, 10f, layerMask);
@@ -90,7 +110,7 @@ public class HelicopterCommands : MonoBehaviour
         }
     }
 
-    public void LoadUnit(UnitActor unit)
+    public void LoadUnit(Soldier unit)
     {
         if (seatTotal < seatCapacity)
         {
@@ -106,10 +126,10 @@ public class HelicopterCommands : MonoBehaviour
             return;
         if (loadedUnits.Count > 0)
         {
-            UnitActor unit = loadedUnits.Pop();
+            Soldier unit = loadedUnits.Pop();
             unit.transform.position = unitDropPoint.position;
             unit.gameObject.SetActive(true);
-            //Debug.Log("Unloaded " + unit.name);
+            ClosestTerritory().FindDefensePosition(unit);
         }
         else
         {

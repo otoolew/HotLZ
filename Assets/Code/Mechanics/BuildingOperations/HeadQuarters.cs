@@ -17,6 +17,7 @@ public class HeadQuarters : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        territories = FindObjectsOfType<Territory>();
     }
 
     // Update is called once per frame

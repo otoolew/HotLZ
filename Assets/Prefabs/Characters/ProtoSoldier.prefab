@@ -577,7 +577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff7804d82bfba1488caf6ffa4c5f0f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetController: {fileID: 0}
   weaponSchematic: {fileID: 11400000, guid: 26673d8c071aa0e41a335eb9e05dedb6, type: 2}
   weaponDamage: 0
   weaponCooldown: 0
@@ -5821,7 +5820,6 @@ GameObject:
   - component: {fileID: 9040462231738959592}
   - component: {fileID: 6125251845471742466}
   - component: {fileID: 2618062095159236372}
-  - component: {fileID: 5445638024263197856}
   m_Layer: 9
   m_Name: ProtoSoldier
   m_TagString: Untagged
@@ -5961,19 +5959,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!135 &5445638024263197856
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8067911645427161985}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 1.48, z: 0}
 --- !u!1 &8114162356396693042
 GameObject:
   m_ObjectHideFlags: 0

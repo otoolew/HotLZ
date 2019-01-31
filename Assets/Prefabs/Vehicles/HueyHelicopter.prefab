@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 710669402972504860}
   - component: {fileID: 8733055730884941334}
+  - component: {fileID: 8932824273800627913}
   - component: {fileID: 3147659781814207234}
   - component: {fileID: 8145947007648126130}
   - component: {fileID: 1200500797715779814}
@@ -101,6 +102,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8932824273800627913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989185418549420926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33c55ab4516ae724085b6abe0a32ad5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faction: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
+  unitType: 1
+  healthController: {fileID: 8145947007648126130}
+  dead: 0
+  pooled: 0
 --- !u!114 &3147659781814207234
 MonoBehaviour:
   m_ObjectHideFlags: 0

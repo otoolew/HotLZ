@@ -131,7 +131,7 @@ public class RaycastWeapon : WeaponComponent
 
             lineRenderer.SetPosition(1, raycastHit.point);
 
-            Debug.Log("Hit Success " + raycastHit.collider.GetComponent<HealthController>());
+            //Debug.Log("Hit Success " + raycastHit.collider.GetComponent<HealthController>());
         }
         else
         {
