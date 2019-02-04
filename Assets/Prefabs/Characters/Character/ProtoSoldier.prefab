@@ -134,9 +134,9 @@ GameObject:
   m_Component:
   - component: {fileID: 926565483472535460}
   - component: {fileID: 2094554272240414618}
-  - component: {fileID: 5529586981475554289}
+  - component: {fileID: 3235262589828386384}
   m_Layer: 2
-  m_Name: TargetController
+  m_Name: ActorTargeter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5529586981475554289
+--- !u!114 &3235262589828386384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1950924417567486506}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f60a1b52b4588c84dbc8fdfc4e063ddb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f824d9ec9a29574bb2fb2b1e80e046b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 0}
@@ -810,7 +810,7 @@ Transform:
 --- !u!199 &4634772364546157631
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5935,7 +5935,7 @@ MonoBehaviour:
   animator: {fileID: 1830029870431724166}
   navigationAgent: {fileID: 9040462231738959592}
   healthController: {fileID: 2618062095159236372}
-  targetController: {fileID: 5529586981475554289}
+  actorTargeter: {fileID: 3235262589828386384}
   weapon: {fileID: 4779312312172172898}
   defensePosition: {fileID: 0}
   dead: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3386722}
   - component: {fileID: 2338884}
   m_Layer: 0
-  m_Name: SM_Prop_Sandbags_01
+  m_Name: Sandbags
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

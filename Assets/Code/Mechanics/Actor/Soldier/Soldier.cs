@@ -20,8 +20,8 @@ public class Soldier : UnitActor
     [SerializeField] private HealthController healthController;
     public override HealthController HealthController { get => healthController; set => healthController = value; }
 
-    [SerializeField] private SoldierTargetting targetController;
-    public SoldierTargetting TargetController { get => targetController; set => targetController = value; }
+    [SerializeField] private ActorTargeter actorTargeter;
+    public ActorTargeter ActorTargeter { get => actorTargeter; set => actorTargeter = value; }
 
     [SerializeField] private SoldierWeapon weapon;
     public SoldierWeapon Weapon { get => weapon; set => weapon = value; }
@@ -43,9 +43,9 @@ public class Soldier : UnitActor
         healthController = GetComponent<HealthController>();
         healthController.OnDeath.AddListener(UnitActorDeath);
 
-        targetController.Faction = GetComponent<UnitActor>().Faction;
-        targetController.OnAcquiredActor.AddListener(HandleTargetAcquired);
-        targetController.OnLostActor.AddListener(HandleTargetLost);
+        actorTargeter.Faction = GetComponentInParent<UnitActor>().Faction;
+        actorTargeter.OnAcquiredActor.AddListener(HandleTargetAcquired);
+        actorTargeter.OnLostActor.AddListener(HandleTargetLost);
     }
 
     // Update is called once per frame
@@ -58,10 +58,10 @@ public class Soldier : UnitActor
 
     public void AimAtTarget()
     {
-        if (targetController.CurrentTarget == null)
+        if (actorTargeter.CurrentTarget == null)
             return;
         // Create a vector from the npc to the target.
-        Vector3 rotVector = targetController.CurrentTarget.transform.position - transform.position;
+        Vector3 rotVector = actorTargeter.CurrentTarget.transform.position - transform.position;
 
         // Ensure the vector is entirely along the floor plane.
         rotVector.y = 0f;

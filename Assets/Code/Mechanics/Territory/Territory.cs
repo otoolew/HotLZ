@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+[Serializable] public class EventTerritoryOwnerChange : UnityEvent<FactionAlignment> { }
 
 public class Territory : MonoBehaviour
 {
@@ -12,6 +16,15 @@ public class Territory : MonoBehaviour
 
     public int blueFactionDefense;
     public int redFactionDefense;
+
+    #region Events and Handlers
+    public EventTerritoryOwnerChange OnTerritoryOwnerChange;
+
+    public void HandleTerritoryOwnerChange(FactionAlignment newfaction)
+    {
+        Faction = newfaction;
+    }
+    #endregion  
 
     // Start is called before the first frame update
     void Start()

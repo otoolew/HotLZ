@@ -11,6 +11,9 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private Enums.SoldierType preferedUnitType;
     public Enums.SoldierType PreferedUnitType { get => preferedUnitType; set => preferedUnitType = value; }
 
+    [SerializeField] private Transform defenderPosition;
+    public Transform DefenderPosition { get => defenderPosition; set => defenderPosition = value; }
+
     [SerializeField] private Actor currentOccupant;
     public Actor CurrentOccupant { get => currentOccupant; set => currentOccupant = value; }
 
@@ -28,7 +31,7 @@ public class DefensePosition : MonoBehaviour
                 return;
             if (currentOccupant == null)
             {
-                //Debug.Log(unit.name + " is defending!");
+                Debug.Log(unit.name + " is defending!");
                 TakeClaim(unit.GetComponent<Actor>());
                 currentOccupant.OnActorRemoved += OnOccupantRemoved;
             }
