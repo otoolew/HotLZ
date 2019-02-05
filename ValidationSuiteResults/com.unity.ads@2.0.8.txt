@@ -1,0 +1,60 @@
+Validation Suite Results for package "com.unity.ads"
+ - Path: D:\UnityProjects\HotLZ\Library\PackageCache\com.unity.ads@2.0.8
+ - Version: 2.0.8
+ - Test Time: 2/5/2019 2:54:23 PM
+
+VALIDATION RESULTS:
+-------------------
+
+Failed - "ChangeLog Validation"
+Can't find any entries in changelog that fits `format: ## [x.y.z] - YYYY-MM-DD`
+
+Failed - "Documentation Validation"
+Error: Your package must contain a "Documentation~" folder at the root, which holds your package's documentation.
+
+Failed - "Manifest Validation"
+Error: In package.json, "displayName" must be set.
+
+Error: In package.json for a published package, there must be a "repository.revision" field.
+
+Failed - "Restricted File Type Validation"
+D:\UnityProjects\HotLZ\Library\PackageCache\com.unity.ads@2.0.8\Editor\Resources\Editor\landscape.jpg cannot be included in a package.
+
+D:\UnityProjects\HotLZ\Library\PackageCache\com.unity.ads@2.0.8\Editor\Resources\Editor\portrait.jpg cannot be included in a package.
+
+Warning: D:\UnityProjects\HotLZ\Library\PackageCache\com.unity.ads@2.0.8\UnityEngine.Advertisements.dll should not be included in packages unless absolutely necessary.  Please confirm that it's inclusion is deliberate and intentional.
+
+Warning: D:\UnityProjects\HotLZ\Library\PackageCache\com.unity.ads@2.0.8\Editor\UnityEditor.Advertisements.dll should not be included in packages unless absolutely necessary.  Please confirm that it's inclusion is deliberate and intentional.
+
+Succeeded - "Assembly Definition Validation"
+
+Succeeded - "Dependency Validation"
+
+Succeeded - "Meta Files Validation"
+
+Succeeded - "Required File Type Validation"
+
+Succeeded - "Tests Validation"
+
+Succeeded - "Unity Version Validation"
+
+Succeeded - "Package Update Validation"
+Warning: This package is not a preview version, but it's the first version of the package.  Should this package version be tagged as 2.0.8-preview?
+
+NotRun - "API Validation"
+No previous package version. Skipping Semantic Versioning checks.
+
+NotRun - "Package Diff Evaluation"
+No previous package version. Skipping diff evaluation.
+
+NotRun - "Project Template Validation"
+com.unity.ads is not a project template.
+
+NotRun - "Samples Validation"
+No samples found. Skipping Samples Validation.
+
+NotImplementedYet - "Folder Structure Validation"
+
+NotImplementedYet - "License Validation"
+
+NotImplementedYet - "Signature Validation"
