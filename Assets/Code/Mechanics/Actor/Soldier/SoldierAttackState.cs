@@ -19,7 +19,7 @@ public class SoldierAttackState : StateMachineBehaviour
         unit.GetComponent<NavigationAgent>().NavAgent.isStopped = true;
         unit.GetComponent<Soldier>().AimAtTarget();
         if (unit.GetComponent<Soldier>().Weapon.WeaponReady)
-            unit.GetComponent<Soldier>().Weapon.FireWeapon();
+            unit.GetComponent<Soldier>().Weapon.Fire();
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

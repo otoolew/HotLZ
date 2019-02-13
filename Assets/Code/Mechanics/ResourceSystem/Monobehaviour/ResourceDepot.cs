@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Enums;
 
 public class ResourceDepot : MonoBehaviour
 {
@@ -11,9 +12,11 @@ public class ResourceDepot : MonoBehaviour
     //private MissionCommand missionCommand;
     //public MissionCommand MissionCommand { get => missionCommand; set => missionCommand = value; }
 
-    [SerializeField]
-    private FactionAlignment factionAlignment;
+    [SerializeField] private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
+
+    [SerializeField] private TowerType resourceCrateType;
+    public TowerType TowerCrateType { get => resourceCrateType; set => resourceCrateType = value; }
 
     public Transform[] navPointArray;
 
@@ -24,6 +27,8 @@ public class ResourceDepot : MonoBehaviour
     private int totalResources;
     public int TotalResources { get => totalResources; set => totalResources = value; }
 
+    [SerializeField] private Transform resourceSpawnPoint;
+    public Transform ResourceSpawnPoint { get => resourceSpawnPoint; set => resourceSpawnPoint = value; }
 
     #endregion
     #region Events

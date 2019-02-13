@@ -13,13 +13,11 @@ public class WeaponSlot : MonoBehaviour
 {
     public int slot;
     public Text weaponName;
-    public Text weaponCooldown;
-    public PlayerInput playerController;
+    public Text weaponCooldown;    
 
     // Use this for initialization
     void Start ()
     {
-        playerController = FindObjectOfType<PlayerInput>();
         //weaponName.text = playerController.Starship.weapons[slot].WeaponSchematic.partName;
     }
 	

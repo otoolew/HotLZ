@@ -32,7 +32,7 @@ public class RallyPoint : MonoBehaviour
             UnitActor unit = other.GetComponentInParent<UnitActor>();
             if (unit == null)
                 return;
-            if ((unit.UnitType != Enums.UnitType.Soldier) || (unit.Faction != faction))
+            if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))
                 return;
             RallyUnit(unit);
         }
@@ -67,7 +67,7 @@ public class RallyPoint : MonoBehaviour
             }
             catch (System.NullReferenceException)
             {
-                Debug.Log(gameObject.name + " Throw Catch");
+                //Debug.Log(gameObject.name + " Throw Catch");
             }
             
         }

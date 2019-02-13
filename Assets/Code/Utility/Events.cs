@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------
 //  William O'Toole 
-//  Project: Starship
+//  Project: HotLZ
 //  SEPT 2018
 // ----------------------------------------------------------------------------
 using System;
@@ -13,7 +13,6 @@ public class Events
     [Serializable] public class SceneChangeComplete : UnityEvent<bool> { }
     [Serializable] public class PlayerDeath : UnityEvent<bool> { }
     [Serializable] public class InventorySlotSwap : UnityEvent<InventorySlot, InventorySlot> { }
-    [Serializable] public class WeaponDisabled : UnityEvent<WeaponComponent> { }
     [Serializable] public class AcquiredTarget : UnityEvent<UnitActor> { }
     [Serializable] public class LostTarget : UnityEvent { }
     [Serializable] public class HitZoneHit : UnityEvent<int> { }

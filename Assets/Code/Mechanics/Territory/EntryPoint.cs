@@ -31,7 +31,7 @@ public class EntryPoint : MonoBehaviour
             UnitActor unit = other.GetComponentInParent<UnitActor>();
             if (unit == null)
                 return;
-            if ((unit.UnitType != Enums.UnitType.Soldier) || (unit.Faction != faction))
+            if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))
                 return;
             unit.GetComponent<NavigationAgent>().GoToPosition(DirectUnitPosition(unit));
         }

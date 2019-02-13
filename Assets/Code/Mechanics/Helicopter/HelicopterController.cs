@@ -50,7 +50,7 @@ public class HelicopterController : MonoBehaviour
         if (RigidBody.velocity.magnitude > maxVelocity)
         {
             RigidBody.velocity = Vector3.ClampMagnitude(RigidBody.velocity, 20f);
-        }        
+        }
     }
     private void AutoLevel()
     {

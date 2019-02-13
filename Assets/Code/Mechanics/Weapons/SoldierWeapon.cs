@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierWeapon : WeaponComponent
+public class SoldierWeapon : WeaponController
 {
     #region Properties and Variables
 
@@ -30,8 +30,7 @@ public class SoldierWeapon : WeaponComponent
     private bool weaponReady;
     public bool WeaponReady { get => weaponReady; set => weaponReady = value; }
 
-    [SerializeField]
-    private ParticleSystem particleEffect;
+    [SerializeField] private ParticleSystem particleEffect;
     public ParticleSystem ParticleEffect { get => particleEffect; set => particleEffect = value; }
 
     [SerializeField]
@@ -39,17 +38,15 @@ public class SoldierWeapon : WeaponComponent
     public LayerMask LayerMask { get => layerMask; set => layerMask = value; }
     #endregion
 
-    public void InitWeapon()
+    public override void InitComponent()
     {
-        weaponDamage = weaponSchematic.WeaponDamage;
-        weaponRange = weaponSchematic.WeaponRange;
-        weaponTimer = weaponSchematic.WeaponCooldown;
+        throw new System.NotImplementedException();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        InitWeapon();
+        
     }
 
     // Update is called once per frame
@@ -73,14 +70,14 @@ public class SoldierWeapon : WeaponComponent
         }
     }
 
-    public override void FireWeapon()
+    public override void Fire()
     {
         if (weaponReady)
         {
             InSightLine();
             particleEffect.Play();
             weaponReady = false;
-            weaponTimer = weaponSchematic.WeaponCooldown;
+            weaponTimer = weaponSchematic.cooldownTime;
         }
 
     }

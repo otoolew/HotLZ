@@ -9,6 +9,7 @@ using UnityEngine.Events;
 [Serializable] public class EventAcquiredActor : UnityEvent<Actor> { }
 [Serializable] public class EventLostActor : UnityEvent { }
 
+[RequireComponent(typeof(SphereCollider))]
 public class ActorTargeter : MonoBehaviour
 {
     #region Fields and Properties

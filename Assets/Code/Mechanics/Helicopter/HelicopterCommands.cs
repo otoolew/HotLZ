@@ -6,9 +6,13 @@ public class HelicopterCommands : MonoBehaviour
 {
     public KeyCodeVariable offerPickUpKey;
     public KeyCodeVariable debugDropKey;
+    public KeyCodeVariable operateCraneKey;
 
     [SerializeField] private HeadQuarters headQuarters;
     public HeadQuarters HeadQuarters { get => headQuarters; set => headQuarters = value; }
+
+    [SerializeField] private HelicopterCrane helicopterCrane;
+    public HelicopterCrane HelicopterCrane { get => helicopterCrane; set => helicopterCrane = value; }
 
     [SerializeField]
     private int seatCapacity;
@@ -46,6 +50,18 @@ public class HelicopterCommands : MonoBehaviour
         {
             OfferPickUp();
         }
+        if (operateCraneKey.KeyDownValue())
+        {
+            if (HelicopterCrane.IsLowered)
+            {
+                HelicopterCrane.RaiseCrane();
+            }
+            else
+            {
+                HelicopterCrane.LowerCrane();
+            }
+        }
+            
 
     }
     private void OnTriggerEnter(Collider other)

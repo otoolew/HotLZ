@@ -2,17 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Enums;
 
 public class DefensePosition : MonoBehaviour
 {
     [SerializeField] private Territory territory;
     public Territory Territory { get => territory; set => territory = value; }
 
-    [SerializeField] private Enums.SoldierType preferedUnitType;
-    public Enums.SoldierType PreferedUnitType { get => preferedUnitType; set => preferedUnitType = value; }
+    [SerializeField] private TowerType towerType;
+    public TowerType TowerType { get => towerType; set => towerType = value; }
 
-    [SerializeField] private Transform defenderPosition;
-    public Transform DefenderPosition { get => defenderPosition; set => defenderPosition = value; }
+    [SerializeField] private Transform defenderPositioning;
+    public Transform DefenderPositioning { get => defenderPositioning; set => defenderPositioning = value; }
 
     [SerializeField] private Actor currentOccupant;
     public Actor CurrentOccupant { get => currentOccupant; set => currentOccupant = value; }
@@ -41,12 +42,20 @@ public class DefensePosition : MonoBehaviour
             }
 
         }
+
+        TowerCrate towerCrate = other.GetComponent<TowerCrate>();
+        if (towerCrate == null)
+            return;
+        ChangeTowerType(towerCrate);    
     }
 
     private void OnTriggerExit(Collider other)
     {
-        UnitActor occupant = other.GetComponentInParent<UnitActor>();
-        OnOccupantRemoved(occupant);
+        if (other.gameObject.layer == LayerMask.NameToLayer("UnitActor"))
+        {
+            UnitActor occupant = other.GetComponentInParent<UnitActor>();
+            OnOccupantRemoved(occupant);
+        }
         //if (currentOccupant != null)
         //{
         //   OnOccupantRemoved(occupant);
@@ -68,5 +77,8 @@ public class DefensePosition : MonoBehaviour
         }
         territory.UpdateFactionOwnership();
     }
-
+    public void ChangeTowerType(TowerCrate towerCrate)
+    {
+        TowerType = towerCrate.TowerCrateType;
+    }
 }
