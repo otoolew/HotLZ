@@ -9,6 +9,9 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private WeaponComponent equippedWeapon;
     public WeaponComponent EquippedWeapon { get => equippedWeapon; set => equippedWeapon = value; }
 
+    [SerializeField] private WeaponComponent rocketWeapon;
+    public WeaponComponent RocketWeapon { get => rocketWeapon; set => rocketWeapon = value; }
+
     private void Start()
     {
         //equippedWeapon = weaponComponents[0];
@@ -22,6 +25,8 @@ public class PlayerWeaponController : MonoBehaviour
         AimPoint();
         if (Input.GetMouseButtonDown(0))
             equippedWeapon.Fire();
+        if (Input.GetMouseButtonDown(1))
+            rocketWeapon.Fire();
 
     }
 

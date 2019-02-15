@@ -15,8 +15,8 @@ public class ResourceDepot : MonoBehaviour
     [SerializeField] private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
 
-    [SerializeField] private TowerType resourceCrateType;
-    public TowerType TowerCrateType { get => resourceCrateType; set => resourceCrateType = value; }
+    [SerializeField] private DefensePositionType resourceCrateType;
+    public DefensePositionType TowerCrateType { get => resourceCrateType; set => resourceCrateType = value; }
 
     public Transform[] navPointArray;
 

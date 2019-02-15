@@ -10,42 +10,41 @@ using UnityEngine;
 /// </summary>
 public class Munition : MonoBehaviour
 {
-    [Header("How long until I destroy myself?")]
-    public float munitionRange;
-    [Header("How fast do I go?")]
-    public float munitionSpeed;
-    [Header("How much damage do I do?")]
-    public int munitionDamage;
-    [Header("Who do I belong to?")]
-    public FactionAlignment owningFaction;
+    [SerializeField] private float lifeTime;
+    public float LifeTime { get => lifeTime; set => lifeTime = value; }
+
+    [SerializeField] private float speed;
+    public float Speed { get => speed; set => speed = value; }
+
+    [SerializeField] private int damage;
+    public int Damage { get => damage; set => damage = value; }
 
     // Use this for initialization
     private void Start()
     {
-        //owningFaction = GetComponentInParent<WeaponComponent>().FactionAlignment;
-        transform.parent = null;            // Unparent the bullet so it does not follow the Tank that fired it.
-        Destroy(gameObject, munitionRange);      // Destroy me after a specified time.
+        transform.parent = null;            // Unparent the munition
+        Destroy(gameObject, lifeTime);      // Destroy after a specified time.
     }
 
     // Update is called once per frame
     private void Update()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * munitionSpeed); // Move Up over time by the speed
+        Move();
     }
 
     private void OnTriggerEnter(Collider collisonObject)
     {
-        //DamageComponent damageableHit = collisonObject.GetComponent<DamageComponent>();
-        //if (damageableHit != null)
-        //{
-        //    Debug.Log("Hit " + damageableHit.name);
-        //    if (owningFaction.CanHarm(damageableHit.Faction))
-        //    {
-        //        Debug.Log("Damaged " + damageableHit.name);
-        //        damageableHit.ApplyDamage(munitionDamage);
-        //    }
-        //}
-
+        HealthController healthController = collisonObject.GetComponent<HealthController>();
+        if (healthController != null)
+        {           
+            healthController.ApplyDamage(damage);          
+        }
         Destroy(gameObject); // TODO: Deactivate and return to Pool
     }
+
+    private void Move()
+    {
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+    }
+
 }

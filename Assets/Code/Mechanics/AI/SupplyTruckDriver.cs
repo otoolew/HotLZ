@@ -12,13 +12,13 @@ public class SupplyTruckDriver : MonoBehaviour
     private NavMeshAgent navAgent;
     public NavMeshAgent NavAgent { get => navAgent; set => navAgent = value; }
 
-    [SerializeField]
-    private MissionCommand missionCommand;
-    public MissionCommand MissionCommand { get => missionCommand; set => missionCommand = value; }
+    //[SerializeField]
+    //private MissionCommand missionCommand;
+    //public MissionCommand MissionCommand { get => missionCommand; set => missionCommand = value; }
 
-    [SerializeField]
-    private MissionStatus.CollectorStatus collectorStatus;
-    public MissionStatus.CollectorStatus CollectorStatus { get => collectorStatus; set => collectorStatus = value; }
+    //[SerializeField]
+    //private MissionStatus.CollectorStatus collectorStatus;
+    //public MissionStatus.CollectorStatus CollectorStatus { get => collectorStatus; set => collectorStatus = value; }
 
     [SerializeField]
     private ResourceDepot resourceDepot;
@@ -53,40 +53,40 @@ public class SupplyTruckDriver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        collectorStatus = MissionStatus.CollectorStatus.DEPLOYING;
+        //collectorStatus = MissionStatus.CollectorStatus.DEPLOYING;
         RequestFieldAssignment();
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (collectorStatus)
-        {
-            case MissionStatus.CollectorStatus.DEPLOYING:
-                break;
-            case MissionStatus.CollectorStatus.IDLE:
-                RequestFieldAssignment();
-                break;
-            case MissionStatus.CollectorStatus.FETCHING:
-                if (DistanceToDestination() <= navAgent.stoppingDistance)
-                {
-                    GoToNextWayPoint();
-                }
-                break;
-            case MissionStatus.CollectorStatus.LOADING:
-                // TODO: Stop in Field
-                break;
-            case MissionStatus.CollectorStatus.DELIVERING:
-                if (!navAgent.hasPath)
-                    navAgent.SetDestination(resourceDepot.transform.position);
-                break;
-            case MissionStatus.CollectorStatus.UNLOADING:
-                // TODO: Stop in Depot
-                break;
-            default:
-                Debug.Log("Break!");
-                break;
-        }
+        //switch (collectorStatus)
+        //{
+        //    case MissionStatus.CollectorStatus.DEPLOYING:
+        //        break;
+        //    case MissionStatus.CollectorStatus.IDLE:
+        //        RequestFieldAssignment();
+        //        break;
+        //    case MissionStatus.CollectorStatus.FETCHING:
+        //        if (DistanceToDestination() <= navAgent.stoppingDistance)
+        //        {
+        //            GoToNextWayPoint();
+        //        }
+        //        break;
+        //    case MissionStatus.CollectorStatus.LOADING:
+        //        // TODO: Stop in Field
+        //        break;
+        //    case MissionStatus.CollectorStatus.DELIVERING:
+        //        if (!navAgent.hasPath)
+        //            navAgent.SetDestination(resourceDepot.transform.position);
+        //        break;
+        //    case MissionStatus.CollectorStatus.UNLOADING:
+        //        // TODO: Stop in Depot
+        //        break;
+        //    default:
+        //        Debug.Log("Break!");
+        //        break;
+        //}
 
     }
     public float DistanceToDestination()
@@ -138,11 +138,11 @@ public class SupplyTruckDriver : MonoBehaviour
 
             navAgent.SetDestination(waypointList[0].transform.position);
 
-            collectorStatus = MissionStatus.CollectorStatus.FETCHING;
+            //collectorStatus = MissionStatus.CollectorStatus.FETCHING;
         }
         else
         {
-           collectorStatus = MissionStatus.CollectorStatus.IDLE;
+           //collectorStatus = MissionStatus.CollectorStatus.IDLE;
         }           
     }
 
@@ -153,12 +153,12 @@ public class SupplyTruckDriver : MonoBehaviour
     public void DeliverResource()
     {
         navAgent.SetDestination(resourceDepot.transform.position);
-        collectorStatus = MissionStatus.CollectorStatus.DELIVERING;
+        //collectorStatus = MissionStatus.CollectorStatus.DELIVERING;
     }
 
     public void UnloadResource()
     {
-        collectorStatus = MissionStatus.CollectorStatus.UNLOADING;
+        //collectorStatus = MissionStatus.CollectorStatus.UNLOADING;
     }
 
     public bool IsEmpty()
@@ -172,7 +172,7 @@ public class SupplyTruckDriver : MonoBehaviour
     {
         if (currentResourceAmount >= maxResourceCapacity)
         {
-            collectorStatus = MissionStatus.CollectorStatus.DELIVERING;
+            //collectorStatus = MissionStatus.CollectorStatus.DELIVERING;
             return true;
         }
         return false;

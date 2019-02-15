@@ -52,10 +52,7 @@ public class RaycastWeaponComponent : WeaponComponent
 
     public override void InitComponent()
     {
-        weaponDamage = rayWeaponSchematic.weaponDamage;
-        weaponRange = rayWeaponSchematic.weaponRange;
-        weaponCooldown = rayWeaponSchematic.cooldownTime;
-        weaponTimer = rayWeaponSchematic.cooldownTime;
+        rayWeaponSchematic.Initialize(this);
     }
     // Start is called before the first frame update
     void Start()
@@ -65,20 +62,7 @@ public class RaycastWeaponComponent : WeaponComponent
     private void Update()
     {
         if (!weaponReady)
-            CooldownWeapon();
-    }
-    public override void CooldownWeapon()
-    {
-        if (weaponTimer <= 0)
-        {
-            weaponTimer = 0;
-            weaponReady = true;
-        }
-        else
-        {
-            weaponTimer -= Time.deltaTime;
-            weaponReady = false;
-        }
+            rayWeaponSchematic.CooldownWeapon(this);
     }
 
     public override void Fire()

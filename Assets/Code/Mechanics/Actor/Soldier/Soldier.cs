@@ -23,8 +23,8 @@ public class Soldier : UnitActor
     [SerializeField] private ActorTargeter actorTargeter;
     public ActorTargeter ActorTargeter { get => actorTargeter; set => actorTargeter = value; }
 
-    [SerializeField] private SoldierWeapon weapon;
-    public SoldierWeapon Weapon { get => weapon; set => weapon = value; }
+    [SerializeField] private SoldierWeaponComponent weapon;
+    public SoldierWeaponComponent Weapon { get => weapon; set => weapon = value; }
 
     [SerializeField] private DefensePosition defensePosition;
     public DefensePosition DefensePosition { get => defensePosition; set => defensePosition = value; }

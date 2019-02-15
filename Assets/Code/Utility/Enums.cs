@@ -13,6 +13,6 @@ public class Enums
     [Serializable] public enum RotorAxisRotation { X, Y, Z }
     [Serializable] public enum UnitType { SOLDIER, HELICOPTER, VEHICLE }
     [Serializable] public enum SoldierType { RIFLE, ROCKET, MEDIC }
-    [Serializable] public enum TowerType { RIFLE, ROCKET, MEDIC }
+    [Serializable] public enum DefensePositionType { RIFLE, ROCKET, MEDIC }
 
 }

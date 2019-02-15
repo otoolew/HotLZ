@@ -9,8 +9,11 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private Territory territory;
     public Territory Territory { get => territory; set => territory = value; }
 
-    [SerializeField] private TowerType towerType;
-    public TowerType TowerType { get => towerType; set => towerType = value; }
+    [SerializeField] private DefensePositionType defensePositionType;
+    public DefensePositionType DefensePositionType { get => defensePositionType; set => defensePositionType = value; }
+
+    [SerializeField] private DefensePositionWeapon[] defensePositionWeapons;
+    public DefensePositionWeapon[] DefensePositionWeapons { get => defensePositionWeapons;}
 
     [SerializeField] private Transform defenderPositioning;
     public Transform DefenderPositioning { get => defenderPositioning; set => defenderPositioning = value; }
@@ -18,9 +21,11 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private Actor currentOccupant;
     public Actor CurrentOccupant { get => currentOccupant; set => currentOccupant = value; }
 
+    public GameObject[] weaponTypeModels;
+
     private void Start()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,7 +51,7 @@ public class DefensePosition : MonoBehaviour
         TowerCrate towerCrate = other.GetComponent<TowerCrate>();
         if (towerCrate == null)
             return;
-        ChangeTowerType(towerCrate);    
+        ChangeTowerType(towerCrate);
     }
 
     private void OnTriggerExit(Collider other)
@@ -79,6 +84,21 @@ public class DefensePosition : MonoBehaviour
     }
     public void ChangeTowerType(TowerCrate towerCrate)
     {
-        TowerType = towerCrate.TowerCrateType;
+        defensePositionType = towerCrate.TowerCrateType;
+        if(defensePositionType == DefensePositionType.RIFLE)
+        {
+            for (int i = 0; i < DefensePositionWeapons.Length; i++)
+            {
+                //if(DefensePositionWeapons[i].to)
+            }
+        }
+        if (defensePositionType == DefensePositionType.RIFLE)
+        {
+
+        }
+        if (defensePositionType == DefensePositionType.RIFLE)
+        {
+
+        }
     }
 }

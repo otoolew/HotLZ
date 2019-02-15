@@ -8,8 +8,8 @@ public class TowerCrate : MonoBehaviour
     [SerializeField] private Vector3 spawnPoint;
     public Vector3 SpawnPoint { get => spawnPoint; set => spawnPoint = value; }
 
-    [SerializeField] private TowerType towerCrateType;
-    public TowerType TowerCrateType { get => towerCrateType; set => towerCrateType = value; }
+    [SerializeField] private DefensePositionType towerCrateType;
+    public DefensePositionType TowerCrateType { get => towerCrateType; set => towerCrateType = value; }
 
     private void Start()
     {
@@ -30,7 +30,7 @@ public class TowerCrate : MonoBehaviour
 
         if (defensePosition != null)
         {
-            Debug.Log(defensePosition + " current type is " + defensePosition.TowerType.ToString() + ". Changing Type to " + towerCrateType.ToString());
+            Debug.Log(defensePosition + " current type is " + defensePosition.DefensePositionType.ToString() + ". Changing Type to " + towerCrateType.ToString());
             defensePosition.ChangeTowerType(this);
             
             transform.parent = null;
