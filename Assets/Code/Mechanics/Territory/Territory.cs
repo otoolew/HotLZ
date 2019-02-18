@@ -8,12 +8,16 @@ using UnityEngine.Events;
 
 public class Territory : MonoBehaviour
 {
-    [SerializeField] private FactionAlignment faction;
-    public FactionAlignment Faction { get => faction; set => faction = value; }
+    [SerializeField] private FactionAlignment currentFaction;
+    public FactionAlignment CurrentFaction { get => currentFaction; set => currentFaction = value; }
+
+    [SerializeField] private FactionAlignment neutralFaction;
+    [SerializeField] private FactionAlignment blueFaction;
+    [SerializeField] private FactionAlignment redFaction;
+
     public EntryPoint blueEntrance;
     public EntryPoint redEntrance;
     public DefensePosition[] defensePositions;
-
     public int blueFactionDefense;
     public int redFactionDefense;
 
@@ -22,7 +26,7 @@ public class Territory : MonoBehaviour
 
     public void HandleTerritoryOwnerChange(FactionAlignment newfaction)
     {
-        Faction = newfaction;
+        CurrentFaction = newfaction;
     }
     #endregion  
 
@@ -44,18 +48,24 @@ public class Territory : MonoBehaviour
         redFactionDefense = 0;
         for (int i = 0; i < defensePositions.Length; i++)
         { 
-            if(defensePositions[i].CurrentOccupant != null)
+            if(defensePositions[i].IsOccupied)
             {
-                if (defensePositions[i].CurrentOccupant.Faction.factionName == "Blue")
+                if (defensePositions[i].Faction.factionName == "Blue")
                 {
                     blueFactionDefense++;
                 }
-                if (defensePositions[i].CurrentOccupant.Faction.factionName == "Red")
+                if (defensePositions[i].Faction.factionName == "Red")
                 {
                     redFactionDefense++;
                 }
             }
         }
+        if (blueFactionDefense > redFactionDefense)
+            OnTerritoryOwnerChange.Invoke(blueFaction);
+        if (redFactionDefense > blueFactionDefense)
+            OnTerritoryOwnerChange.Invoke(blueFaction);
+        if (blueFactionDefense == redFactionDefense)
+            OnTerritoryOwnerChange.Invoke(neutralFaction);
     }
 
     public bool FindDefensePosition(UnitActor unitActor)
@@ -64,7 +74,7 @@ public class Territory : MonoBehaviour
         {
             for (int i = 0; i < defensePositions.Length; i++)
             {
-                if (defensePositions[i].CurrentOccupant == null)
+                if (!defensePositions[i].IsOccupied)
                 {
                     unitActor.GetComponent<NavigationAgent>().GoToPosition(defensePositions[i].transform.position);
                     return true;

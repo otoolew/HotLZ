@@ -133,10 +133,10 @@ GameObject:
   - component: {fileID: 8733055730884941334}
   - component: {fileID: 8932824273800627913}
   - component: {fileID: 3147659781814207234}
-  - component: {fileID: 8145947007648126130}
   - component: {fileID: 1200500797715779814}
   - component: {fileID: 8962694386221248513}
   - component: {fileID: 6324192224402098802}
+  - component: {fileID: 1792899777400208324}
   m_Layer: 9
   m_Name: HueyHelicopter
   m_TagString: Untagged
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
   unitType: 1
-  healthController: {fileID: 8145947007648126130}
+  healthComponent: {fileID: 1792899777400208324}
   dead: 0
   pooled: 0
 --- !u!114 &3147659781814207234
@@ -218,25 +218,6 @@ MonoBehaviour:
   maxVelocity: 30
   ThrustInput: 0
   RotationInput: 0
---- !u!114 &8145947007648126130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989185418549420926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f986f14825a8fe34096ef09290dfd8f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealthPoints: 1000
-  totalHealthPoints: 1000
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1200500797715779814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,7 +255,7 @@ CapsuleCollider:
   m_Radius: 2
   m_Height: 7
   m_Direction: 0
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &6324192224402098802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +273,25 @@ MonoBehaviour:
     m_Bits: 14897
   equippedWeapon: {fileID: 2639190977600983382}
   rocketWeapon: {fileID: 8538279870205516408}
+--- !u!114 &1792899777400208324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989185418549420926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed49dffdb98920d4787d95eed3a39e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 1000
+  totalHealthPoints: 1000
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1565018548676380484
 GameObject:
   m_ObjectHideFlags: 0

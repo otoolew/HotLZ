@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[Serializable] public class EventActorEnteredRange : UnityEvent<Actor> { }
-[Serializable] public class EventActorExitedRange : UnityEvent<Actor> { }
-[Serializable] public class EventAcquiredActor : UnityEvent<Actor> { }
-[Serializable] public class EventLostActor : UnityEvent { }
+[Serializable] public class EventTargetEnteredRange : UnityEvent<Targetable> { }
+[Serializable] public class EventTargetExitedRange : UnityEvent<Targetable> { }
+[Serializable] public class EventAcquiredTarget : UnityEvent<Targetable> { }
+[Serializable] public class EventLostTarget : UnityEvent { }
 
 [RequireComponent(typeof(SphereCollider))]
-public class ActorTargeter : MonoBehaviour
+public class TargettingComponent : MonoBehaviour
 {
     #region Fields and Properties
     [SerializeField]
@@ -26,39 +26,39 @@ public class ActorTargeter : MonoBehaviour
     public float SearchTimer { get => searchTimer; set => searchTimer = value; }
 
     [SerializeField]
-    private Actor currentTarget;
-    public Actor CurrentTarget { get => currentTarget; set => currentTarget = value; }
+    private Targetable currentTarget;
+    public Targetable CurrentTarget { get => currentTarget; set => currentTarget = value; }
 
     [SerializeField]
     private bool hadTarget;
     public bool HadTarget { get => hadTarget; set => hadTarget = value; }
 
-    public List<Actor> ActorsTrackedList;
+    public List<Targetable> TargetsTrackedList;
     #endregion
     #region Events Actions and Handlers
 
-    public EventActorEnteredRange OnActorEntersRange;
-    public EventActorExitedRange OnActorExitsRange;
-    public EventAcquiredActor OnAcquiredActor;
-    public EventLostActor OnLostActor;
+    public EventTargetEnteredRange OnTargetEntersRange;
+    public EventTargetExitedRange OnTargetExitsRange;
+    public EventAcquiredTarget OnAcquiredTarget;
+    public EventLostTarget OnLostTarget;
 
-    public void OnActorRemoved(Actor actor)
+    public void OnTargetRemoved(Targetable target)
     {
-        actor.OnActorRemoved -= OnActorRemoved;
-        if (CurrentTarget != null && actor == CurrentTarget)
+        target.OnTargetRemoved -= OnTargetRemoved;
+        if (CurrentTarget != null && target == CurrentTarget)
         {
-            OnLostActor?.Invoke();
+            OnLostTarget?.Invoke();
             HadTarget = false;
-            ActorsTrackedList.Remove(CurrentTarget);
+            TargetsTrackedList.Remove(CurrentTarget);
             CurrentTarget = null;
         }
         else //wasnt the current target, find and remove from targets list
         {
-            for (int i = 0; i < ActorsTrackedList.Count; i++)
+            for (int i = 0; i < TargetsTrackedList.Count; i++)
             {
-                if (ActorsTrackedList[i] == actor)
+                if (TargetsTrackedList[i] == target)
                 {
-                    ActorsTrackedList.RemoveAt(i);
+                    TargetsTrackedList.RemoveAt(i);
                     break;
                 }
             }
@@ -75,7 +75,7 @@ public class ActorTargeter : MonoBehaviour
     void Start()
     {
         searchTimer = searchRate;
-        ActorsTrackedList = new List<Actor>();
+        TargetsTrackedList = new List<Targetable>();
     }
 
     // Update is called once per frame
@@ -83,12 +83,12 @@ public class ActorTargeter : MonoBehaviour
     {
         if (!(searchTimer <= 0.0f))
             searchTimer -= Time.deltaTime;
-        if (searchTimer <= 0.0f && CurrentTarget == null && ActorsTrackedList.Count > 0)
+        if (searchTimer <= 0.0f && CurrentTarget == null && TargetsTrackedList.Count > 0)
         {
-            CurrentTarget = GetNearestActor();
+            CurrentTarget = GetNearestTarget();
             if (CurrentTarget != null)
             {
-                OnAcquiredActor?.Invoke(CurrentTarget);
+                OnAcquiredTarget?.Invoke(CurrentTarget);
                 searchTimer = searchRate;
             }
         }
@@ -102,17 +102,17 @@ public class ActorTargeter : MonoBehaviour
     /// <param name="other">The other collider in the collision</param>
     private void OnTriggerEnter(Collider other)
     {
-        Actor actor = other.transform.root.GetComponent<Actor>();
-        if (actor == null)
+        Targetable target = other.transform.root.GetComponent<Targetable>();
+        if (target == null)
             return;
         ////Debug.Log(gameObject.GetComponentInParent<UnitActor>().name + " is tracking "+ targetable.name);
-        if (!IsTargetableValid(actor))
+        if (!IsTargetableValid(target))
         {
             return;
         }
-        actor.OnActorRemoved += OnActorRemoved;
-        ActorsTrackedList.Add(actor);
-        OnActorEntersRange?.Invoke(actor);
+        target.OnTargetRemoved += OnTargetRemoved;
+        TargetsTrackedList.Add(target);
+        OnTargetEntersRange?.Invoke(target);
 
     }
     /// <summary>
@@ -121,22 +121,22 @@ public class ActorTargeter : MonoBehaviour
     /// <param name="other">The other collider in the collision</param>
     private void OnTriggerExit(Collider other)
     {
-        var targetable = other.GetComponentInParent<Actor>();
+        var targetable = other.GetComponentInParent<Targetable>();
         if (!IsTargetableValid(targetable))
         {
             return;
         }
 
-        ActorsTrackedList.Remove(targetable);
-        OnActorExitsRange?.Invoke(targetable);
+        TargetsTrackedList.Remove(targetable);
+        OnTargetExitsRange?.Invoke(targetable);
         if (targetable == CurrentTarget)
         {
-            OnActorRemoved(targetable);
+            OnTargetRemoved(targetable);
         }
         else
         {
             // Only need to remove if we're not our actual target, otherwise OnTargetRemoved will do the work above
-            targetable.OnActorRemoved -= OnActorRemoved;
+            targetable.OnTargetRemoved -= OnTargetRemoved;
         }
     }
     #endregion
@@ -145,7 +145,7 @@ public class ActorTargeter : MonoBehaviour
     /// </summary>
     public void ResetTargetter()
     {
-        ActorsTrackedList.Clear();
+        TargetsTrackedList.Clear();
         CurrentTarget = null;
     }
     /// <summary>
@@ -153,35 +153,35 @@ public class ActorTargeter : MonoBehaviour
     /// </summary>
     /// <param name="targetable"></param>
     /// <returns>true if targetable is vaild, false if not</returns>
-    public bool IsTargetableValid(Actor actor)
+    public bool IsTargetableValid(Targetable target)
     {
-        if (actor == null)
+        if (target == null)
             return false;
         //if (targetable.GetComponent<Faction>() == null)
         //    return false;
-        return Faction.CanHarm(actor.Faction);
+        return Faction.CanHarm(target.Faction);
     }
     /// <summary>
     /// Returns the nearest targetable within the currently tracked targetables 
     /// </summary>
     /// <returns>The nearest targetable if there is one, null otherwise</returns>
-    public Actor GetNearestActor()
+    public Targetable GetNearestTarget()
     {
-        int length = ActorsTrackedList.Count;
+        int length = TargetsTrackedList.Count;
 
         if (length == 0)
         {
             return null;
         }
 
-        Actor nearest = null;
+        Targetable nearest = null;
         float distance = float.MaxValue;
         for (int i = length - 1; i >= 0; i--)
         {
-            Actor targetable = ActorsTrackedList[i];
+            Targetable targetable = TargetsTrackedList[i];
             if (targetable == null || !targetable.isActiveAndEnabled)
             {
-                ActorsTrackedList.RemoveAt(i);
+                TargetsTrackedList.RemoveAt(i);
                 continue;
             }
             float currentDistance = Vector3.Distance(transform.position, targetable.transform.position);

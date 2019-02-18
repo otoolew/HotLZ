@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefenseWeapon : WeaponComponent
+public class ProjectileDefenseWeaponComponent : WeaponComponent
 {
     #region Properties and Variables
 
     [SerializeField]
-    private WeaponSchematic weaponSchematic;
-    public WeaponSchematic WeaponSchematic { get => weaponSchematic; set => weaponSchematic = value; }
+    private SoldierWeaponSchematic soldierWeaponSchematic;
+    public SoldierWeaponSchematic SoldierWeaponSchematic { get => soldierWeaponSchematic; set => soldierWeaponSchematic = value; }
 
     [SerializeField]
     private int weaponDamage;
@@ -36,37 +36,38 @@ public class DefenseWeapon : WeaponComponent
     [SerializeField]
     private LayerMask layerMask;
     public LayerMask LayerMask { get => layerMask; set => layerMask = value; }
+
     #endregion
 
     public override void InitComponent()
     {
-        weaponSchematic.Initialize(this);
+        soldierWeaponSchematic.Initialize(this);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        InitComponent();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
         if (!weaponReady)
-            weaponSchematic.CooldownWeapon(this);
-        if(weaponReady && InSightLine())
-        {
-            Fire();
-        }
+            soldierWeaponSchematic.CooldownWeapon(this);
     }
 
     public override void Fire()
     {
-        Debug.Log("Defense Weapon Fired!");
-        weaponReady = false;
-        weaponTimer = weaponSchematic.cooldownTime;      
+        if (weaponReady)
+        {
+            InSightLine();
+            particleEffect.Play();
+            weaponReady = false;
+        }
+
     }
-    public bool InSightLine()
+    public void InSightLine()
     {
         Ray ray = new Ray
         {
@@ -74,13 +75,21 @@ public class DefenseWeapon : WeaponComponent
             direction = transform.forward,
         };
 
-        if (Physics.Raycast(ray, out RaycastHit rayHit, weaponRange, layerMask))
+        if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
         {
             Vector3 hitPoint = rayHit.point;
             Vector3 targetDir = hitPoint - transform.position;
             Debug.DrawRay(ray.origin, targetDir);
-            return true;
+
+            HealthComponent hitUnit = rayHit.collider.GetComponentInParent<HealthComponent>();
+            //Debug.Log( GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name );
+            if (hitUnit != null)
+            {
+                int damage = weaponDamage + UnityEngine.Random.Range(1, 10);
+                //Debug.Log(GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name + " for " + damage + " damage");
+                hitUnit.ApplyDamage(damage);
+            }
+
         }
-        return false;
     }
 }

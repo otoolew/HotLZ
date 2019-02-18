@@ -11,8 +11,8 @@ public class HelicopterUnit : UnitActor
     [SerializeField] private Enums.UnitType unitType;
     public override Enums.UnitType UnitType { get => unitType; set => unitType = value; }
 
-    [SerializeField] private HealthController healthController;
-    public override HealthController HealthController { get => healthController; set => healthController = value; }
+    [SerializeField] private HealthComponent healthComponent;
+    public override HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
 
     [SerializeField] private bool dead;
     public override bool Dead { get => dead; set => dead = value; }
@@ -20,12 +20,12 @@ public class HelicopterUnit : UnitActor
     [SerializeField] private bool pooled;
     public override bool Pooled { get => pooled; set => pooled = value; }
 
-    public override event Action<Actor> OnActorRemoved;
+    public override event Action<Targetable> OnTargetRemoved;
 
     public override void UnitActorDeath()
     {
         dead = true;
-        OnActorRemoved?.Invoke(this);
+        OnTargetRemoved?.Invoke(this);
         StartCoroutine("DeathSequence");
     }
 

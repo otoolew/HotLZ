@@ -17,11 +17,11 @@ public class Soldier : UnitActor
     [SerializeField] private NavigationAgent navigationAgent;
     public NavigationAgent NavigationAgent { get => navigationAgent; set => navigationAgent = value; }
 
-    [SerializeField] private HealthController healthController;
-    public override HealthController HealthController { get => healthController; set => healthController = value; }
+    [SerializeField] private HealthComponent healthComponent;
+    public override HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
 
-    [SerializeField] private ActorTargeter actorTargeter;
-    public ActorTargeter ActorTargeter { get => actorTargeter; set => actorTargeter = value; }
+    [SerializeField] private TargettingComponent targettingComponent;
+    public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
 
     [SerializeField] private SoldierWeaponComponent weapon;
     public SoldierWeaponComponent Weapon { get => weapon; set => weapon = value; }
@@ -29,23 +29,23 @@ public class Soldier : UnitActor
     [SerializeField] private DefensePosition defensePosition;
     public DefensePosition DefensePosition { get => defensePosition; set => defensePosition = value; }
 
-    [SerializeField]private bool dead;
+    [SerializeField] private bool dead;
     public override bool Dead { get => dead; set => dead = value; }
 
     [SerializeField] private bool pooled;
     public override bool Pooled { get => pooled; set => pooled = value; }
 
-    public override event Action<Actor> OnActorRemoved;
+    public override event Action<Targetable> OnTargetRemoved;
 
     // Start is called before the first frame update
     void Start()
     {
-        healthController = GetComponent<HealthController>();
-        healthController.OnDeath.AddListener(UnitActorDeath);
+        healthComponent = GetComponent<HealthComponent>();
+        healthComponent.OnDeath.AddListener(UnitActorDeath);
 
-        actorTargeter.Faction = GetComponentInParent<UnitActor>().Faction;
-        actorTargeter.OnAcquiredActor.AddListener(HandleTargetAcquired);
-        actorTargeter.OnLostActor.AddListener(HandleTargetLost);
+        targettingComponent.Faction = GetComponentInParent<UnitActor>().Faction;
+        targettingComponent.OnAcquiredTarget.AddListener(HandleTargetAcquired);
+        targettingComponent.OnLostTarget.AddListener(HandleTargetLost);
     }
 
     // Update is called once per frame
@@ -58,10 +58,10 @@ public class Soldier : UnitActor
 
     public void AimAtTarget()
     {
-        if (actorTargeter.CurrentTarget == null)
+        if (targettingComponent.CurrentTarget == null)
             return;
         // Create a vector from the npc to the target.
-        Vector3 rotVector = actorTargeter.CurrentTarget.transform.position - transform.position;
+        Vector3 rotVector = targettingComponent.CurrentTarget.transform.position - transform.position;
 
         // Ensure the vector is entirely along the floor plane.
         rotVector.y = 0f;
@@ -73,7 +73,7 @@ public class Soldier : UnitActor
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 1f);
 
     }
-    public void HandleTargetAcquired(Actor target)
+    public void HandleTargetAcquired(Targetable target)
     {
         animator.SetBool("HasTarget", true);
     }
@@ -87,7 +87,7 @@ public class Soldier : UnitActor
         dead = true;
         GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Animator>().Play("Dead");
-        OnActorRemoved?.Invoke(this);
+        OnTargetRemoved?.Invoke(this);
         StartCoroutine("DeathSequence");
     }
     IEnumerator DeathSequence()

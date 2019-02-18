@@ -92,7 +92,7 @@ public class RaycastWeaponComponent : WeaponComponent
             Vector3 targetDir = hitPoint - firePoint.position;
 
             lineRenderer.SetPosition(0, firePoint.position);
-            HealthController hitUnit = raycastHit.collider.GetComponentInParent<HealthController>();
+            HealthComponent hitUnit = raycastHit.collider.GetComponentInParent<HealthComponent>();
             if (hitUnit != null)
             {
                 hitUnit.ApplyDamage(weaponDamage);

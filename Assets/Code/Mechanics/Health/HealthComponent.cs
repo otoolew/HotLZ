@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HealthController : MonoBehaviour
+public class HealthComponent : MonoBehaviour
 {
     public int maxHealthPoints;
     public int totalHealthPoints;
@@ -11,6 +11,8 @@ public class HealthController : MonoBehaviour
     public UnityEvent OnDeath;
     public void Start()
     {
+        totalHealthPoints = maxHealthPoints;
+
         if (OnDeath == null)
             OnDeath = new UnityEvent();
     }
@@ -21,5 +23,4 @@ public class HealthController : MonoBehaviour
         if (totalHealthPoints <= 0)
             OnDeath.Invoke();
     }
-
 }

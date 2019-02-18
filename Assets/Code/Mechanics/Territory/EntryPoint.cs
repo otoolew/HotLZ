@@ -42,7 +42,7 @@ public class EntryPoint : MonoBehaviour
         {
             for (int i = 0; i < territory.defensePositions.Length; i++)
             {
-                if (territory.defensePositions[i].CurrentOccupant == null)
+                if (!territory.defensePositions[i].IsOccupied)
                     return territory.defensePositions[i].transform.position;
             }
         }

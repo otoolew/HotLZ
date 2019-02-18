@@ -4,28 +4,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Enums;
 
-public class DefensePosition : MonoBehaviour
+public class DefensePosition : Targetable
 {
-    [SerializeField] private Territory territory;
-    public Territory Territory { get => territory; set => territory = value; }
-
     [SerializeField] private DefensePositionType defensePositionType;
     public DefensePositionType DefensePositionType { get => defensePositionType; set => defensePositionType = value; }
 
-    [SerializeField] private DefensePositionWeapon[] defensePositionWeapons;
-    public DefensePositionWeapon[] DefensePositionWeapons { get => defensePositionWeapons;}
+    [SerializeField] private Territory territory;
+    public Territory Territory { get => territory; set => territory = value; }
 
-    [SerializeField] private Transform defenderPositioning;
-    public Transform DefenderPositioning { get => defenderPositioning; set => defenderPositioning = value; }
+    [SerializeField] private FactionAlignment faction;
+    public override FactionAlignment Faction { get => faction; set => faction = value; }
 
-    [SerializeField] private Actor currentOccupant;
-    public Actor CurrentOccupant { get => currentOccupant; set => currentOccupant = value; }
+    //[SerializeField] private DefenseWeapon currentDefenseWeapon;
+    //public DefenseWeapon CurrentDefenseWeapon { get => currentDefenseWeapon; }
 
-    public GameObject[] weaponTypeModels;
+    //[SerializeField] private DefenseWeapon[] defenseWeapons;
+    //public DefenseWeapon[] DefenseWeapons { get => defenseWeapons; }
+
+    [SerializeField] private HealthComponent healthComponent;
+    public override HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
+
+    [SerializeField] private bool isOccupied;
+    public bool IsOccupied { get => isOccupied; set => isOccupied = value; }
+
+    #region Events and Handlers
+    public override event Action<Targetable> OnTargetRemoved;
+
+    public void HandleDeath()
+    {
+        OnTargetRemoved?.Invoke(this);
+        StartCoroutine("DeathSequence");
+        territory.UpdateFactionOwnership();
+    }
+
+    #endregion
 
     private void Start()
     {
-
+        healthComponent.OnDeath.AddListener(HandleDeath);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,23 +51,19 @@ public class DefensePosition : MonoBehaviour
             Soldier unit = other.GetComponentInParent<Soldier>();
             if (unit == null)
                 return;
-            if (currentOccupant == null)
+            if (!isOccupied)
             {
                 Debug.Log(unit.name + " is defending!");
-                TakeClaim(unit.GetComponent<Actor>());
-                currentOccupant.OnActorRemoved += OnOccupantRemoved;
+                //unit.
             }
-            if (unit.GetComponent<UnitActor>() != currentOccupant)
-            {
-                territory.FindDefensePosition(unit.GetComponent<UnitActor>());
-            }
-
+            //if (unit.GetComponent<UnitActor>() != currentOccupant)
+            //{
+            //    territory.FindDefensePosition(unit.GetComponent<UnitActor>());
+            //}
         }
-
-        TowerCrate towerCrate = other.GetComponent<TowerCrate>();
-        if (towerCrate == null)
-            return;
-        ChangeTowerType(towerCrate);
+        
+        if (other.GetComponent<TowerCrate>() != null)
+            ChangeTowerType(other.GetComponent<TowerCrate>());
     }
 
     private void OnTriggerExit(Collider other)
@@ -66,20 +78,13 @@ public class DefensePosition : MonoBehaviour
         //   OnOccupantRemoved(occupant);
         //}
     }
-    public void TakeClaim(Actor defender)
+    public void TakeClaim(Soldier soldier)
     {
-        currentOccupant = defender;
         territory.UpdateFactionOwnership();
     }
 
-    public void OnOccupantRemoved(Actor occupant)
+    public void OnOccupantRemoved(UnitActor occupant)
     {
-        occupant.OnActorRemoved -= OnOccupantRemoved;
-        if (CurrentOccupant != null && occupant.Equals(CurrentOccupant))
-        {
-
-            currentOccupant = null;
-        }
         territory.UpdateFactionOwnership();
     }
     public void ChangeTowerType(TowerCrate towerCrate)
@@ -87,10 +92,10 @@ public class DefensePosition : MonoBehaviour
         defensePositionType = towerCrate.TowerCrateType;
         if(defensePositionType == DefensePositionType.RIFLE)
         {
-            for (int i = 0; i < DefensePositionWeapons.Length; i++)
-            {
-                //if(DefensePositionWeapons[i].to)
-            }
+            //for (int i = 0; i < defenseWeapons.Length; i++)
+            //{
+            //    //if(DefensePositionWeapons[i].to)
+            //}
         }
         if (defensePositionType == DefensePositionType.RIFLE)
         {
@@ -100,5 +105,12 @@ public class DefensePosition : MonoBehaviour
         {
 
         }
+    }
+    IEnumerator DeathSequence()
+    {
+        //currentDefenseWeapon = defenseWeapons[0];
+        gameObject.SetActive(false);
+        yield return new WaitForSeconds(2.5f);
+        gameObject.SetActive(true);
     }
 }

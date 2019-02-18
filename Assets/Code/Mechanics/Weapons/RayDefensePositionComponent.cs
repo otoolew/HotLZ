@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierWeaponComponent : WeaponComponent
+public class RayDefensePositionComponent : WeaponComponent
 {
     #region Properties and Variables
 
     [SerializeField]
-    private SoldierWeaponSchematic soldierWeaponSchematic;
-    public SoldierWeaponSchematic SoldierWeaponSchematic { get => soldierWeaponSchematic; set => soldierWeaponSchematic = value; }
+    private RayDefensePositionWeaponSchematic rayWeaponSchematic;
+    public RayDefensePositionWeaponSchematic RayWeaponSchematic { get => rayWeaponSchematic; set => rayWeaponSchematic = value; }
 
     [SerializeField]
     private int weaponDamage;
@@ -33,6 +33,18 @@ public class SoldierWeaponComponent : WeaponComponent
     [SerializeField] private ParticleSystem particleEffect;
     public ParticleSystem ParticleEffect { get => particleEffect; set => particleEffect = value; }
 
+    [SerializeField] private Transform firePoint;
+    public Transform FirePoint { get => firePoint; set => firePoint = value; }
+
+    [SerializeField] private TargettingComponent targettingComponent;
+    public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
+
+    [SerializeField] private Transform towerTurretTransform;
+    public Transform TowerTurretTransform { get => towerTurretTransform; set => towerTurretTransform = value; }
+
+    [SerializeField] private float turretRotationSpeed;
+    public float TurretRotationSpeed { get => turretRotationSpeed; set => turretRotationSpeed = value; }
+
     [SerializeField]
     private LayerMask layerMask;
     public LayerMask LayerMask { get => layerMask; set => layerMask = value; }
@@ -41,7 +53,7 @@ public class SoldierWeaponComponent : WeaponComponent
 
     public override void InitComponent()
     {
-        soldierWeaponSchematic.Initialize(this);
+        rayWeaponSchematic.Initialize(this);
     }
 
     // Start is called before the first frame update
@@ -53,8 +65,16 @@ public class SoldierWeaponComponent : WeaponComponent
     // Update is called once per frame
     void LateUpdate()
     {
+        AimAtTarget();
         if (!weaponReady)
-            soldierWeaponSchematic.CooldownWeapon(this);
+        {
+            rayWeaponSchematic.CooldownWeapon(this);
+        }          
+        else
+        {
+            Fire();
+        }
+
     }
 
     public override void Fire()
@@ -62,17 +82,29 @@ public class SoldierWeaponComponent : WeaponComponent
         if (weaponReady)
         {
             InSightLine();
-            particleEffect.Play();
+            //particleEffect.Play();
+            WeaponTimer = rayWeaponSchematic.cooldownTime;
             weaponReady = false;
         }
+    }
 
+    public void AimAtTarget()
+    {
+        if (targettingComponent.CurrentTarget != null)
+        {
+            var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - towerTurretTransform.position);
+            //lookDirection.x = 0;
+            //lookDirection.z = 0;
+            towerTurretTransform.rotation = Quaternion.RotateTowards(towerTurretTransform.rotation, lookDirection, (TurretRotationSpeed * Time.deltaTime));
+        }
     }
     public void InSightLine()
     {
+        //var lookDirection = Quaternion.LookRotation(firePoint.position - towerTurretTransform.position);
         Ray ray = new Ray
         {
-            origin = transform.position,
-            direction = transform.forward,
+            origin = firePoint.position,
+            direction = firePoint.forward,
         };
 
         if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
@@ -92,4 +124,5 @@ public class SoldierWeaponComponent : WeaponComponent
 
         }
     }
+
 }

@@ -34,10 +34,10 @@ public class Munition : MonoBehaviour
 
     private void OnTriggerEnter(Collider collisonObject)
     {
-        HealthController healthController = collisonObject.GetComponent<HealthController>();
-        if (healthController != null)
+        HealthComponent healthComponent = collisonObject.GetComponent<HealthComponent>();
+        if (healthComponent != null)
         {           
-            healthController.ApplyDamage(damage);          
+            healthComponent.ApplyDamage(damage);          
         }
         Destroy(gameObject); // TODO: Deactivate and return to Pool
     }

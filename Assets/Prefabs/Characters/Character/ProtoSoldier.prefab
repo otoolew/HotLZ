@@ -134,9 +134,9 @@ GameObject:
   m_Component:
   - component: {fileID: 926565483472535460}
   - component: {fileID: 2094554272240414618}
-  - component: {fileID: 3235262589828386384}
+  - component: {fileID: 2529580314504576860}
   m_Layer: 2
-  m_Name: ActorTargeter
+  m_Name: TargettingComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3235262589828386384
+--- !u!114 &2529580314504576860
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,31 +178,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1950924417567486506}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f824d9ec9a29574bb2fb2b1e80e046b, type: 3}
+  m_Script: {fileID: 11500000, guid: e3466efe4e2a33d4e9af77fb18ea04ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 0}
-  searchRate: 0
-  searchTimer: 0
+  searchRate: 1
+  searchTimer: 1
   currentTarget: {fileID: 0}
   hadTarget: 0
-  ActorsTrackedList: []
-  OnActorEntersRange:
+  TargetsTrackedList: []
+  OnTargetEntersRange:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: EventActorEnteredRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  OnActorExitsRange:
+  OnTargetExitsRange:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: EventActorExitedRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  OnAcquiredActor:
+  OnAcquiredTarget:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: EventAcquiredActor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  OnLostActor:
+  OnLostTarget:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: EventLostActor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -5820,7 +5820,7 @@ GameObject:
   - component: {fileID: 581166468070580100}
   - component: {fileID: 9040462231738959592}
   - component: {fileID: 6125251845471742466}
-  - component: {fileID: 2618062095159236372}
+  - component: {fileID: 1262713982455173561}
   m_Layer: 9
   m_Name: ProtoSoldier
   m_TagString: Untagged
@@ -5935,13 +5935,13 @@ MonoBehaviour:
   unitType: 0
   animator: {fileID: 1830029870431724166}
   navigationAgent: {fileID: 9040462231738959592}
-  healthController: {fileID: 2618062095159236372}
-  actorTargeter: {fileID: 3235262589828386384}
-  weapon: {fileID: 0}
+  healthComponent: {fileID: 1262713982455173561}
+  targettingComponent: {fileID: 2529580314504576860}
+  weapon: {fileID: 35863992671667055}
   defensePosition: {fileID: 0}
   dead: 0
   pooled: 0
---- !u!114 &2618062095159236372
+--- !u!114 &1262713982455173561
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5950,7 +5950,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8067911645427161985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f986f14825a8fe34096ef09290dfd8f6, type: 3}
+  m_Script: {fileID: 11500000, guid: ed49dffdb98920d4787d95eed3a39e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoints: 100

@@ -108,7 +108,7 @@ public class Barracks : MonoBehaviour
                 infantry.GetComponent<Animator>().SetBool("IsDead", false);
                 infantry.Pooled = false;
                 infantry.Dead = false;
-                infantry.GetComponent<HealthController>().totalHealthPoints = 100;
+                infantry.GetComponent<HealthComponent>().totalHealthPoints = 100;
                 infantry.transform.position = soldierSpawnPoint.position;
                 infantry.gameObject.SetActive(true);
                 infantry.GetComponent<NavigationAgent>().GoToPosition(RallyPoint.transform.position);
