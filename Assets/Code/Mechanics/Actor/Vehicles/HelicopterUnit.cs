@@ -20,12 +20,12 @@ public class HelicopterUnit : UnitActor
     [SerializeField] private bool pooled;
     public override bool Pooled { get => pooled; set => pooled = value; }
 
-    public override event Action<Targetable> OnTargetRemoved;
+    public override event Action<Targetable> targetRemoved;
 
     public override void UnitActorDeath()
     {
         dead = true;
-        OnTargetRemoved?.Invoke(this);
+        targetRemoved?.Invoke(this);
         StartCoroutine("DeathSequence");
     }
 

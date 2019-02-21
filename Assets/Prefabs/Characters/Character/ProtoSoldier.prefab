@@ -187,26 +187,6 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   hadTarget: 0
   TargetsTrackedList: []
-  OnTargetEntersRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventActorEnteredRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnTargetExitsRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventActorExitedRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnAcquiredTarget:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventAcquiredActor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnLostTarget:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventLostActor, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!1 &2563382570394768624
 GameObject:
   m_ObjectHideFlags: 0
@@ -5821,7 +5801,7 @@ GameObject:
   - component: {fileID: 9040462231738959592}
   - component: {fileID: 6125251845471742466}
   - component: {fileID: 1262713982455173561}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: ProtoSoldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}

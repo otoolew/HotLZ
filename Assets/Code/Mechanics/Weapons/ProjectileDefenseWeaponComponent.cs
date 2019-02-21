@@ -6,32 +6,38 @@ public class ProjectileDefenseWeaponComponent : WeaponComponent
 {
     #region Properties and Variables
 
-    [SerializeField]
-    private SoldierWeaponSchematic soldierWeaponSchematic;
-    public SoldierWeaponSchematic SoldierWeaponSchematic { get => soldierWeaponSchematic; set => soldierWeaponSchematic = value; }
+    [SerializeField] private ProjectileDefenseWeaponSchematic projectileWeaponSchematic;
+    public ProjectileDefenseWeaponSchematic ProjectileWeaponSchematic { get => projectileWeaponSchematic; set => projectileWeaponSchematic = value; }
 
-    [SerializeField]
-    private int weaponDamage;
+    [SerializeField] private int weaponDamage;
     public int WeaponDamage { get => weaponDamage; set => weaponDamage = value; }
 
-    [SerializeField]
-    private float weaponCooldown;
+    [SerializeField] private float weaponCooldown;
     public float WeaponCooldown { get => weaponCooldown; set => weaponCooldown = value; }
 
-    [SerializeField]
-    private float weaponRange;
+    [SerializeField] private float weaponRange;
     public float WeaponRange { get => weaponRange; set => weaponRange = value; }
 
-    [SerializeField]
-    private float weaponTimer;
+    [SerializeField] private float weaponTimer;
     public float WeaponTimer { get => weaponTimer; set => weaponTimer = value; }
 
-    [SerializeField]
-    private bool weaponReady;
+    [SerializeField] private bool weaponReady;
     public bool WeaponReady { get => weaponReady; set => weaponReady = value; }
 
     [SerializeField] private ParticleSystem particleEffect;
     public ParticleSystem ParticleEffect { get => particleEffect; set => particleEffect = value; }
+
+    [SerializeField] private Transform firePoint;
+    public Transform FirePoint { get => firePoint; set => firePoint = value; }
+
+    [SerializeField] private TargettingComponent targettingComponent;
+    public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
+
+    [SerializeField] private Transform towerTurretTransform;
+    public Transform TowerTurretTransform { get => towerTurretTransform; set => towerTurretTransform = value; }
+
+    [SerializeField] private float turretRotationSpeed;
+    public float TurretRotationSpeed { get => turretRotationSpeed; set => turretRotationSpeed = value; }
 
     [SerializeField]
     private LayerMask layerMask;
@@ -41,7 +47,7 @@ public class ProjectileDefenseWeaponComponent : WeaponComponent
 
     public override void InitComponent()
     {
-        soldierWeaponSchematic.Initialize(this);
+        projectileWeaponSchematic.Initialize(this);
     }
 
     // Start is called before the first frame update
@@ -53,43 +59,37 @@ public class ProjectileDefenseWeaponComponent : WeaponComponent
     // Update is called once per frame
     void LateUpdate()
     {
+        AimAtTarget();
         if (!weaponReady)
-            soldierWeaponSchematic.CooldownWeapon(this);
+        {
+            projectileWeaponSchematic.CooldownWeapon(this);
+        }
+        else
+        {
+            if(targettingComponent.CurrentTarget != null)
+                projectileWeaponSchematic.TriggerWeaponFire(this);
+        }
+
     }
 
     public override void Fire()
     {
         if (weaponReady)
         {
-            InSightLine();
-            particleEffect.Play();
+            //particleEffect.Play();
             weaponReady = false;
+            weaponTimer = projectileWeaponSchematic.cooldownTime;
+            Instantiate(projectileWeaponSchematic.munitionPrefab, firePoint.transform);
         }
-
     }
-    public void InSightLine()
+
+    public void AimAtTarget()
     {
-        Ray ray = new Ray
+        if (targettingComponent.CurrentTarget != null)
         {
-            origin = transform.position,
-            direction = transform.forward,
-        };
-
-        if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
-        {
-            Vector3 hitPoint = rayHit.point;
-            Vector3 targetDir = hitPoint - transform.position;
-            Debug.DrawRay(ray.origin, targetDir);
-
-            HealthComponent hitUnit = rayHit.collider.GetComponentInParent<HealthComponent>();
-            //Debug.Log( GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name );
-            if (hitUnit != null)
-            {
-                int damage = weaponDamage + UnityEngine.Random.Range(1, 10);
-                //Debug.Log(GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name + " for " + damage + " damage");
-                hitUnit.ApplyDamage(damage);
-            }
-
+            var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - towerTurretTransform.position);
+            towerTurretTransform.rotation = Quaternion.RotateTowards(towerTurretTransform.rotation, lookDirection, (TurretRotationSpeed * Time.deltaTime));
         }
     }
+ 
 }

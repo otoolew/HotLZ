@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: GenericRay
   soundEffect: {fileID: 0}
-  cooldownTime: 1
-  weaponDamage: 10
+  cooldownTime: 0.1
+  weaponDamage: 50
   weaponRange: 200

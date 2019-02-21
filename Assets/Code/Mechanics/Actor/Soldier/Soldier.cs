@@ -35,7 +35,7 @@ public class Soldier : UnitActor
     [SerializeField] private bool pooled;
     public override bool Pooled { get => pooled; set => pooled = value; }
 
-    public override event Action<Targetable> OnTargetRemoved;
+    public override event Action<Targetable> targetRemoved;
 
     // Start is called before the first frame update
     void Start()
@@ -81,19 +81,22 @@ public class Soldier : UnitActor
     {
         animator.SetBool("HasTarget", false);
     }
-
+    public void Removed()
+    {
+        targetRemoved?.Invoke(this);
+        Pooled = true;
+    }
     public override void UnitActorDeath()
     {
+        Removed();
         dead = true;
         GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Animator>().Play("Dead");
-        OnTargetRemoved?.Invoke(this);
         StartCoroutine("DeathSequence");
     }
     IEnumerator DeathSequence()
     {
         yield return new WaitForSeconds(2.5f);
-        Pooled = true;
         gameObject.SetActive(false);
     }
 }

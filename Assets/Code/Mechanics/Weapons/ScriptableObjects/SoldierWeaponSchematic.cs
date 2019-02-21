@@ -6,15 +6,15 @@ public class SoldierWeaponSchematic : WeaponSchematic
 {
     public int weaponDamage;
     public float weaponRange;
-    public override void CooldownWeapon(WeaponComponent weaponComponent)
+
+    public override void Initialize(WeaponComponent weaponComponent)
     {
         SoldierWeaponComponent soldierWeapon = weaponComponent.GetComponent<SoldierWeaponComponent>();
         soldierWeapon.WeaponDamage = weaponDamage;
         soldierWeapon.WeaponRange = weaponRange;
         soldierWeapon.WeaponCooldown = cooldownTime;
     }
-
-    public override void Initialize(WeaponComponent weaponComponent)
+    public override void CooldownWeapon(WeaponComponent weaponComponent)
     {
         SoldierWeaponComponent soldierWeapon = weaponComponent.GetComponent<SoldierWeaponComponent>();
         if (soldierWeapon.WeaponTimer <= 0)

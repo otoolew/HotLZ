@@ -59,15 +59,37 @@ public class SoldierWeaponComponent : WeaponComponent
 
     public override void Fire()
     {
-        if (weaponReady)
+        if (weaponReady && InSightLine())
         {
-            InSightLine();
+            FireRay();
             particleEffect.Play();
+            weaponTimer = soldierWeaponSchematic.cooldownTime;
             weaponReady = false;
         }
 
     }
-    public void InSightLine()
+
+    public bool InSightLine()
+    {
+        Ray ray = new Ray
+        {
+            origin = transform.position,
+            direction = transform.forward,
+        };
+
+        if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
+        {
+            Vector3 hitPoint = rayHit.point;
+            Vector3 targetDir = hitPoint - transform.position;
+            Debug.DrawRay(ray.origin, targetDir);
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// Fires Ray to Hit Enemy. This is redundent but I may make this a line renderer
+    /// </summary>
+    public void FireRay()
     {
         Ray ray = new Ray
         {
@@ -85,7 +107,7 @@ public class SoldierWeaponComponent : WeaponComponent
             //Debug.Log( GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name );
             if (hitUnit != null)
             {
-                int damage = weaponDamage + UnityEngine.Random.Range(1, 10);
+                int damage = weaponDamage + UnityEngine.Random.Range(10, 50);
                 //Debug.Log(GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name + " for " + damage + " damage");
                 hitUnit.ApplyDamage(damage);
             }

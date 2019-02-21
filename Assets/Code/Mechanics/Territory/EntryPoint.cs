@@ -26,15 +26,14 @@ public class EntryPoint : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("UnitActor"))
-        {
-            UnitActor unit = other.GetComponentInParent<UnitActor>();
-            if (unit == null)
-                return;
-            if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))
-                return;
-            unit.GetComponent<NavigationAgent>().GoToPosition(DirectUnitPosition(unit));
-        }
+
+        UnitActor unit = other.GetComponentInParent<UnitActor>();
+        if (unit == null)
+            return;
+        if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))
+            return;
+        unit.GetComponent<NavigationAgent>().GoToPosition(DirectUnitPosition(unit));
+        
     }
     private Vector3 DirectUnitPosition(UnitActor unitActor)
     {

@@ -10,11 +10,7 @@ public class Territory : MonoBehaviour
 {
     [SerializeField] private FactionAlignment currentFaction;
     public FactionAlignment CurrentFaction { get => currentFaction; set => currentFaction = value; }
-
-    [SerializeField] private FactionAlignment neutralFaction;
-    [SerializeField] private FactionAlignment blueFaction;
-    [SerializeField] private FactionAlignment redFaction;
-
+ 
     public EntryPoint blueEntrance;
     public EntryPoint redEntrance;
     public DefensePosition[] defensePositions;
@@ -61,11 +57,11 @@ public class Territory : MonoBehaviour
             }
         }
         if (blueFactionDefense > redFactionDefense)
-            OnTerritoryOwnerChange.Invoke(blueFaction);
+            OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.BlueFaction);
         if (redFactionDefense > blueFactionDefense)
-            OnTerritoryOwnerChange.Invoke(blueFaction);
+            OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.RedFaction);
         if (blueFactionDefense == redFactionDefense)
-            OnTerritoryOwnerChange.Invoke(neutralFaction);
+            OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.NeutralFaction);
     }
 
     public bool FindDefensePosition(UnitActor unitActor)

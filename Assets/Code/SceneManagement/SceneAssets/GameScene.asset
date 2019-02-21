@@ -4,15 +4,14 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27a282f6f722b9c4cb654949d9dea33c, type: 3}
   m_Name: GameScene
   m_EditorClassIdentifier: 
-  sceneInfo:
-    indexBuildId: 1
-    displayName: Game Scene
-    sceneDescription: Core Game Loop Scenw
-    sceneName: Game
+  sceneName: Prototype
+  sceneDescription: 
+  Scene: {fileID: 102900000, guid: 3b35f3afcb6caf3439793fefbbd63027, type: 3}

@@ -27,7 +27,7 @@ public class RallyPoint : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("UnitActor"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
         {
             UnitActor unit = other.GetComponentInParent<UnitActor>();
             if (unit == null)

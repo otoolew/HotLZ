@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newUnitActor", menuName = "Factory/UnitActor")]
 public class UnitActorSchematic : ScriptableObject
 {
-    public UnitActor actorPrefab;
+    public GameObject actorPrefab;
     public FactionAlignment faction;
-    public Material material;
 }

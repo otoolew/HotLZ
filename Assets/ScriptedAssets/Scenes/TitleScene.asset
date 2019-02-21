@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aacd7789ef5b6c0458c2f05389860262, type: 3}
-  m_Name: Anarchy
+  m_Script: {fileID: 11500000, guid: 7b3df27c13113364293f064c661dba06, type: 3}
+  m_Name: TitleScene
   m_EditorClassIdentifier: 
-  factionName: Anarchy
-  enemies:
-  - {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
-  - {fileID: 11400000, guid: 0d50019ec79a3204299f15c06c904c43, type: 2}
+  sceneName: TitleScene
+  sceneDescription: 
+  Scene: {fileID: 102900000, guid: b3e9bc5868029c7489f8602700ac7b1a, type: 3}

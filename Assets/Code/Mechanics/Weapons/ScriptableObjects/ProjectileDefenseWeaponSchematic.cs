@@ -4,34 +4,35 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Weapons/Projectile Defense Weapon")]
 public class ProjectileDefenseWeaponSchematic : WeaponSchematic
 {
-    public int weaponDamage;
-    public float weaponRange;
-    public override void CooldownWeapon(WeaponComponent weaponComponent)
-    {
-        SoldierWeaponComponent soldierWeapon = weaponComponent.GetComponent<SoldierWeaponComponent>();
-        soldierWeapon.WeaponDamage = weaponDamage;
-        soldierWeapon.WeaponRange = weaponRange;
-        soldierWeapon.WeaponCooldown = cooldownTime;
-    }
+    public GameObject munitionPrefab;
+
+    public float munitionLifeTime;
 
     public override void Initialize(WeaponComponent weaponComponent)
     {
-        SoldierWeaponComponent soldierWeapon = weaponComponent.GetComponent<SoldierWeaponComponent>();
-        if (soldierWeapon.WeaponTimer <= 0)
+        ProjectileDefenseWeaponComponent projectileWeapon = weaponComponent.GetComponent<ProjectileDefenseWeaponComponent>();
+        projectileWeapon.WeaponTimer = cooldownTime;
+    }
+
+    public override void CooldownWeapon(WeaponComponent weaponComponent)
+    {
+        ProjectileDefenseWeaponComponent projectileWeapon = weaponComponent.GetComponent<ProjectileDefenseWeaponComponent>();
+        if (projectileWeapon.WeaponTimer <= 0)
         {
-            soldierWeapon.WeaponTimer = 0;
-            soldierWeapon.WeaponReady = true;
+            projectileWeapon.WeaponTimer = 0;
+            projectileWeapon.WeaponReady = true;
         }
         else
         {
-            soldierWeapon.WeaponTimer -= Time.deltaTime;
-            soldierWeapon.WeaponReady = false;
+            projectileWeapon.WeaponTimer -= Time.deltaTime;
+            projectileWeapon.WeaponReady = false;
         }
     }
 
     public override void TriggerWeaponFire(WeaponComponent weaponComponent)
     {
-        SoldierWeaponComponent soldierWeapon = weaponComponent.GetComponent<SoldierWeaponComponent>();
-        soldierWeapon.Fire();
+        ProjectileDefenseWeaponComponent projectileWeapon = weaponComponent.GetComponent<ProjectileDefenseWeaponComponent>();
+        projectileWeapon.Fire(); // TODO: Instantiate and launch from component arg
     }
+
 }

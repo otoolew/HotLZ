@@ -7,5 +7,5 @@ public abstract class Targetable : MonoBehaviour
 {
     public abstract FactionAlignment Faction { get; set; }
     public abstract HealthComponent HealthComponent { get; set; }
-    public abstract event Action<Targetable> OnTargetRemoved;
+    public abstract event Action<Targetable> targetRemoved;
 }

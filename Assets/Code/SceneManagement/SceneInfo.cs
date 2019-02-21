@@ -5,28 +5,24 @@
 // ----------------------------------------------------------------------------
 using System;
 using UnityEngine;
-[Serializable]
-public class SceneInfo {
-    /// <summary>
-    /// The id specified by the build index in build settings
-    /// </summary>
-    [Header("Must match Project Build Settings")]
-    public string indexBuildId;
+using UnityEngine.SceneManagement;
 
-    /// <summary>
-    /// The displayed readable level name for printing
-    /// </summary>
-    public string displayName;
-
-    /// <summary>
-    /// The description of the level
-    /// </summary>
+[CreateAssetMenu(fileName = "newSceneAsset", menuName = "Scene Managment/SceneAsset")]
+public class SceneInfo : ScriptableObject
+{
+    [SerializeField] private string sceneName;
+    public string SceneName { get => sceneName; private set => sceneName = value; }
     [TextArea]
     public string sceneDescription;
-
-    /// <summary>
-    /// The name specified by the build index in build settings
-    /// </summary>
-    [Header("Must match Project Build Settings")]
-    public string sceneName;
+#if UNITY_EDITOR
+    public UnityEditor.SceneAsset Scene;
+    private void OnValidate()
+    {
+        //collect the scene name
+        if (Scene != null)
+            SceneName = Scene.name;
+        else
+            SceneName = "";
+    }
+#endif
 }

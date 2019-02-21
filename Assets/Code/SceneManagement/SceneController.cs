@@ -16,7 +16,7 @@ public class SceneController : MonoBehaviour
     /// <summary>
     /// Array of SceneItems used to refered scenes loaded into the build index
     /// </summary>
-    public List<SceneAsset> Scenes;
+    public List<SceneInfo> Scenes;
     /// <summary>
     /// CanvasGroup that has the Alpha we minipulate to create the "fade" effect
     /// </summary>

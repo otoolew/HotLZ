@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Red
   m_EditorClassIdentifier: 
   factionName: Red
+  uniform: {fileID: 11400000, guid: bfb04b861ee9fb4469fc90e3b37eba4e, type: 2}
   enemies:
   - {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}

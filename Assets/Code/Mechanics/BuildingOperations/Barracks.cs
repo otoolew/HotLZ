@@ -50,14 +50,15 @@ public class Barracks : MonoBehaviour
 
         for (int i = 0; i < riflemenPoolCount; i++)
         {
-            UnitActor newUnit = UnitActorFactory.InstantiatePrefab(soldierAsset);
-            newUnit.Pooled = true;
+            GameObject newUnit = UnitActorFactory.InstantiatePrefab(soldierAsset);
+
+            newUnit.GetComponent<UnitActor>().Pooled = true;
             //newUnit.Faction = faction;
             newUnit.name = faction.name + " Soldier";
             newUnit.transform.parent = null;
             newUnit.GetComponent<Soldier>().NavigationAgent.NavAgent.isStopped = false;
             newUnit.gameObject.SetActive(false);
-            soldierList.Add(newUnit);
+            soldierList.Add(newUnit.GetComponent<UnitActor>());
         }
     }
 

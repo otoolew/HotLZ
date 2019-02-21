@@ -44,7 +44,7 @@ public class TargettingComponent : MonoBehaviour
 
     public void OnTargetRemoved(Targetable target)
     {
-        target.OnTargetRemoved -= OnTargetRemoved;
+        target.targetRemoved -= OnTargetRemoved;
         if (CurrentTarget != null && target == CurrentTarget)
         {
             OnLostTarget?.Invoke();
@@ -110,7 +110,7 @@ public class TargettingComponent : MonoBehaviour
         {
             return;
         }
-        target.OnTargetRemoved += OnTargetRemoved;
+        target.targetRemoved += OnTargetRemoved;
         TargetsTrackedList.Add(target);
         OnTargetEntersRange?.Invoke(target);
 
@@ -136,7 +136,7 @@ public class TargettingComponent : MonoBehaviour
         else
         {
             // Only need to remove if we're not our actual target, otherwise OnTargetRemoved will do the work above
-            targetable.OnTargetRemoved -= OnTargetRemoved;
+            targetable.targetRemoved -= OnTargetRemoved;
         }
     }
     #endregion

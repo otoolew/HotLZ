@@ -79,13 +79,13 @@ public class RayDefensePositionComponent : WeaponComponent
 
     public override void Fire()
     {
-        if (weaponReady)
+        if (weaponReady && InSightLine())
         {
-            InSightLine();
-            //particleEffect.Play();
-            WeaponTimer = rayWeaponSchematic.cooldownTime;
+            FireRay();
+            weaponTimer = rayWeaponSchematic.cooldownTime;
             weaponReady = false;
         }
+
     }
 
     public void AimAtTarget()
@@ -98,13 +98,33 @@ public class RayDefensePositionComponent : WeaponComponent
             towerTurretTransform.rotation = Quaternion.RotateTowards(towerTurretTransform.rotation, lookDirection, (TurretRotationSpeed * Time.deltaTime));
         }
     }
-    public void InSightLine()
+
+    public bool InSightLine()
     {
-        //var lookDirection = Quaternion.LookRotation(firePoint.position - towerTurretTransform.position);
         Ray ray = new Ray
         {
             origin = firePoint.position,
             direction = firePoint.forward,
+        };
+
+        if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
+        {
+            Vector3 hitPoint = rayHit.point;
+            Vector3 targetDir = hitPoint - firePoint.position;
+            Debug.DrawRay(ray.origin, targetDir);
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// Fires Ray to Hit Enemy. This is redundent but I may make this a line renderer
+    /// </summary>
+    public void FireRay()
+    {
+        Ray ray = new Ray
+        {
+            origin = transform.position,
+            direction = transform.forward,
         };
 
         if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))

@@ -6,6 +6,7 @@ using UnityEngine;
 public class FactionAlignment : ScriptableObject, IFactionProvider
 {
     public string factionName;
+    public FactionUniform uniform;
     /// <summary>
     /// A collection of other alignment objects that we can harm
     /// </summary>

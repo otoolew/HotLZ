@@ -35,11 +35,11 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     /// GameState enum to store GameState
     /// </summary>
-    GameState _currentGameState = GameState.RUNNING;
+    [SerializeField] GameState currentGameState = GameState.RUNNING;
     public GameState CurrentGameState
     {
-        get { return _currentGameState; }
-        private set { _currentGameState = value; }
+        get { return currentGameState; }
+        private set { currentGameState = value; }
     }
 
     /// <summary>
@@ -48,11 +48,11 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         DontDestroyOnLoad(gameObject); // Tells Unity that we do not want to destroy this GameObject on Scene Load
-        GMData.CurrentGameState = _currentGameState; // Set the GameManager state to the stores state in GMData
+        GMData.CurrentGameState = currentGameState; // Set the GameManager state to the stores state in GMData
         sceneController = GetComponent<SceneController>();
         sceneController.onSceneChangeStart.AddListener(HandleSceneChangeStart); // Subscribe or Listen for EventSceneChangeStart
         sceneController.onSceneChangeComplete.AddListener(HandleSceneChangeComplete);// Subscribe or Listen for EventSceneChangeComplete
-        OnGameStateChanged.Invoke(GMData.CurrentGameState, _currentGameState); // Let ALL other components listening for EventGameStateChange that the GameState has changed
+        OnGameStateChanged.Invoke(GMData.CurrentGameState, currentGameState); // Let ALL other components listening for EventGameStateChange that the GameState has changed
     }
     /// <summary>
     /// Called every frame.
@@ -60,7 +60,7 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
         // If scene is changing return
-        if (_currentGameState == GameState.SCENECHANGE)
+        if (currentGameState == GameState.SCENECHANGE)
             return;        
     }
 
@@ -70,9 +70,9 @@ public class GameManager : Singleton<GameManager>
     /// <param name="state"></param>
     public void UpdateState(GameState state)
     {
-        GameState previousGameState = _currentGameState; // store previous state
-        _currentGameState = state; // set current state to the new state
-        GMData.CurrentGameState = _currentGameState; // store the current state in our persistent data container
+        GameState previousGameState = currentGameState; // store previous state
+        currentGameState = state; // set current state to the new state
+        GMData.CurrentGameState = currentGameState; // store the current state in our persistent data container
 
         // Switch to handle what needs to execute for each state 
         switch (CurrentGameState)
@@ -104,7 +104,7 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
         // When this executes it will Notify ALL Scripts that are subscribed or listening for the EventGameState
-        OnGameStateChanged.Invoke(_currentGameState, previousGameState);
+        OnGameStateChanged.Invoke(currentGameState, previousGameState);
     }
     /// <summary>
     /// Toggles between the PAUSED State and the RUNNING State
@@ -112,7 +112,7 @@ public class GameManager : Singleton<GameManager>
     public void TogglePause()
     {
         //The ? conditional operator commonly known as the ternary conditional operator, returns one of two values depending on the value of a Boolean expression.
-        UpdateState(_currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
+        UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
         // Verbose version of the code above.
         //if (_currentGameState == GameState.RUNNING)
         //    UpdateState(GameState.PAUSED);
@@ -125,7 +125,7 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         /// This can be implemented with a Dictionary, or many other more robust ways.
-        sceneController.FadeAndLoadScene(sceneController.Scenes[1].sceneInfo.sceneName);
+        sceneController.FadeAndLoadScene(sceneController.Scenes[1].SceneName);
         // <-----> Simple way using stored variable declared above, prone to error if string value is a typo
         // sceneController.FadeAndLoadScene(gameScene);
 
@@ -145,7 +145,7 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void QuitToTitle()
     {
-        sceneController.FadeAndLoadScene(sceneController.Scenes[0].sceneInfo.sceneName);
+        sceneController.FadeAndLoadScene(sceneController.Scenes[0].SceneName);
 
         // <-----> Simple way using stored variable declared above, prone to error if string value is a typo
         // sceneController.FadeAndLoadScene(titleScene);

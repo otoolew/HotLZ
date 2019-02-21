@@ -23,7 +23,7 @@ public class PlayerWeaponController : MonoBehaviour
     private void Update()
     {
         AimPoint();
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
             equippedWeapon.Fire();
         if (Input.GetMouseButtonDown(1))
             rocketWeapon.Fire();
