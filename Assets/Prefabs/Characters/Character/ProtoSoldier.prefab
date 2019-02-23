@@ -182,11 +182,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 0}
-  searchRate: 1
-  searchTimer: 1
+  searchRate: 0.5
+  searchTimer: 0.5
   currentTarget: {fileID: 0}
   hadTarget: 0
   TargetsTrackedList: []
+  OnTargetEntersRange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventTargetEnteredRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnTargetExitsRange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventTargetExitedRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnAcquiredTarget:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventAcquiredTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnLostTarget:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EventLostTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &2563382570394768624
 GameObject:
   m_ObjectHideFlags: 0

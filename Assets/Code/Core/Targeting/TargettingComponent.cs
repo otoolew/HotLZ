@@ -175,12 +175,13 @@ public class TargettingComponent : MonoBehaviour
         }
 
         Targetable nearest = null;
-        float distance = float.MaxValue;
+        float distance = 20f;
         for (int i = length - 1; i >= 0; i--)
         {
             Targetable targetable = TargetsTrackedList[i];
-            if (targetable == null || !targetable.isActiveAndEnabled)
+            if (targetable == null || !targetable.gameObject.activeSelf)
             {
+                Debug.Log("Removed Troop!");
                 TargetsTrackedList.RemoveAt(i);
                 continue;
             }

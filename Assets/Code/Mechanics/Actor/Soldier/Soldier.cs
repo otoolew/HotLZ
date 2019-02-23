@@ -55,7 +55,10 @@ public class Soldier : UnitActor
             return;
         animator.SetFloat("MoveVelocity", navigationAgent.NavAgent.velocity.magnitude);
     }
-
+    private void OnDisable()
+    {
+        targetRemoved?.Invoke(this);
+    }
     public void AimAtTarget()
     {
         if (targettingComponent.CurrentTarget == null)
@@ -82,7 +85,7 @@ public class Soldier : UnitActor
         animator.SetBool("HasTarget", false);
     }
     public void Removed()
-    {
+    {      
         targetRemoved?.Invoke(this);
         Pooled = true;
     }

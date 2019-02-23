@@ -15,35 +15,35 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private FactionAlignment faction;
     public FactionAlignment Faction { get => faction; set => faction = value; }
 
-    [SerializeField] private int currentDefenseIndex;
-    public int CurrentDefenseIndex { get => currentDefenseIndex; set => currentDefenseIndex = value; }
+    //[SerializeField] private int currentDefenseIndex;
+    //public int CurrentDefenseIndex { get => currentDefenseIndex; set => currentDefenseIndex = value; }
 
-    [SerializeField] private DefensePositionWeapon[] defenseWeapons;
-    public DefensePositionWeapon[] DefenseWeapons { get => defenseWeapons; }
+    //[SerializeField] private DefensePositionWeapon[] defenseWeapons;
+    //public DefensePositionWeapon[] DefenseWeapons { get => defenseWeapons; }
 
     [SerializeField] private bool isOccupied;
     public bool IsOccupied { get => isOccupied; set => isOccupied = value; }
     
     #region Events and Handlers
 
-    public void HandleDeath()
-    {
-        isOccupied = false;
+    //public void HandleDeath()
+    //{
+    //    isOccupied = false;
 
-        defenseWeapons[currentDefenseIndex].gameObject.SetActive(false);
-        defenseWeapons[currentDefenseIndex].HealthComponent.totalHealthPoints = defenseWeapons[currentDefenseIndex].HealthComponent.maxHealthPoints;
-        territory.UpdateFactionOwnership();
-    }
+    //    defenseWeapons[currentDefenseIndex].gameObject.SetActive(false);
+    //    defenseWeapons[currentDefenseIndex].HealthComponent.totalHealthPoints = defenseWeapons[currentDefenseIndex].HealthComponent.maxHealthPoints;
+    //    territory.UpdateFactionOwnership();
+    //}
 
     #endregion
 
     private void Start()
     {
-        foreach (var defenseWeapon in defenseWeapons)
-        {
-            defenseWeapon.GetComponent<HealthComponent>().OnDeath.AddListener(HandleDeath);
-            defenseWeapon.gameObject.SetActive(false);
-        }       
+        //foreach (var defenseWeapon in defenseWeapons)
+        //{
+        //    defenseWeapon.GetComponent<HealthComponent>().OnDeath.AddListener(HandleDeath);
+        //    defenseWeapon.gameObject.SetActive(false);
+        //}       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,8 +56,8 @@ public class DefensePosition : MonoBehaviour
             Debug.Log(soldier.name + " is defending!");
             isOccupied = true;
             faction = soldier.Faction;
-            soldier.Removed();
-            ActivateTowerType(currentDefenseIndex);
+            //soldier.Removed();
+            //ActivateTowerType(currentDefenseIndex);
         }
         else
         {
@@ -90,11 +90,11 @@ public class DefensePosition : MonoBehaviour
         defensePositionType = towerCrate.TowerCrateType;
         if(defensePositionType == DefensePositionType.RIFLE)
         {
-            ChangeTowerType(currentDefenseIndex, 0);
+            //ChangeTowerType(currentDefenseIndex, 0);
         }
         if (defensePositionType == DefensePositionType.ROCKET)
         {
-            ChangeTowerType(currentDefenseIndex, 1);
+            //ChangeTowerType(currentDefenseIndex, 1);
         }
         if (defensePositionType == DefensePositionType.MEDIC)
         {
@@ -108,21 +108,21 @@ public class DefensePosition : MonoBehaviour
     /// <param name="newWeaponIndex"></param>
     public void ChangeTowerType(int currentWeaponIndex, int newWeaponIndex)
     {
-        defenseWeapons[currentDefenseIndex].gameObject.SetActive(false);
-        defenseWeapons[newWeaponIndex].gameObject.SetActive(true);
+        //defenseWeapons[currentDefenseIndex].gameObject.SetActive(false);
+        //defenseWeapons[newWeaponIndex].gameObject.SetActive(true);
     }
 
     public void ActivateTowerType(int currentWeaponIndex)
     {
-        defenseWeapons[currentWeaponIndex].gameObject.SetActive(true);
+        //defenseWeapons[currentWeaponIndex].gameObject.SetActive(true);
     }
 
     public void DeactivateAllTowerTypes()
     {
-        foreach (var defenseWeapon in defenseWeapons)
-        {
-            defenseWeapon.gameObject.SetActive(false);
-        }
+        //foreach (var defenseWeapon in defenseWeapons)
+        //{
+        //    defenseWeapon.gameObject.SetActive(false);
+        //}
     }
     IEnumerator DeathSequence()
     {
