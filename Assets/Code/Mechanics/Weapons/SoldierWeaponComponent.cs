@@ -30,6 +30,9 @@ public class SoldierWeaponComponent : WeaponComponent
     private bool weaponReady;
     public bool WeaponReady { get => weaponReady; set => weaponReady = value; }
 
+    [SerializeField] private Transform firePoint;
+    public Transform FirePoint { get => firePoint; set => firePoint = value; }
+
     [SerializeField] private ParticleSystem particleEffect;
     public ParticleSystem ParticleEffect { get => particleEffect; set => particleEffect = value; }
 
@@ -59,7 +62,7 @@ public class SoldierWeaponComponent : WeaponComponent
 
     public override void Fire()
     {
-        if (weaponReady && InSightLine())
+        if (weaponReady)
         {
             FireRay();
             particleEffect.Play();
@@ -73,14 +76,14 @@ public class SoldierWeaponComponent : WeaponComponent
     {
         Ray ray = new Ray
         {
-            origin = transform.position,
-            direction = transform.forward,
+            origin = firePoint.position,
+            direction = firePoint.forward,
         };
 
         if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
         {
             Vector3 hitPoint = rayHit.point;
-            Vector3 targetDir = hitPoint - transform.position;
+            Vector3 targetDir = hitPoint - firePoint.position;
             Debug.DrawRay(ray.origin, targetDir);
             return true;
         }
@@ -93,23 +96,21 @@ public class SoldierWeaponComponent : WeaponComponent
     {
         Ray ray = new Ray
         {
-            origin = transform.position,
-            direction = transform.forward,
+            origin = firePoint.position,
+            direction = firePoint.forward,
         };
 
         if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
         {
-            Vector3 hitPoint = rayHit.point;
-            Vector3 targetDir = hitPoint - transform.position;
-            Debug.DrawRay(ray.origin, targetDir);
-
-            HealthComponent hitUnit = rayHit.collider.GetComponentInParent<HealthComponent>();
+            DamageZone targetHit = rayHit.collider.GetComponent<DamageZone>();
             //Debug.Log( GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name );
-            if (hitUnit != null)
-            {
-                int damage = weaponDamage + UnityEngine.Random.Range(10, 50);
+            if (targetHit != null)
+            {              
+                targetHit.damageableBehaviour.TakeDamage(weaponDamage, GetComponent<SoldierUnit>().FactionProvider);
+                Debug.DrawRay(firePoint.position, firePoint.forward);
+                //int damage = weaponDamage + UnityEngine.Random.Range(10, 50);
                 //Debug.Log(GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name + " for " + damage + " damage");
-                hitUnit.ApplyDamage(damage);
+                //hitUnit.ApplyDamage(damage);
             }
 
         }

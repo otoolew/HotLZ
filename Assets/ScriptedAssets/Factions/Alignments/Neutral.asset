@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Neutral
   m_EditorClassIdentifier: 
   factionName: Neutral
-  uniform: {fileID: 0}
+  uniform: {fileID: 11400000, guid: b6900d33e9b71bf4b850e5379a1574ed, type: 2}
   enemies: []

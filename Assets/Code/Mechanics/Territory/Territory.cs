@@ -13,6 +13,7 @@ public class Territory : MonoBehaviour
  
     public EntryPoint blueEntrance;
     public EntryPoint redEntrance;
+    public List<DefensePosition> availableDefensePositions = new List<DefensePosition>();
     public DefensePosition[] defensePositions;
     public int blueFactionDefense;
     public int redFactionDefense;
@@ -20,6 +21,25 @@ public class Territory : MonoBehaviour
     #region Events and Handlers
     public EventTerritoryOwnerChange OnTerritoryOwnerChange;
 
+    public void HandleDefensePositionTaken(DefensePosition defensePosition)
+    {
+        Debug.Log("Defense POS Taken");
+        for (int i = 0; i < availableDefensePositions.Count; i++)
+        {
+            if (availableDefensePositions[i] == defensePosition)
+            {
+                availableDefensePositions.RemoveAt(i);
+                break;
+            }
+        }
+        UpdateFactionOwnership();
+    }
+    public void HandleDefensePositionReleased(DefensePosition defensePosition)
+    {
+        Debug.Log("Defense POS Released");
+        availableDefensePositions.Add(defensePosition);
+        UpdateFactionOwnership(); // Inefficient
+    }
     public void HandleTerritoryOwnerChange(FactionAlignment newfaction)
     {
         CurrentFaction = newfaction;
@@ -29,7 +49,13 @@ public class Territory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        defensePositions = GetComponentsInChildren<DefensePosition>();
+        for (int i = 0; i < defensePositions.Length; i++)
+        {
+            defensePositions[i].OnDefensePositionTaken.AddListener(HandleDefensePositionTaken);
+            defensePositions[i].OnDefensePositionReleased.AddListener(HandleDefensePositionReleased);
+            availableDefensePositions.Add(defensePositions[i]);
+        }
     }
 
     // Update is called once per frame
@@ -64,19 +90,27 @@ public class Territory : MonoBehaviour
             OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.NeutralFaction);
     }
 
-    public bool FindDefensePosition(UnitActor unitActor)
+    public bool FindDefensePosition(Soldier unitActor)
     {
-        if (defensePositions.Length > 0)
+        foreach (var defensePosition in availableDefensePositions)
         {
-            for (int i = 0; i < defensePositions.Length; i++)
+            if (!defensePosition.IsOccupied)
             {
-                if (!defensePositions[i].IsOccupied)
-                {
-                    unitActor.GetComponent<NavigationAgent>().GoToPosition(defensePositions[i].transform.position);
-                    return true;
-                }           
-            }
+                unitActor.GetComponent<NavigationAgent>().GoToPosition(defensePosition.transform.position);
+                return true;
+            }               
         }
+        //if (availableDefensePositions.Count > 0)
+        //{
+        //    for (int i = 0; i < availableDefensePositions.Count; i++)
+        //    {
+        //        if (!defensePositions[i].IsOccupied)
+        //        {
+        //            unitActor.GetComponent<NavigationAgent>().GoToPosition(defensePositions[i].transform.position);
+        //            return true;
+        //        }           
+        //    }
+        //}
         if(unitActor.Faction == blueEntrance.Faction)
         {
             unitActor.GetComponent<NavigationAgent>().GoToPosition(blueEntrance.RallyPoint.transform.position);

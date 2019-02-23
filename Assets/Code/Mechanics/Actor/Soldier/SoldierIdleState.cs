@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SoldierIdleState : StateMachineBehaviour
 {
-    UnitActor unit;
+    SoldierUnit unit;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        unit = animator.GetComponent<UnitActor>();
+        unit = animator.GetComponent<SoldierUnit>();
         unit.GetComponent<NavigationAgent>().NavAgent.isStopped = false;
     }
 

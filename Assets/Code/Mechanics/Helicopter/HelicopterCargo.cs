@@ -34,10 +34,10 @@ public class HelicopterCargo : MonoBehaviour
     {
         if (other.isTrigger)
             return;
-        UnitActor unit = other.GetComponentInParent<UnitActor>();
+        Soldier unit = other.GetComponentInParent<Soldier>();
         if (unit == null)
             return;
-        if (unit.Faction == GetComponentInParent<UnitActor>().Faction)
+        if (unit.Faction == GetComponentInParent<Soldier>().Faction)
             LoadUnit(unit);
     }
     public void LoadUnit(UnitActor unit)

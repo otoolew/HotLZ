@@ -111,7 +111,7 @@ public class RayDefensePositionComponent : WeaponComponent
         {
             Vector3 hitPoint = rayHit.point;
             Vector3 targetDir = hitPoint - firePoint.position;
-            Debug.DrawRay(ray.origin, targetDir);
+            //Debug.DrawRay(ray.origin, targetDir);
             return true;
         }
         return false;
@@ -123,14 +123,14 @@ public class RayDefensePositionComponent : WeaponComponent
     {
         Ray ray = new Ray
         {
-            origin = transform.position,
-            direction = transform.forward,
+            origin = firePoint.position,
+            direction = firePoint.forward,
         };
 
         if (Physics.Raycast(ray, out RaycastHit rayHit, layerMask))
         {
             Vector3 hitPoint = rayHit.point;
-            Vector3 targetDir = hitPoint - transform.position;
+            Vector3 targetDir = hitPoint - firePoint.position;
             Debug.DrawRay(ray.origin, targetDir);
 
             HealthComponent hitUnit = rayHit.collider.GetComponentInParent<HealthComponent>();

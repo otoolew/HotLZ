@@ -4,26 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[Serializable] public class EventTargetEnteredRange : UnityEvent<Targetable> { }
-[Serializable] public class EventTargetExitedRange : UnityEvent<Targetable> { }
-[Serializable] public class EventAcquiredTarget : UnityEvent<Targetable> { }
-[Serializable] public class EventLostTarget : UnityEvent { }
+//[Serializable] public class EventTargetEnteredRange : UnityEvent<Targetable> { }
+//[Serializable] public class EventTargetExitedRange : UnityEvent<Targetable> { }
+//[Serializable] public class EventAcquiredTarget : UnityEvent<Targetable> { }
+//[Serializable] public class EventLostTarget : UnityEvent { }
 
 [RequireComponent(typeof(SphereCollider))]
 public class TargettingComponent : MonoBehaviour
 {
     #region Fields and Properties
-    [SerializeField]
-    private FactionAlignment faction;
-    public FactionAlignment Faction { get => faction; set => faction = value; }
+
+    public IFactionProvider factionAlignment;
 
     [SerializeField]
     private float searchRate;
-    public float SearchRate { get => searchRate; set => searchRate = value; }
+    protected float SearchRate { get => searchRate; set => searchRate = value; }
 
     [SerializeField]
     private float searchTimer;
-    public float SearchTimer { get => searchTimer; set => searchTimer = value; }
+    protected float SearchTimer { get => searchTimer; set => searchTimer = value; }
 
     [SerializeField]
     private Targetable currentTarget;
@@ -31,34 +30,77 @@ public class TargettingComponent : MonoBehaviour
 
     [SerializeField]
     private bool hadTarget;
-    public bool HadTarget { get => hadTarget; set => hadTarget = value; }
+    protected bool HadTarget { get => hadTarget; set => hadTarget = value; }
 
-    public List<Targetable> TargetsTrackedList;
+    protected List<Targetable> TargetsInRangeList = new List<Targetable>();
+
+    /// <summary>
+    /// The collider attached to the targetter
+    /// </summary>
+    public Collider attachedCollider;
+    /// <summary>
+    /// returns the radius of the collider whether
+    /// its a sphere or capsule
+    /// </summary>
+    public float targettingRadius
+    {
+        get
+        {
+            var sphere = attachedCollider as SphereCollider;
+            if (sphere != null)
+            {
+                return sphere.radius;
+            }
+            var capsule = attachedCollider as CapsuleCollider;
+            if (capsule != null)
+            {
+                return capsule.radius;
+            }
+            return 0;
+        }
+    }
     #endregion
     #region Events Actions and Handlers
 
-    public EventTargetEnteredRange OnTargetEntersRange;
-    public EventTargetExitedRange OnTargetExitsRange;
-    public EventAcquiredTarget OnAcquiredTarget;
-    public EventLostTarget OnLostTarget;
+    /// <summary>
+    /// Fires when a targetable enters the target collider
+    /// </summary>
+    public event Action<Targetable> targetEntersRange;
 
-    public void OnTargetRemoved(Targetable target)
+    /// <summary>
+    /// Fires when a targetable exits the target collider
+    /// </summary>
+    public event Action<Targetable> targetExitsRange;
+
+    /// <summary>
+    /// Fires when an appropriate target is found
+    /// </summary>
+    public event Action<Targetable> acquiredTarget;
+
+    /// <summary>
+    /// Fires when the current target was lost
+    /// </summary>
+    public event Action lostTarget;
+
+
+    void OnTargetRemoved(DamageableBehaviour target)
     {
-        target.targetRemoved -= OnTargetRemoved;
-        if (CurrentTarget != null && target == CurrentTarget)
+        target.removed -= OnTargetRemoved;
+        if (currentTarget != null && target == currentTarget)
         {
-            OnLostTarget?.Invoke();
-            HadTarget = false;
-            TargetsTrackedList.Remove(CurrentTarget);
-            CurrentTarget = null;
+            lostTarget?.Invoke();
+
+            hadTarget = false;
+            TargetsInRangeList.Remove(currentTarget);
+            currentTarget = null;
         }
         else //wasnt the current target, find and remove from targets list
         {
-            for (int i = 0; i < TargetsTrackedList.Count; i++)
+            for (int i = 0; i < TargetsInRangeList.Count; i++)
             {
-                if (TargetsTrackedList[i] == target)
+                if (TargetsInRangeList[i] == target)
                 {
-                    TargetsTrackedList.RemoveAt(i);
+                    TargetsInRangeList.RemoveAt(i);
                     break;
                 }
             }
@@ -75,7 +117,7 @@ public class TargettingComponent : MonoBehaviour
     void Start()
     {
         searchTimer = searchRate;
-        TargetsTrackedList = new List<Targetable>();
+        TargetsInRangeList = new List<Targetable>();
     }
 
     // Update is called once per frame
@@ -83,12 +125,12 @@ public class TargettingComponent : MonoBehaviour
     {
         if (!(searchTimer <= 0.0f))
             searchTimer -= Time.deltaTime;
-        if (searchTimer <= 0.0f && CurrentTarget == null && TargetsTrackedList.Count > 0)
+        if (searchTimer <= 0.0f && CurrentTarget == null && TargetsInRangeList.Count > 0)
         {
             CurrentTarget = GetNearestTarget();
             if (CurrentTarget != null)
             {
-                OnAcquiredTarget?.Invoke(CurrentTarget);
+                acquiredTarget?.Invoke(CurrentTarget);
                 searchTimer = searchRate;
             }
         }
@@ -100,26 +142,24 @@ public class TargettingComponent : MonoBehaviour
     /// On entering the trigger, a valid targetable is added to the tracking list.
     /// </summary>
     /// <param name="other">The other collider in the collision</param>
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        Targetable target = other.transform.root.GetComponent<Targetable>();
-        if (target == null)
-            return;
+        Targetable targetable = other.transform.root.GetComponent<Targetable>();
         ////Debug.Log(gameObject.GetComponentInParent<UnitActor>().name + " is tracking "+ targetable.name);
-        if (!IsTargetableValid(target))
+        if (!IsTargetableValid(targetable))
         {
             return;
         }
-        target.targetRemoved += OnTargetRemoved;
-        TargetsTrackedList.Add(target);
-        OnTargetEntersRange?.Invoke(target);
+        targetable.removed += OnTargetRemoved;
+        TargetsInRangeList.Add(targetable);
+        targetEntersRange?.Invoke(targetable);
 
     }
     /// <summary>
     /// On exiting the trigger, a valid targetable is removed from the tracking list.
     /// </summary>
     /// <param name="other">The other collider in the collision</param>
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         var targetable = other.GetComponentInParent<Targetable>();
         if (!IsTargetableValid(targetable))
@@ -127,8 +167,8 @@ public class TargettingComponent : MonoBehaviour
             return;
         }
 
-        TargetsTrackedList.Remove(targetable);
-        OnTargetExitsRange?.Invoke(targetable);
+        TargetsInRangeList.Remove(targetable);
+        targetExitsRange?.Invoke(targetable);
         if (targetable == CurrentTarget)
         {
             OnTargetRemoved(targetable);
@@ -136,7 +176,7 @@ public class TargettingComponent : MonoBehaviour
         else
         {
             // Only need to remove if we're not our actual target, otherwise OnTargetRemoved will do the work above
-            targetable.targetRemoved -= OnTargetRemoved;
+            targetable.removed -= OnTargetRemoved;
         }
     }
     #endregion
@@ -145,29 +185,36 @@ public class TargettingComponent : MonoBehaviour
     /// </summary>
     public void ResetTargetter()
     {
-        TargetsTrackedList.Clear();
+        TargetsInRangeList.Clear();
         CurrentTarget = null;
+        targetEntersRange = null;
+        targetExitsRange = null;
+        acquiredTarget = null;
+        lostTarget = null;
     }
     /// <summary>
     /// Checks if the targetable is a valid target
     /// </summary>
     /// <param name="targetable"></param>
     /// <returns>true if targetable is vaild, false if not</returns>
-    public bool IsTargetableValid(Targetable target)
+    protected virtual bool IsTargetableValid(Targetable targetable)
     {
-        if (target == null)
+        if (targetable == null)
             return false;
+        IFactionProvider targetAlignment = targetable.FactionProvider;
         //if (targetable.GetComponent<Faction>() == null)
         //    return false;
-        return Faction.CanHarm(target.Faction);
+        bool canDamage = factionAlignment == null || targetAlignment == null ||
+                             factionAlignment.CanHarm(targetAlignment);
+        return canDamage;
     }
     /// <summary>
     /// Returns the nearest targetable within the currently tracked targetables 
     /// </summary>
     /// <returns>The nearest targetable if there is one, null otherwise</returns>
-    public Targetable GetNearestTarget()
+    protected virtual Targetable GetNearestTarget()
     {
-        int length = TargetsTrackedList.Count;
+        int length = TargetsInRangeList.Count;
 
         if (length == 0)
         {
@@ -178,10 +225,10 @@ public class TargettingComponent : MonoBehaviour
         float distance = float.MaxValue;
         for (int i = length - 1; i >= 0; i--)
         {
-            Targetable targetable = TargetsTrackedList[i];
+            Targetable targetable = TargetsInRangeList[i];
             if (targetable == null || !targetable.isActiveAndEnabled)
             {
-                TargetsTrackedList.RemoveAt(i);
+                TargetsInRangeList.RemoveAt(i);
                 continue;
             }
             float currentDistance = Vector3.Distance(transform.position, targetable.transform.position);

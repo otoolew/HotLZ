@@ -9,6 +9,6 @@ public interface IFactionProvider : ISerializableInterface
 }
 
 [Serializable]
-public class SerializableIAlignmentProvider : SerializableInterface<IFactionProvider>
+public class SerializableIFactionProvider : SerializableInterface<IFactionProvider>
 {
 }

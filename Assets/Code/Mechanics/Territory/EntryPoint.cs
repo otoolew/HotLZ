@@ -27,7 +27,7 @@ public class EntryPoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        UnitActor unit = other.GetComponentInParent<UnitActor>();
+        Soldier unit = other.GetComponentInParent<Soldier>();
         if (unit == null)
             return;
         if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))

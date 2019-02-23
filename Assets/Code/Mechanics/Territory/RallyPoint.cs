@@ -29,7 +29,7 @@ public class RallyPoint : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
         {
-            UnitActor unit = other.GetComponentInParent<UnitActor>();
+            Soldier unit = other.GetComponentInParent<Soldier>();
             if (unit == null)
                 return;
             if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Soldier : UnitActor
 {
     [SerializeField] private FactionAlignment faction;
-    public override FactionAlignment Faction { get => faction; set => faction = value; }
+    public FactionAlignment Faction { get => faction; set => faction = value; }
 
     [SerializeField] private Enums.UnitType unitType;
     public override Enums.UnitType UnitType { get => unitType; set => unitType = value; }
@@ -18,7 +18,7 @@ public class Soldier : UnitActor
     public NavigationAgent NavigationAgent { get => navigationAgent; set => navigationAgent = value; }
 
     [SerializeField] private HealthComponent healthComponent;
-    public override HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
+    public HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
 
     [SerializeField] private TargettingComponent targettingComponent;
     public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
@@ -35,7 +35,7 @@ public class Soldier : UnitActor
     [SerializeField] private bool pooled;
     public override bool Pooled { get => pooled; set => pooled = value; }
 
-    public override event Action<Targetable> targetRemoved;
+    public event Action<Targetable> targetRemoved;
 
     // Start is called before the first frame update
     void Start()
@@ -43,9 +43,9 @@ public class Soldier : UnitActor
         healthComponent = GetComponent<HealthComponent>();
         healthComponent.OnDeath.AddListener(UnitActorDeath);
 
-        targettingComponent.Faction = GetComponentInParent<UnitActor>().Faction;
-        targettingComponent.OnAcquiredTarget.AddListener(HandleTargetAcquired);
-        targettingComponent.OnLostTarget.AddListener(HandleTargetLost);
+        //targettingComponent.Faction = GetComponentInParent<UnitActor>().Faction;
+        //targettingComponent.OnAcquiredTarget.AddListener(HandleTargetAcquired);
+        //targettingComponent.OnLostTarget.AddListener(HandleTargetLost);
     }
 
     // Update is called once per frame
@@ -81,15 +81,16 @@ public class Soldier : UnitActor
     {
         animator.SetBool("HasTarget", false);
     }
-    public void Removed()
+
+    private void OnDisable()
     {
         targetRemoved?.Invoke(this);
-        Pooled = true;
     }
     public override void UnitActorDeath()
     {
-        Removed();
         dead = true;
+        Pooled = true;
+        targetRemoved?.Invoke(this);
         GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Animator>().Play("Dead");
         StartCoroutine("DeathSequence");

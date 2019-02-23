@@ -29,8 +29,8 @@ public class NavigationAgent : MonoBehaviour
     void Start()
     {
         ActivateNavAgent();
-        //currentDestination = debugTransform.position;
-        //navAgent.destination = currentDestination;
+        currentDestination = debugTransform.position;
+        navAgent.destination = currentDestination;
     }
 
     // Update is called once per frame

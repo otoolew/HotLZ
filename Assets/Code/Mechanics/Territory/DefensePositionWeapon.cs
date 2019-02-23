@@ -3,27 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefensePositionWeapon : Targetable
+public class DefensePositionWeapon : MonoBehaviour
 {
     public DefensePosition parentDefensePosition;
     public GameObject mountedSoldier;
 
     [SerializeField] private FactionAlignment faction;
-    public override FactionAlignment Faction { get => faction; set => faction = value; }
+    public FactionAlignment Faction { get => faction; set => faction = value; }
 
     [SerializeField] private TargettingComponent targettingComponent;
     public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
 
     [SerializeField] private HealthComponent healthComponent;
-    public override HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
+    public HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
 
-    public override event Action<Targetable> targetRemoved;
+    public event Action<Targetable> targetRemoved;
 
     private void OnEnable()
     {
         parentDefensePosition = GetComponentInParent<DefensePosition>();
-        parentDefensePosition.Faction.uniform.ChangeUniform(mountedSoldier);
-        targettingComponent.Faction = parentDefensePosition.Faction;
+        //parentDefensePosition.Faction.uniform.ChangeUniform(mountedSoldier);
+       // targettingComponent.Faction = parentDefensePosition.Faction;
         targettingComponent.ResetTargetter();
     }
 
@@ -43,6 +43,6 @@ public class DefensePositionWeapon : Targetable
     {
         faction = FactionManager.Instance.FactionProvider.NeutralFaction;
         targettingComponent.ResetTargetter();
-        targetRemoved?.Invoke(this);
+        //targetRemoved?.Invoke(this);
     }
 }
