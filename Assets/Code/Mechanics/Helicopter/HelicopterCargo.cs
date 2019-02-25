@@ -37,7 +37,7 @@ public class HelicopterCargo : MonoBehaviour
         UnitActor unit = other.GetComponentInParent<UnitActor>();
         if (unit == null)
             return;
-        if (unit.Faction == GetComponentInParent<UnitActor>().Faction)
+        if (unit.FactionAlignment == GetComponentInParent<UnitActor>().FactionAlignment)
             LoadUnit(unit);
     }
     public void LoadUnit(UnitActor unit)

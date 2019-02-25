@@ -6,7 +6,7 @@ using UnityEngine;
 public class Soldier : UnitActor
 {
     [SerializeField] private FactionAlignment faction;
-    public override FactionAlignment Faction { get => faction; set => faction = value; }
+    public override FactionAlignment FactionAlignment { get => faction; set => faction = value; }
 
     [SerializeField] private Enums.UnitType unitType;
     public override Enums.UnitType UnitType { get => unitType; set => unitType = value; }
@@ -33,9 +33,14 @@ public class Soldier : UnitActor
     public override bool Dead { get => dead; set => dead = value; }
 
     [SerializeField] private bool pooled;
+
+    public override event Action<UnitActor> removed;
+
     public override bool Pooled { get => pooled; set => pooled = value; }
 
-    public override event Action<Targetable> targetRemoved;
+    //public override event Action<Targetable> targetRemoved;
+
+    //public override event Action<Targetable> targetRemoved;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +48,7 @@ public class Soldier : UnitActor
         healthComponent = GetComponent<HealthComponent>();
         healthComponent.OnDeath.AddListener(UnitActorDeath);
 
-        targettingComponent.Faction = GetComponentInParent<UnitActor>().Faction;
+        targettingComponent.FactionAlignment = GetComponentInParent<UnitActor>().FactionAlignment;
         targettingComponent.OnAcquiredTarget.AddListener(HandleTargetAcquired);
         targettingComponent.OnLostTarget.AddListener(HandleTargetLost);
     }
@@ -55,10 +60,7 @@ public class Soldier : UnitActor
             return;
         animator.SetFloat("MoveVelocity", navigationAgent.NavAgent.velocity.magnitude);
     }
-    private void OnDisable()
-    {
-        targetRemoved?.Invoke(this);
-    }
+
     public void AimAtTarget()
     {
         if (targettingComponent.CurrentTarget == null)
@@ -84,15 +86,12 @@ public class Soldier : UnitActor
     {
         animator.SetBool("HasTarget", false);
     }
-    public void Removed()
-    {      
-        targetRemoved?.Invoke(this);
-        Pooled = true;
-    }
+
     public override void UnitActorDeath()
     {
-        Removed();
         dead = true;
+        Pooled = true;
+        removed?.Invoke(this);
         GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Animator>().Play("Dead");
         StartCoroutine("DeathSequence");

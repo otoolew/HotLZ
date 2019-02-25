@@ -26,14 +26,12 @@ public class EntryPoint : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
         UnitActor unit = other.GetComponentInParent<UnitActor>();
         if (unit == null)
             return;
-        if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))
+        if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.FactionAlignment != faction))
             return;
-        unit.GetComponent<NavigationAgent>().GoToPosition(DirectUnitPosition(unit));
-        
+        unit.GetComponent<NavigationAgent>().GoToPosition(DirectUnitPosition(unit));        
     }
     private Vector3 DirectUnitPosition(UnitActor unitActor)
     {
@@ -41,7 +39,7 @@ public class EntryPoint : MonoBehaviour
         {
             for (int i = 0; i < territory.defensePositions.Length; i++)
             {
-                if (!territory.defensePositions[i].IsOccupied)
+                if (territory.defensePositions[i].FactionAlignment == FactionManager.Instance.FactionProvider.NeutralFaction)
                     return territory.defensePositions[i].transform.position;
             }
         }

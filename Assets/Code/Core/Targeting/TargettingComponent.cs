@@ -14,8 +14,8 @@ public class TargettingComponent : MonoBehaviour
 {
     #region Fields and Properties
     [SerializeField]
-    private FactionAlignment faction;
-    public FactionAlignment Faction { get => faction; set => faction = value; }
+    private FactionAlignment factionAlignment;
+    public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
 
     [SerializeField]
     private float searchRate;
@@ -36,7 +36,6 @@ public class TargettingComponent : MonoBehaviour
     public List<Targetable> TargetsTrackedList;
     #endregion
     #region Events Actions and Handlers
-
     public EventTargetEnteredRange OnTargetEntersRange;
     public EventTargetExitedRange OnTargetExitsRange;
     public EventAcquiredTarget OnAcquiredTarget;
@@ -44,7 +43,7 @@ public class TargettingComponent : MonoBehaviour
 
     public void OnTargetRemoved(Targetable target)
     {
-        target.targetRemoved -= OnTargetRemoved;
+        target.removed -= OnTargetRemoved;
         if (CurrentTarget != null && target == CurrentTarget)
         {
             OnLostTarget?.Invoke();
@@ -64,6 +63,7 @@ public class TargettingComponent : MonoBehaviour
             }
         }
     }
+
     #endregion
 
     #region Monobehaviour
@@ -110,9 +110,13 @@ public class TargettingComponent : MonoBehaviour
         {
             return;
         }
-        target.targetRemoved += OnTargetRemoved;
+
+        target.removed += OnTargetRemoved;
         TargetsTrackedList.Add(target);
         OnTargetEntersRange?.Invoke(target);
+    }
+    public void HandleTargetDeath()
+    {
 
     }
     /// <summary>
@@ -136,7 +140,7 @@ public class TargettingComponent : MonoBehaviour
         else
         {
             // Only need to remove if we're not our actual target, otherwise OnTargetRemoved will do the work above
-            targetable.targetRemoved -= OnTargetRemoved;
+            targetable.removed -= OnTargetRemoved;
         }
     }
     #endregion
@@ -147,7 +151,12 @@ public class TargettingComponent : MonoBehaviour
     {
         TargetsTrackedList.Clear();
         CurrentTarget = null;
+        OnTargetEntersRange.RemoveAllListeners();
+        OnTargetExitsRange.RemoveAllListeners();
+        OnAcquiredTarget.RemoveAllListeners();
+        OnLostTarget.RemoveAllListeners();
     }
+
     /// <summary>
     /// Checks if the targetable is a valid target
     /// </summary>
@@ -159,7 +168,7 @@ public class TargettingComponent : MonoBehaviour
             return false;
         //if (targetable.GetComponent<Faction>() == null)
         //    return false;
-        return Faction.CanHarm(target.Faction);
+        return FactionAlignment.CanHarm(target.FactionAlignment);
     }
     /// <summary>
     /// Returns the nearest targetable within the currently tracked targetables 
@@ -195,4 +204,5 @@ public class TargettingComponent : MonoBehaviour
 
         return nearest;
     }
+   
 }

@@ -11,9 +11,15 @@ public class Territory : MonoBehaviour
     [SerializeField] private FactionAlignment currentFaction;
     public FactionAlignment CurrentFaction { get => currentFaction; set => currentFaction = value; }
  
-    public EntryPoint blueEntrance;
-    public EntryPoint redEntrance;
+    public RallyPoint blueEntrance;
+    public RallyPoint blueExit;
+
+    public RallyPoint redEntrance;
+    public RallyPoint redExit;
+
     public DefensePosition[] defensePositions;
+    public Transform[] pathPositions;
+
     public int blueFactionDefense;
     public int redFactionDefense;
 
@@ -43,18 +49,15 @@ public class Territory : MonoBehaviour
         blueFactionDefense = 0;
         redFactionDefense = 0;
         for (int i = 0; i < defensePositions.Length; i++)
-        { 
-            if(defensePositions[i].IsOccupied)
+        {  
+            if (defensePositions[i].FactionAlignment.factionName == "Blue")
             {
-                if (defensePositions[i].Faction.factionName == "Blue")
-                {
-                    blueFactionDefense++;
-                }
-                if (defensePositions[i].Faction.factionName == "Red")
-                {
-                    redFactionDefense++;
-                }
+                blueFactionDefense++;
             }
+            if (defensePositions[i].FactionAlignment.factionName == "Red")
+            {
+                redFactionDefense++;
+            }           
         }
         if (blueFactionDefense > redFactionDefense)
             OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.BlueFaction);
@@ -64,30 +67,26 @@ public class Territory : MonoBehaviour
             OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.NeutralFaction);
     }
 
-    public bool FindDefensePosition(UnitActor unitActor)
+    public void FindClosestPath(UnitActor unitActor)
     {
-        if (defensePositions.Length > 0)
+        if (pathPositions.Length > 0)
         {
-            for (int i = 0; i < defensePositions.Length; i++)
-            {
-                if (!defensePositions[i].IsOccupied)
-                {
-                    unitActor.GetComponent<NavigationAgent>().GoToPosition(defensePositions[i].transform.position);
-                    return true;
-                }           
-            }
-        }
-        if(unitActor.Faction == blueEntrance.Faction)
-        {
-            unitActor.GetComponent<NavigationAgent>().GoToPosition(blueEntrance.RallyPoint.transform.position);
-            return true;
-        }
-        if (unitActor.Faction == redEntrance.Faction)
-        {
-            unitActor.GetComponent<NavigationAgent>().GoToPosition(redEntrance.RallyPoint.transform.position);
-            return true;
-        }
-        return false;
-    }
+            float closestDistance = float.MaxValue;
 
+            Transform closestPathResult = null;
+
+            for (int i = 0; i < pathPositions.Length; i++)
+            {
+                float distance = Vector3.Distance(unitActor.transform.position, pathPositions[i].transform.position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestPathResult = pathPositions[i];
+                }
+            }
+            unitActor.GetComponent<NavigationAgent>().GoToPosition(closestPathResult.position);
+        }
+      
+    }
 }

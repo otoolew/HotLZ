@@ -7,8 +7,8 @@ public class RallyPoint : MonoBehaviour
     [SerializeField] private FactionAlignment faction;
     public FactionAlignment Faction { get => faction; set => faction = value; }
 
-    [SerializeField] private Territory nextTerritory;
-    public Territory NextTerritory { get => nextTerritory; set => nextTerritory = value; }
+    [SerializeField] private RallyPoint nextRallyPoint;
+    public RallyPoint NextRallyPoint { get => nextRallyPoint; set => nextRallyPoint = value; }
 
     public int squadCapacity;
     public int squadSize;
@@ -32,7 +32,7 @@ public class RallyPoint : MonoBehaviour
             UnitActor unit = other.GetComponentInParent<UnitActor>();
             if (unit == null)
                 return;
-            if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.Faction != faction))
+            if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.FactionAlignment != faction))
                 return;
             RallyUnit(unit);
         }
@@ -63,7 +63,7 @@ public class RallyPoint : MonoBehaviour
         {
             try
             {
-                squadUnits.Pop().GetComponent<NavigationAgent>().GoToPosition(nextTerritory.blueEntrance.transform.position);
+                squadUnits.Pop().GetComponent<NavigationAgent>().GoToPosition(nextRallyPoint.transform.position);
             }
             catch (System.NullReferenceException)
             {

@@ -30,6 +30,9 @@ public class SoldierWeaponComponent : WeaponComponent
     private bool weaponReady;
     public bool WeaponReady { get => weaponReady; set => weaponReady = value; }
 
+    [SerializeField] private FieldOfView fieldOfView;
+    public FieldOfView FieldOfView { get => fieldOfView; set => fieldOfView = value; }
+
     [SerializeField] private ParticleSystem particleEffect;
     public ParticleSystem ParticleEffect { get => particleEffect; set => particleEffect = value; }
 

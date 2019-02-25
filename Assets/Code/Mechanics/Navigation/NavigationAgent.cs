@@ -30,6 +30,7 @@ public class NavigationAgent : MonoBehaviour
     {
         ActivateNavAgent();
         //currentDestination = debugTransform.position;
+        currentDestination = navAgent.destination;
         //navAgent.destination = currentDestination;
     }
 

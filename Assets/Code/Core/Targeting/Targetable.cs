@@ -5,7 +5,8 @@ using UnityEngine;
 
 public abstract class Targetable : MonoBehaviour
 {
-    public abstract FactionAlignment Faction { get; set; }
+    public abstract FactionAlignment FactionAlignment { get; set; }
     public abstract HealthComponent HealthComponent { get; set; }
-    public abstract event Action<Targetable> targetRemoved;
+    public Action<Targetable> removed { get; internal set; }
+    //public abstract event Action<Targetable> targetRemoved;
 }

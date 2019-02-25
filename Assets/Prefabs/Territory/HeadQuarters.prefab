@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
-  barracks: {fileID: 0}
+  barracks: {fileID: 7557332423389310224}
   territories: []
 --- !u!1 &1119446701484391264
 GameObject:
@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 1163367407199845010}
   - component: {fileID: 1163367407199845013}
   m_Layer: 2
-  m_Name: RallyPoint
+  m_Name: BaseRallyPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
-  nextTerritory: {fileID: 0}
+  nextRallyPoint: {fileID: 1163367407199845013}
   squadCapacity: 5
   squadSize: 0
   squadPositions:
@@ -512,6 +512,11 @@ PrefabInstance:
       propertyPath: rallyPoint
       value: 
       objectReference: {fileID: 1163367407199845013}
+    - target: {fileID: 8942042128499096709, guid: 89896c21e3519774d9fed3dd6d51bae6,
+        type: 3}
+      propertyPath: baseRallyPoint
+      value: 
+      objectReference: {fileID: 1163367407199845013}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89896c21e3519774d9fed3dd6d51bae6, type: 3}
 --- !u!4 &6405414133437234161 stripped
@@ -520,6 +525,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1511391140973990293}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7557332423389310224 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8942042128499096709, guid: 89896c21e3519774d9fed3dd6d51bae6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1511391140973990293}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7056be0c18f84cf4eb346376fe1d586e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8867149299706626444
 PrefabInstance:
   m_ObjectHideFlags: 0

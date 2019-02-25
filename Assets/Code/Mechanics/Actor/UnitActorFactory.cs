@@ -7,11 +7,9 @@ public static class UnitActorFactory
     public static GameObject InstantiatePrefab(UnitActorSchematic unitActorSchematic)
     {
         GameObject unitActor = GameObject.Instantiate(unitActorSchematic.actorPrefab);
-        unitActor.GetComponent<UnitActor>().Faction = unitActorSchematic.faction;
-        unitActor.GetComponent<UnitActor>().Faction.uniform.ChangeUniform(unitActor);
-   
-        //unitActor.transform.Find("Model").transform.Find("Head").GetComponent<SkinnedMeshRenderer>().material = unitActorSchematic.material;
-        //unitActor.transform.Find("Model").transform.Find("Body").GetComponent<SkinnedMeshRenderer>().material = unitActorSchematic.material;
+        unitActor.GetComponent<UnitActor>().FactionAlignment = unitActorSchematic.faction;
+        unitActor.GetComponent<UnitActor>().FactionAlignment.uniform.ChangeUniform(unitActor);
+  
         return unitActor;
     }
 }

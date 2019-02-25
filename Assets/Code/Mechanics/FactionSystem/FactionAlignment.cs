@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Enums;
 
 [CreateAssetMenu(fileName = "newFactionAlignment", menuName = "Faction/Alignment")]
 public class FactionAlignment : ScriptableObject, IFactionProvider
 {
+    public FactionAlignmentType factionAlignmentType;
     public string factionName;
     public FactionUniform uniform;
     /// <summary>

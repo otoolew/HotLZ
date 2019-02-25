@@ -75,7 +75,7 @@ public class HelicopterCommands : MonoBehaviour
         Soldier unit = other.GetComponentInParent<Soldier>();
         if (unit == null)
             return;
-        if (unit.Faction == GetComponentInParent<HelicopterUnit>().Faction)
+        if (unit.FactionAlignment == GetComponentInParent<HelicopterUnit>().FactionAlignment)
             LoadUnit(unit);
 
     }
@@ -145,7 +145,7 @@ public class HelicopterCommands : MonoBehaviour
             Soldier unit = loadedUnits.Pop();
             unit.transform.position = unitDropPoint.position;
             unit.gameObject.SetActive(true);
-            ClosestTerritory().FindDefensePosition(unit);
+            ClosestTerritory().FindClosestPath(unit);
         }
         else
         {

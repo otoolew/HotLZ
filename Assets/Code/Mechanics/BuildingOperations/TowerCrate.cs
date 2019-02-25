@@ -8,8 +8,8 @@ public class TowerCrate : MonoBehaviour
     [SerializeField] private Vector3 spawnPoint;
     public Vector3 SpawnPoint { get => spawnPoint; set => spawnPoint = value; }
 
-    [SerializeField] private DefensePositionType towerCrateType;
-    public DefensePositionType TowerCrateType { get => towerCrateType; set => towerCrateType = value; }
+    [SerializeField] private DefenseTowerType towerCrateType;
+    public DefenseTowerType TowerCrateType { get => towerCrateType; set => towerCrateType = value; }
 
     private void Start()
     {
@@ -26,7 +26,7 @@ public class TowerCrate : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        DefensePosition defensePosition = other.GetComponent<DefensePosition>();
+        DefenseTower defensePosition = other.GetComponent<DefenseTower>();
 
         if (defensePosition != null)
         {

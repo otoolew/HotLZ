@@ -6,7 +6,7 @@ using UnityEngine;
 public class HelicopterUnit : UnitActor
 {
     [SerializeField] private FactionAlignment faction;
-    public override FactionAlignment Faction { get => faction; set => faction = value; }
+    public override FactionAlignment FactionAlignment { get => faction; set => faction = value; }
 
     [SerializeField] private Enums.UnitType unitType;
     public override Enums.UnitType UnitType { get => unitType; set => unitType = value; }
@@ -18,14 +18,17 @@ public class HelicopterUnit : UnitActor
     public override bool Dead { get => dead; set => dead = value; }
 
     [SerializeField] private bool pooled;
+
+    public override event Action<UnitActor> removed;
+
     public override bool Pooled { get => pooled; set => pooled = value; }
 
-    public override event Action<Targetable> targetRemoved;
+    //public override event Action<Targetable> targetRemoved;
 
     public override void UnitActorDeath()
     {
         dead = true;
-        targetRemoved?.Invoke(this);
+        removed?.Invoke(this);
         StartCoroutine("DeathSequence");
     }
 

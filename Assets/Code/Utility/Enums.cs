@@ -6,13 +6,12 @@ using UnityEngine;
 public class Enums
 {
     [Serializable] public enum WayPointType { LINKED, RANDOM, LOOP }
-    [Serializable] public enum StarshipType { FIGHTER, DEFENDER, MINER }
-    [Serializable] public enum PartComponentType { WEAPON, HULL, ENGINE, UTILITY }
     [Serializable] public enum ItemType { NONE, COLLECTABLE, EQUIPPABLE, MISC}
     [Serializable] public enum NavStatus { INROUTE, ARRIVED }
     [Serializable] public enum RotorAxisRotation { X, Y, Z }
-    [Serializable] public enum UnitType { SOLDIER, HELICOPTER, VEHICLE }
-    [Serializable] public enum SoldierType { RIFLE, ROCKET, MEDIC }
-    [Serializable] public enum DefensePositionType { RIFLE, ROCKET, MEDIC }
+    [Serializable] public enum UnitType { SOLDIER, HELICOPTER, VEHICLE, TOWER }
+    [Serializable] public enum DefenseTowerType { RIFLE, ROCKET, MEDIC }
+    [Serializable] public enum DefenseTowerState { OCCUPIED, UNOCCUPIED, DESTROYED }
+    [Serializable] public enum FactionAlignmentType { NEUTRAL, BLUE, RED }
 
 }

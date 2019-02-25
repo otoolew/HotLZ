@@ -10,12 +10,13 @@ public abstract class UnitActor : Targetable
     public abstract bool Pooled { get; set; }
 
     #region Events and Handlers
-    //public event Action<UnitActor> removed;
+    public abstract event Action<UnitActor> removed;
     //public abstract event Action<Actor> OnActorRemoved;
 
     #endregion
     
     public abstract void UnitActorDeath();
+
 
 
 }

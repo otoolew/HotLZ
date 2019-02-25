@@ -27,8 +27,8 @@ public class Barracks : MonoBehaviour
     public Transform SoldierReturnPoint { get => soldierReturnPoint; set => soldierReturnPoint = value; }
 
     [SerializeField]
-    private RallyPoint rallyPoint;
-    public RallyPoint RallyPoint { get => rallyPoint; set => rallyPoint = value; }
+    private RallyPoint baseRallyPoint;
+    public RallyPoint BaseRallyPoint { get => baseRallyPoint; set => baseRallyPoint = value; }
 
     [SerializeField]
     private float spawnCooldown;
@@ -112,7 +112,7 @@ public class Barracks : MonoBehaviour
                 infantry.GetComponent<HealthComponent>().totalHealthPoints = 100;
                 infantry.transform.position = soldierSpawnPoint.position;
                 infantry.gameObject.SetActive(true);
-                infantry.GetComponent<NavigationAgent>().GoToPosition(RallyPoint.transform.position);
+                infantry.GetComponent<NavigationAgent>().GoToPosition(BaseRallyPoint.transform.position);
                 return;
             }
         }
