@@ -4,14 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TowerTurret : UnitActor
+public class TowerTurret : Targetable
 {
-
-    [SerializeField] private FactionAlignment factionAlignment;
-    public override FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
-
-    [SerializeField] private Enums.UnitType unitType;
-    public override Enums.UnitType UnitType { get => unitType; set => unitType = value; }
 
     [SerializeField] private DefenseTower defenseTower;
     public DefenseTower DefenseTower { get => defenseTower; set => defenseTower = value; }
@@ -25,45 +19,28 @@ public class TowerTurret : UnitActor
     [SerializeField] private Targetable currentTarget;
     public Targetable CurrentTarget { get => currentTarget; set => currentTarget = value; }
 
-    [SerializeField] private TargettingComponent targettingComponent;
-    public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
-
-    [SerializeField] private FieldOfView fieldOfView;
-    public FieldOfView FieldOfView { get => fieldOfView; set => fieldOfView = value; }
+    //[SerializeField] private TargettingComponent targettingComponent;
+    //public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
 
     [SerializeField] private WeaponComponent weaponComponent;
     public WeaponComponent WeaponComponent { get => weaponComponent; set => weaponComponent = value; }
 
-    [SerializeField] private HealthComponent healthComponent;
-    public override HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
-
-    [SerializeField] private bool dead;
-    public override bool Dead { get => dead; set => dead = value; }
-
-    [SerializeField] private bool pooled;
-    public override bool Pooled { get => pooled; set => pooled = value; }
-
-    public override event Action<UnitActor> removed;
-
     // Start is called before the first frame update
     void Start()
     {
-        targettingComponent.FactionAlignment = factionAlignment;
-        healthComponent.OnDeath.AddListener(UnitActorDeath);
-        targettingComponent.OnAcquiredTarget.AddListener(HandleTargetAquired);
-        targettingComponent.OnLostTarget.AddListener(HandleTargetLost);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(currentTarget != null && !Dead)
+        if(currentTarget != null)
         {
             AimAtTarget();
-            if (fieldOfView.TargetVisable(CurrentTarget))
-            {
-                weaponComponent.Fire();
-            }
+            //if (fieldOfView.TargetVisable(CurrentTarget))
+            //{
+            //    weaponComponent.Fire();
+            //}
         }
     }
 
@@ -86,9 +63,8 @@ public class TowerTurret : UnitActor
         }
     }
 
-    public override void UnitActorDeath()
+    public void UnitActorDeath()
     {
-        removed?.Invoke(this);
         Debug.Log("Tower Destroyed");
     }
 }

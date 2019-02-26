@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class SoldierMoveState : StateMachineBehaviour
 {
-    UnitActor unit;
+    Soldier soldier;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        unit = animator.GetComponent<UnitActor>();
-        unit.GetComponent<NavigationAgent>().NavAgent.isStopped = false;
+        soldier = animator.GetComponent<Soldier>();
+        soldier.GetComponent<NavigationAgent>().NavAgent.isStopped = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetFloat("MoveVelocity", unit.GetComponent<NavigationAgent>().NavAgent.velocity.magnitude);
+        animator.SetFloat("MoveVelocity", soldier.GetComponent<NavigationAgent>().NavAgent.velocity.magnitude);
         //NPCMovement.NavAgent.SetDestination(NPCMovement.Destination);
     }
 

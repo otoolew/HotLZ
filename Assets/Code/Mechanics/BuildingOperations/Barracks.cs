@@ -15,8 +15,8 @@ public class Barracks : MonoBehaviour
     public int RiflemenPoolCount { get => riflemenPoolCount; set => riflemenPoolCount = value; }
 
     [SerializeField]
-    private UnitActorSchematic soldierAsset;
-    public UnitActorSchematic SoldierAsset { get => soldierAsset; set => soldierAsset = value; }
+    private SoldierSchematic soldierAsset;
+    public SoldierSchematic SoldierAsset { get => soldierAsset; set => soldierAsset = value; }
 
     [SerializeField]
     private Transform soldierSpawnPoint;
@@ -42,7 +42,7 @@ public class Barracks : MonoBehaviour
     private bool spawnReady;
     public bool SpawnReady { get => spawnReady; set => spawnReady = value; }
 
-    public List<UnitActor> soldierList = new List<UnitActor>();
+    public List<Soldier> soldierList = new List<Soldier>();
 
     // Start is called before the first frame update
     void Start()
@@ -50,15 +50,15 @@ public class Barracks : MonoBehaviour
 
         for (int i = 0; i < riflemenPoolCount; i++)
         {
-            GameObject newUnit = UnitActorFactory.InstantiatePrefab(soldierAsset);
+            GameObject newUnit = SoldierFactory.InstantiatePrefab(soldierAsset);
 
-            newUnit.GetComponent<UnitActor>().Pooled = true;
+            newUnit.GetComponent<Soldier>().Pooled = true;
             //newUnit.Faction = faction;
             newUnit.name = faction.name + " Soldier";
             newUnit.transform.parent = null;
             newUnit.GetComponent<Soldier>().NavigationAgent.NavAgent.isStopped = false;
             newUnit.gameObject.SetActive(false);
-            soldierList.Add(newUnit.GetComponent<UnitActor>());
+            soldierList.Add(newUnit.GetComponent<Soldier>());
         }
     }
 
@@ -80,8 +80,8 @@ public class Barracks : MonoBehaviour
             if (unit == null)
                 return;
 
-            unit.GetComponent<UnitActor>().Pooled = true;
-            unit.GetComponent<UnitActor>().Dead = false;           
+            unit.GetComponent<Soldier>().Pooled = true;
+            unit.GetComponent<Soldier>().IsDead = false;           
             unit.gameObject.SetActive(false);
         }
     }
@@ -108,8 +108,8 @@ public class Barracks : MonoBehaviour
             {
                 infantry.GetComponent<Animator>().SetBool("IsDead", false);
                 infantry.Pooled = false;
-                infantry.Dead = false;
-                infantry.GetComponent<HealthComponent>().totalHealthPoints = 100;
+                infantry.IsDead = false;
+                infantry.CurrentHP = infantry.MaxHP;
                 infantry.transform.position = soldierSpawnPoint.position;
                 infantry.gameObject.SetActive(true);
                 infantry.GetComponent<NavigationAgent>().GoToPosition(BaseRallyPoint.transform.position);

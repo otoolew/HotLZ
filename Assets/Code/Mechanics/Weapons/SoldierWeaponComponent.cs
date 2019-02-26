@@ -30,9 +30,6 @@ public class SoldierWeaponComponent : WeaponComponent
     private bool weaponReady;
     public bool WeaponReady { get => weaponReady; set => weaponReady = value; }
 
-    [SerializeField] private FieldOfView fieldOfView;
-    public FieldOfView FieldOfView { get => fieldOfView; set => fieldOfView = value; }
-
     [SerializeField] private ParticleSystem particleEffect;
     public ParticleSystem ParticleEffect { get => particleEffect; set => particleEffect = value; }
 
@@ -106,11 +103,11 @@ public class SoldierWeaponComponent : WeaponComponent
             Vector3 targetDir = hitPoint - transform.position;
             Debug.DrawRay(ray.origin, targetDir);
 
-            HealthComponent hitUnit = rayHit.collider.GetComponentInParent<HealthComponent>();
+            Targetable hitUnit = rayHit.collider.GetComponentInParent<Targetable>();
             //Debug.Log( GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name );
             if (hitUnit != null)
             {
-                int damage = weaponDamage + UnityEngine.Random.Range(10, 50);
+                int damage = weaponDamage + UnityEngine.Random.Range(1, 10);
                 //Debug.Log(GetComponentInParent<UnitActor>().name + " Hit Target " + hitUnit.name + " for " + damage + " damage");
                 hitUnit.ApplyDamage(damage);
             }

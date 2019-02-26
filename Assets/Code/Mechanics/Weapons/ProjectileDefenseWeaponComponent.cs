@@ -30,9 +30,6 @@ public class ProjectileDefenseWeaponComponent : WeaponComponent
     [SerializeField] private Transform firePoint;
     public Transform FirePoint { get => firePoint; set => firePoint = value; }
 
-    [SerializeField] private TargettingComponent targettingComponent;
-    public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
-
     [SerializeField] private Transform towerTurretTransform;
     public Transform TowerTurretTransform { get => towerTurretTransform; set => towerTurretTransform = value; }
 
@@ -66,8 +63,8 @@ public class ProjectileDefenseWeaponComponent : WeaponComponent
         }
         else
         {
-            if(targettingComponent.CurrentTarget != null)
-                projectileWeaponSchematic.TriggerWeaponFire(this);
+            //if(targettingComponent.CurrentTarget != null)
+            //    projectileWeaponSchematic.TriggerWeaponFire(this);
         }
 
     }
@@ -85,11 +82,11 @@ public class ProjectileDefenseWeaponComponent : WeaponComponent
 
     public void AimAtTarget()
     {
-        if (targettingComponent.CurrentTarget != null)
-        {
-            var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - towerTurretTransform.position);
-            towerTurretTransform.rotation = Quaternion.RotateTowards(towerTurretTransform.rotation, lookDirection, (TurretRotationSpeed * Time.deltaTime));
-        }
+        //if (targettingComponent.CurrentTarget != null)
+        //{
+        //    var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - towerTurretTransform.position);
+        //    towerTurretTransform.rotation = Quaternion.RotateTowards(towerTurretTransform.rotation, lookDirection, (TurretRotationSpeed * Time.deltaTime));
+        //}
     }
  
 }

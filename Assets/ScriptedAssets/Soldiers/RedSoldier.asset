@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1798645c5b276e4489347f79dfb14422, type: 3}
+  m_Script: {fileID: 11500000, guid: a57b15aa499ae85459174d7a6b7a703c, type: 3}
   m_Name: RedSoldier
   m_EditorClassIdentifier: 
   actorPrefab: {fileID: 8067911645427161985, guid: 70d2f14804a6d7b4d825aa37bf3508f0,
     type: 3}
-  faction: {fileID: 11400000, guid: 0d50019ec79a3204299f15c06c904c43, type: 2}
+  factionAlignment: {fileID: 11400000, guid: 0d50019ec79a3204299f15c06c904c43, type: 2}

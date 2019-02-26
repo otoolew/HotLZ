@@ -12,7 +12,7 @@ public class RallyPoint : MonoBehaviour
 
     public int squadCapacity;
     public int squadSize;
-    public Stack<UnitActor> squadUnits = new Stack<UnitActor>();
+    public Stack<Soldier> squadUnits = new Stack<Soldier>();
     public Transform[] squadPositions;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class RallyPoint : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
         {
-            UnitActor unit = other.GetComponentInParent<UnitActor>();
+            Soldier unit = other.GetComponentInParent<Soldier>();
             if (unit == null)
                 return;
             if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.FactionAlignment != faction))
@@ -37,19 +37,19 @@ public class RallyPoint : MonoBehaviour
             RallyUnit(unit);
         }
     }
-    public void RallyUnit(UnitActor unit)
+    public void RallyUnit(Soldier soldier)
     {
         if (squadSize < squadCapacity)
         {
-            squadUnits.Push(unit);
+            squadUnits.Push(soldier);
             squadSize = squadUnits.Count;
-            AssignPosition(unit);
+            AssignPosition(soldier);
         }
     }
-    public void AssignPosition(UnitActor unit)
+    public void AssignPosition(Soldier soldier)
     {
         int positionIndex = squadUnits.Count;
-        unit.GetComponent<NavigationAgent>().GoToPosition(squadPositions[positionIndex-1].transform.position);
+        soldier.GetComponent<NavigationAgent>().GoToPosition(squadPositions[positionIndex-1].transform.position);
         if (squadSize == squadCapacity)
         {
             GetComponent<Collider>().enabled = false;

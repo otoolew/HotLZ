@@ -3,13 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(NavigationAgent))]
-public class Soldier : UnitActor
+public class Soldier : Targetable
 {
-    [SerializeField] private FactionAlignment faction;
-    public override FactionAlignment FactionAlignment { get => faction; set => faction = value; }
-
     [SerializeField] private Enums.UnitType unitType;
-    public override Enums.UnitType UnitType { get => unitType; set => unitType = value; }
+    public Enums.UnitType UnitType { get => unitType; set => unitType = value; }
 
     [SerializeField] private Animator animator;
     public Animator Animator { get => animator; set => animator = value; }
@@ -17,11 +14,8 @@ public class Soldier : UnitActor
     [SerializeField] private NavigationAgent navigationAgent;
     public NavigationAgent NavigationAgent { get => navigationAgent; set => navigationAgent = value; }
 
-    [SerializeField] private HealthComponent healthComponent;
-    public override HealthComponent HealthComponent { get => healthComponent; set => healthComponent = value; }
-
-    [SerializeField] private TargettingComponent targettingComponent;
-    public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
+    [SerializeField] private AITargetingComponent targetingComponent;
+    public AITargetingComponent TargetingComponent { get => targetingComponent; set => targetingComponent = value; }
 
     [SerializeField] private SoldierWeaponComponent weapon;
     public SoldierWeaponComponent Weapon { get => weapon; set => weapon = value; }
@@ -29,44 +23,37 @@ public class Soldier : UnitActor
     [SerializeField] private DefensePosition defensePosition;
     public DefensePosition DefensePosition { get => defensePosition; set => defensePosition = value; }
 
-    [SerializeField] private bool dead;
-    public override bool Dead { get => dead; set => dead = value; }
-
     [SerializeField] private bool pooled;
-
-    public override event Action<UnitActor> removed;
-
-    public override bool Pooled { get => pooled; set => pooled = value; }
-
-    //public override event Action<Targetable> targetRemoved;
-
-    //public override event Action<Targetable> targetRemoved;
+    public bool Pooled { get => pooled; set => pooled = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        healthComponent = GetComponent<HealthComponent>();
-        healthComponent.OnDeath.AddListener(UnitActorDeath);
-
-        targettingComponent.FactionAlignment = GetComponentInParent<UnitActor>().FactionAlignment;
-        targettingComponent.OnAcquiredTarget.AddListener(HandleTargetAcquired);
-        targettingComponent.OnLostTarget.AddListener(HandleTargetLost);
+        targetingComponent.acquiredTarget += OnTargetAcquired;
+        targetingComponent.lostTarget += OnTargetLost;
+        //targettingComponent.FactionAlignment = GetComponentInParent<UnitActor>().FactionAlignment;
+        //unitTargetVision.OnAcquiredTarget.AddListener(HandleTargetAcquired);
+        //unitTargetVision.OnLostTarget.AddListener(HandleTargetLost);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Dead)
+        if (IsDead)
             return;
         animator.SetFloat("MoveVelocity", navigationAgent.NavAgent.velocity.magnitude);
     }
 
     public void AimAtTarget()
     {
-        if (targettingComponent.CurrentTarget == null)
+        if (targetingComponent.CurrentTarget == null)
+        {
+            //animator.SetBool("HasTarget", false);
             return;
+        }
+
         // Create a vector from the npc to the target.
-        Vector3 rotVector = targettingComponent.CurrentTarget.transform.position - transform.position;
+        Vector3 rotVector = targetingComponent.CurrentTarget.transform.position - transform.position;
 
         // Ensure the vector is entirely along the floor plane.
         rotVector.y = 0f;
@@ -78,20 +65,18 @@ public class Soldier : UnitActor
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, 1f);
 
     }
-    public void HandleTargetAcquired(Targetable target)
+    public void OnTargetAcquired(Targetable target)
     {
         animator.SetBool("HasTarget", true);
     }
-    public void HandleTargetLost()
+    public void OnTargetLost()
     {
         animator.SetBool("HasTarget", false);
     }
 
-    public override void UnitActorDeath()
+    protected override void OnDeath()
     {
-        dead = true;
         Pooled = true;
-        removed?.Invoke(this);
         GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Animator>().Play("Dead");
         StartCoroutine("DeathSequence");

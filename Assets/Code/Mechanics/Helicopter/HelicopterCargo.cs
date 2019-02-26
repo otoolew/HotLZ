@@ -18,7 +18,7 @@ public class HelicopterCargo : MonoBehaviour
     private Transform unitDropPoint;
     public Transform UnitDropPoint { get => unitDropPoint; set => unitDropPoint = value; }
 
-    public Stack<UnitActor> loadedUnits = new Stack<UnitActor>();
+    public Stack<Soldier> loadedUnits = new Stack<Soldier>();
     // Start is called before the first frame update
     void Start()
     {
@@ -34,13 +34,13 @@ public class HelicopterCargo : MonoBehaviour
     {
         if (other.isTrigger)
             return;
-        UnitActor unit = other.GetComponentInParent<UnitActor>();
+        Soldier unit = other.GetComponentInParent<Soldier>();
         if (unit == null)
             return;
-        if (unit.FactionAlignment == GetComponentInParent<UnitActor>().FactionAlignment)
+        if (unit.FactionAlignment == GetComponentInParent<Soldier>().FactionAlignment)
             LoadUnit(unit);
     }
-    public void LoadUnit(UnitActor unit)
+    public void LoadUnit(Soldier unit)
     {
         if (cargoTotal < cargoCapacity)
         {
@@ -54,7 +54,7 @@ public class HelicopterCargo : MonoBehaviour
     {
         if (loadedUnits.Count > 0)
         {
-            UnitActor unit = loadedUnits.Pop();
+            Soldier unit = loadedUnits.Pop();
             unit.transform.position = unitDropPoint.position;
             unit.gameObject.SetActive(true);
             Debug.Log("Unloaded " + unit.name);

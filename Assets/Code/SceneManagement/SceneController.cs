@@ -42,11 +42,11 @@ public class SceneController : MonoBehaviour
     /// <summary>
     /// Event that will notify all subscribers that the SceneChange sequence has started
     /// </summary>
-    public Events.FadeComplete onSceneChangeStart;
+    public GameEvents.FadeComplete onSceneChangeStart;
     /// <summary>
     /// Event that will notify all subscribers that the SceneChange sequence has completed
     /// </summary>
-    public Events.FadeComplete onSceneChangeComplete;
+    public GameEvents.FadeComplete onSceneChangeComplete;
     /// <summary>
     /// Starts the Fade and Switch Coroutine
     /// </summary>

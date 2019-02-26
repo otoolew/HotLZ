@@ -124,89 +124,6 @@ Transform:
   m_Father: {fileID: 3205227569699798346}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1950924417567486506
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 926565483472535460}
-  - component: {fileID: 2094554272240414618}
-  - component: {fileID: 2529580314504576860}
-  m_Layer: 2
-  m_Name: TargettingComponent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &926565483472535460
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950924417567486506}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3072240971071388012}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2094554272240414618
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950924417567486506}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 20
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2529580314504576860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1950924417567486506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3466efe4e2a33d4e9af77fb18ea04ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  faction: {fileID: 0}
-  searchRate: 0.5
-  searchTimer: 0.5
-  currentTarget: {fileID: 0}
-  hadTarget: 0
-  TargetsTrackedList: []
-  OnTargetEntersRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventTargetEnteredRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnTargetExitsRange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventTargetExitedRange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnAcquiredTarget:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventAcquiredTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnLostTarget:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventLostTarget, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!1 &2563382570394768624
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +480,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3072240971071388012}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &35863992671667055
 MonoBehaviour:
@@ -5817,10 +5734,10 @@ GameObject:
   - component: {fileID: 3072240971071388012}
   - component: {fileID: 249838099249256061}
   - component: {fileID: 1830029870431724166}
+  - component: {fileID: 5985388166694867947}
+  - component: {fileID: 6125251845471742466}
   - component: {fileID: 581166468070580100}
   - component: {fileID: 9040462231738959592}
-  - component: {fileID: 6125251845471742466}
-  - component: {fileID: 1262713982455173561}
   m_Layer: 0
   m_Name: ProtoSoldier
   m_TagString: Untagged
@@ -5840,8 +5757,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7231994551918093321}
-  - {fileID: 926565483472535460}
   - {fileID: 5151942517010448742}
+  - {fileID: 3166122218727941071}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5880,6 +5797,42 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5985388166694867947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067911645427161985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4729cb1137bf62b4ebe82a1aaba6b6e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  factionAlignment: {fileID: 0}
+--- !u!114 &6125251845471742466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067911645427161985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c492a4a825bfa4097ed20e8d6450dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  factionAlignment: {fileID: 11400000, guid: 7fc5788328993c24a95e2911e2079ae3, type: 2}
+  maxHP: 100
+  currentHP: 100
+  isDead: 0
+  unitType: 0
+  animator: {fileID: 1830029870431724166}
+  navigationAgent: {fileID: 9040462231738959592}
+  targetingComponent: {fileID: 747076376370016975}
+  weapon: {fileID: 35863992671667055}
+  defensePosition: {fileID: 0}
+  pooled: 0
 --- !u!195 &581166468070580100
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5919,47 +5872,77 @@ MonoBehaviour:
   currentWaypoint: 0
   waypointList: []
   debugTransform: {fileID: 0}
---- !u!114 &6125251845471742466
+--- !u!1 &8074734812434376574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3166122218727941071}
+  - component: {fileID: 1332032293139946703}
+  - component: {fileID: 747076376370016975}
+  m_Layer: 2
+  m_Name: TargettingComponent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3166122218727941071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074734812434376574}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3072240971071388012}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1332032293139946703
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074734812434376574}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &747076376370016975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8067911645427161985}
+  m_GameObject: {fileID: 8074734812434376574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62c492a4a825bfa4097ed20e8d6450dd, type: 3}
+  m_Script: {fileID: 11500000, guid: d987de7b411a6a04da0dc686fd6a3cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: {fileID: 0}
-  unitType: 0
-  animator: {fileID: 1830029870431724166}
-  navigationAgent: {fileID: 9040462231738959592}
-  healthComponent: {fileID: 1262713982455173561}
-  targettingComponent: {fileID: 2529580314504576860}
-  weapon: {fileID: 35863992671667055}
-  defensePosition: {fileID: 0}
-  dead: 0
-  pooled: 0
---- !u!114 &1262713982455173561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8067911645427161985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed49dffdb98920d4787d95eed3a39e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealthPoints: 100
-  totalHealthPoints: 100
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  factionAlignment: {fileID: 0}
+  viewRadius: 10
+  viewAngle: 360
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 512
+  obsticleMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  currentTarget: {fileID: 0}
+  searchCooldown: 0.5
+  searchTimer: 0.5
+  searchReady: 0
+  TargetList: []
 --- !u!1 &8114162356396693042
 GameObject:
   m_ObjectHideFlags: 0
