@@ -22,19 +22,27 @@ public class AITargetingComponent : MonoBehaviour
     [SerializeField] private Targetable currentTarget;
     public Targetable CurrentTarget { get => currentTarget; set => currentTarget = value; }
 
-    [SerializeField] private float searchCooldown;
-    public float SearchCooldown { get => searchCooldown; set => searchCooldown = value; }
+    [SerializeField] private float searchRate;
+    public float SearchRate { get => searchRate; set => searchRate = value; }
 
     [SerializeField] private float searchTimer;
-    public float SearchTimer { get => searchTimer; set => searchTimer = value; }
 
     [SerializeField] private bool searchReady;
     public bool SearchReady { get => searchReady; set => searchReady = value; }
 
+    [SerializeField] private bool hadTarget;
+    public bool HadTarget { get => hadTarget; set => hadTarget = value; }
+
     public List<Targetable> TargetList = new List<Targetable>();
 
-    public event Action<Targetable> acquiredTarget;
+    public event Action<Targetable> acquiredTarget, targetEnteredRange, targetExitedRange;
     public event Action lostTarget;
+
+    private void OnEnable()
+    {
+        ResetTargetter();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,17 +52,18 @@ public class AITargetingComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (searchReady)
+        if (!(searchTimer <= 0.0f))
+            searchTimer -= Time.deltaTime;
+        if (searchTimer <= 0.0f && CurrentTarget == null)
         {
             CurrentTarget = GetNearestTarget();
-            if(CurrentTarget != null)
-                Debug.Log(GetComponentInParent<Targetable>().name + " Current Target is " + CurrentTarget.name);
-            searchTimer = searchCooldown;
+            if (CurrentTarget != null)
+            {
+                acquiredTarget?.Invoke(CurrentTarget);
+                searchTimer = searchRate;
+            }
         }
-        else
-        {
-            CooldownSearch();       
-        }
+        //HadTarget = CurrentTarget != null;
 
     }
 
@@ -67,7 +76,7 @@ public class AITargetingComponent : MonoBehaviour
         {
             if (TargetVisable(targetable))
             {
-                targetable.dead += OnTargetRemoved;
+                targetable.removed += OnTargetRemoved;
                 TargetList.Add(targetable);
                 acquiredTarget?.Invoke(targetable);
             }
@@ -81,15 +90,26 @@ public class AITargetingComponent : MonoBehaviour
             return;
         if (!IsTargetValid(targetable))
             return;
-        OnTargetRemoved(targetable);
+        TargetList.Remove(targetable);
+        targetExitedRange?.Invoke(targetable);
+
+        if (targetable == CurrentTarget)
+        {
+            OnTargetRemoved(targetable);
+        }
+        else
+        {
+            // Only need to remove if we're not our actual target, otherwise OnTargetRemoved will do the work above
+            targetable.removed -= OnTargetRemoved;
+        }
     }
     private void OnTargetRemoved(Targetable targetable)
     {
-        targetable.dead -= OnTargetRemoved;
-        if (targetable == CurrentTarget)
+        targetable.removed -= OnTargetRemoved;
+        if (CurrentTarget != null && CurrentTarget == targetable)
         {
-            CurrentTarget = null;
             lostTarget?.Invoke();
+            CurrentTarget = null;
         }
         if (TargetList.Contains(targetable))
         {
@@ -123,7 +143,10 @@ public class AITargetingComponent : MonoBehaviour
     }
     public Targetable GetNearestTarget()
     {
-        if (TargetList.Count == 0)      
+        int length = TargetList.Count;
+        if (length == 0)       
+            return null;
+        if (length == 0)      
             return null;      
 
         Targetable nearest = null;
@@ -133,7 +156,8 @@ public class AITargetingComponent : MonoBehaviour
             Targetable targetable = TargetList[i];
             if (targetable == null || targetable.IsDead)
             {
-                OnTargetRemoved(targetable);
+                TargetList.RemoveAt(i);
+                //OnTargetRemoved(targetable);
                 continue;
             }
             float currentDistance = Vector3.Distance(transform.position, targetable.transform.position);
@@ -153,16 +177,19 @@ public class AITargetingComponent : MonoBehaviour
         }
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
-    public void ClearTargetList()
+    public void ResetTargetter()
     {
         TargetList.Clear();
+        CurrentTarget = null;
+        acquiredTarget = null;
+        lostTarget = null;
     }
     public void CooldownSearch()
     {
-        if (searchTimer <= 0)
+        if (searchTimer == 0f)
         {
-            searchTimer = 0;
-            searchReady = true;
+            searchTimer = 0f;
+            searchReady = false;
         }
         else
         {

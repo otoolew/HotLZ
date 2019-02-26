@@ -41,6 +41,14 @@ public class Soldier : Targetable
     {
         if (IsDead)
             return;
+        if(targetingComponent.CurrentTarget != null)
+        {
+            animator.SetBool("HasTarget", true);
+        }
+        else
+        {
+            animator.SetBool("HasTarget", false);
+        }
         animator.SetFloat("MoveVelocity", navigationAgent.NavAgent.velocity.magnitude);
     }
 
@@ -76,6 +84,7 @@ public class Soldier : Targetable
 
     protected override void OnDeath()
     {
+        base.OnDeath();
         Pooled = true;
         GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Animator>().Play("Dead");
