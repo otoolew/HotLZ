@@ -25,14 +25,14 @@ public class LandingPad : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        UnitActor unitActor = other.GetComponentInParent<UnitActor>();
+        Soldier soldier = other.GetComponentInParent<Soldier>();
 
-        if (unitActor != null)
+        if (soldier != null)
         {
-            switch (unitActor.UnitType)
+            switch (soldier.UnitType)
             {
                 case Enums.UnitType.SOLDIER:
-                    unitActor.GetComponent<NavigationAgent>().GoToPosition(headQuarters.Barracks.SoldierReturnPoint.position);
+                    soldier.GetComponent<NavigationAgent>().GoToPosition(headQuarters.Barracks.SoldierReturnPoint.position);
                     break;
                 case Enums.UnitType.HELICOPTER:
                     Debug.Log("TODO: Implement Helicopter landing operations");

@@ -25,7 +25,7 @@ public class Foxhole : MonoBehaviour
     }
     public void ClaimFoxhole(Soldier soldier)
     {
-        soldier.HealthComponent.OnDeath.AddListener(HandleOccupantDeath);
+        //soldier.HealthComponent.OnDeath.AddListener(HandleOccupantDeath);
         currentOccupant = soldier;
     }
     private void OnTriggerEnter(Collider other)
@@ -42,7 +42,7 @@ public class Foxhole : MonoBehaviour
     }
     public void HandleOccupantDeath()
     {
-        currentOccupant.HealthComponent.OnDeath.RemoveListener(HandleOccupantDeath);
+        //currentOccupant.HealthComponent.OnDeath.RemoveListener(HandleOccupantDeath);
         currentOccupant = null;
         entryCollider.enabled = true;
         OccupantChanged?.Invoke();

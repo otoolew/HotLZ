@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class HealthComponent : MonoBehaviour
 {
+    public Damageable damageable;
     public int maxHealthPoints;
     public int totalHealthPoints;
 

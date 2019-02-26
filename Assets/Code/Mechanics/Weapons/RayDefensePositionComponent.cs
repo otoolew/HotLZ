@@ -36,8 +36,8 @@ public class RayDefensePositionComponent : WeaponComponent
     [SerializeField] private Transform firePoint;
     public Transform FirePoint { get => firePoint; set => firePoint = value; }
 
-    [SerializeField] private TargettingComponent targettingComponent;
-    public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
+    //[SerializeField] private TargettingComponent targettingComponent;
+    //public TargettingComponent TargettingComponent { get => targettingComponent; set => targettingComponent = value; }
 
     [SerializeField] private Transform towerTurretTransform;
     public Transform TowerTurretTransform { get => towerTurretTransform; set => towerTurretTransform = value; }
@@ -90,13 +90,13 @@ public class RayDefensePositionComponent : WeaponComponent
 
     public void AimAtTarget()
     {
-        if (targettingComponent.CurrentTarget != null)
-        {
-            var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - towerTurretTransform.position);
-            //lookDirection.x = 0;
-            //lookDirection.z = 0;
-            towerTurretTransform.rotation = Quaternion.RotateTowards(towerTurretTransform.rotation, lookDirection, (TurretRotationSpeed * Time.deltaTime));
-        }
+        //if (targettingComponent.CurrentTarget != null)
+        //{
+        //    var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - towerTurretTransform.position);
+        //    //lookDirection.x = 0;
+        //    //lookDirection.z = 0;
+        //    towerTurretTransform.rotation = Quaternion.RotateTowards(towerTurretTransform.rotation, lookDirection, (TurretRotationSpeed * Time.deltaTime));
+        //}
     }
 
     public bool InSightLine()

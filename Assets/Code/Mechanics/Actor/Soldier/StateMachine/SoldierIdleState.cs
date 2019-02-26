@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierAttackState : StateMachineBehaviour
+public class SoldierIdleState : StateMachineBehaviour
 {
-    UnitActor unit;
+    Soldier soldier;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        unit = animator.GetComponent<UnitActor>();
-        unit.GetComponent<NavigationAgent>().NavAgent.isStopped = true;
+        soldier = animator.GetComponent<Soldier>();
+        soldier.GetComponent<NavigationAgent>().NavAgent.isStopped = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        unit.GetComponent<NavigationAgent>().NavAgent.isStopped = true;
-        unit.GetComponent<Soldier>().AimAtTarget();
-        if (unit.GetComponent<Soldier>().Weapon.WeaponReady)
-            unit.GetComponent<Soldier>().Weapon.Fire();
+        animator.SetFloat("MoveVelocity", soldier.GetComponent<NavigationAgent>().NavAgent.velocity.magnitude);
+        //NPCMovement.NavAgent.SetDestination(NPCMovement.Destination);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        unit.GetComponent<NavigationAgent>().NavAgent.isStopped = false;
+
     }
 }

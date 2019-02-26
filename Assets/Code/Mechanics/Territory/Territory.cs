@@ -67,7 +67,7 @@ public class Territory : MonoBehaviour
             OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.NeutralFaction);
     }
 
-    public void FindClosestPath(UnitActor unitActor)
+    public void FindClosestPath(Soldier unitActor)
     {
         if (pathPositions.Length > 0)
         {
