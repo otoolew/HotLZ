@@ -19,7 +19,7 @@ public class Targetable : MonoBehaviour
     public bool IsDead { get => isDead; set => isDead = value; }
 
     #endregion
-    public event Action<Targetable> dead;
+    public event Action<Targetable> removed;
 
     public virtual void ApplyDamage(float damageAmount)
     {
@@ -33,7 +33,7 @@ public class Targetable : MonoBehaviour
 
     protected virtual void OnDeath()
     {
-        dead.Invoke(this);
+        removed?.Invoke(this);
     }
     //public UnityEvent OnDeath;
     //public void Start()
