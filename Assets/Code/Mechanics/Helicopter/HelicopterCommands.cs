@@ -14,6 +14,9 @@ public class HelicopterCommands : MonoBehaviour
     [SerializeField] private HelicopterCrane helicopterCrane;
     public HelicopterCrane HelicopterCrane { get => helicopterCrane; set => helicopterCrane = value; }
 
+    [SerializeField] private float troopPickCallRadius;
+    public float TroopPickCallRadius { get => troopPickCallRadius; set => troopPickCallRadius = value; }
+
     [SerializeField]
     private int seatCapacity;
     public int SeatCapacity { get => seatCapacity; set => seatCapacity = value; }
@@ -105,8 +108,10 @@ public class HelicopterCommands : MonoBehaviour
 
     public void OfferPickUp()
     {
-        Collider[] troops = Physics.OverlapSphere(transform.position, 10f, layerMask);
-
+        if (SeatTotal == SeatCapacity)
+            return;
+        Collider[] troops = Physics.OverlapSphere(transform.position, troopPickCallRadius, layerMask);
+        Debug.Log(troops.Length);
         if (troops.Length > 0)
         {
             for (int i = 0; i < troops.Length; i++)
@@ -114,12 +119,11 @@ public class HelicopterCommands : MonoBehaviour
                 Soldier soldier = troops[i].GetComponentInParent<Soldier>();
                 if (soldier != null)
                 {
-                    if(soldier.ClosestDefensePosition != null)
-                    {
-                        soldier.ClosestDefensePosition.GetComponent<Collider>().enabled = true;
-                        soldier.ClosestDefensePosition = null;
-                    }
-
+                    //if(soldier.ClosestDefensePosition != null)
+                    //{
+                    //    soldier.ClosestDefensePosition.GetComponent<Collider>().enabled = true;
+                    //    soldier.ClosestDefensePosition = null;
+                    //}
                     soldier.NavigationAgent.GoToPosition(transform.position);
                 }
             }

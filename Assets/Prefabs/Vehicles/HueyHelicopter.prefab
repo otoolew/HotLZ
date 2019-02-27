@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 1200500797715779814}
   - component: {fileID: 8962694386221248513}
   - component: {fileID: 6324192224402098802}
-  - component: {fileID: 1792899777400208324}
   m_Layer: 9
   m_Name: HueyHelicopter
   m_TagString: Untagged
@@ -193,11 +192,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33c55ab4516ae724085b6abe0a32ad5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
+  factionAlignment: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
+  maxHP: 1000
+  currentHP: 1000
+  isDead: 0
   unitType: 1
-  healthComponent: {fileID: 1792899777400208324}
-  dead: 0
-  pooled: 0
 --- !u!114 &3147659781814207234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,13 +234,14 @@ MonoBehaviour:
   operateCraneKey: {fileID: 11400000, guid: f8eeebbe087b1674581708205b78763e, type: 2}
   headQuarters: {fileID: 0}
   helicopterCrane: {fileID: 7112548041125416443}
+  troopPickCallRadius: 20
   seatCapacity: 5
   seatTotal: 0
   unitDropPoint: {fileID: 6382359076141335667}
   grounded: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 8961
+    m_Bits: 512
 --- !u!136 &8962694386221248513
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -273,25 +273,6 @@ MonoBehaviour:
     m_Bits: 14897
   equippedWeapon: {fileID: 2639190977600983382}
   rocketWeapon: {fileID: 8538279870205516408}
---- !u!114 &1792899777400208324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989185418549420926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed49dffdb98920d4787d95eed3a39e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealthPoints: 1000
-  totalHealthPoints: 1000
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1565018548676380484
 GameObject:
   m_ObjectHideFlags: 0
