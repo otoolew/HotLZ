@@ -46,7 +46,7 @@ public class AITargetingComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        factionAlignment = GetComponentInParent<FactionComponent>().FactionAlignment;
+        //factionAlignment = GetComponentInParent<FactionComponent>().FactionAlignment;
     }
 
     // Update is called once per frame

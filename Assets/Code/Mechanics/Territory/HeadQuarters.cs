@@ -6,7 +6,7 @@ public class HeadQuarters : ContestableTerritory
 {
     [SerializeField]
     private FactionAlignment currentFaction;
-    public override FactionAlignment CurrentFaction { get => currentFaction; set => currentFaction = value; }
+    public override FactionAlignment ControllingFaction { get => currentFaction; set => currentFaction = value; }
 
     [SerializeField] private DefensePosition[] defensePositions;
     public override DefensePosition[] DefensePositions { get => defensePositions; }

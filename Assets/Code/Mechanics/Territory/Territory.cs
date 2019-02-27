@@ -5,13 +5,13 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class Territory : ContestableTerritory
+public class Territory : MonoBehaviour
 {
-    [SerializeField] private FactionAlignment currentFaction;
-    public override FactionAlignment CurrentFaction { get => currentFaction; set => currentFaction = value; }
+    [SerializeField] private FactionAlignment controllingFaction;
+    public FactionAlignment ControllingFaction { get => controllingFaction; set => controllingFaction = value; }
 
     [SerializeField] private DefensePosition[] defensePositions;
-    public override DefensePosition[] DefensePositions { get => defensePositions; }
+    public DefensePosition[] DefensePositions { get => defensePositions; }
 
     [SerializeField] private List<Foxhole> territoryFoxholeList;   
     public List<Foxhole> TerritoryFoxholeList { get => territoryFoxholeList; }
@@ -29,7 +29,7 @@ public class Territory : ContestableTerritory
 
     public void OnTerritoryOwnerChange(FactionAlignment newfaction)
     {
-        CurrentFaction = newfaction;
+        ControllingFaction = newfaction;
     }
     #endregion  
 
@@ -50,19 +50,19 @@ public class Territory : ContestableTerritory
     {
 
     }
-    public override bool FindFoxhole(Soldier soldier)
+    public bool FindFoxhole(Soldier soldier)
     {
         for (int i = TerritoryFoxholeList.Count - 1; i >= 0; i--)
         {
             if (TerritoryFoxholeList[i].CurrentOccupant == null)
             {
-                //TerritoryFoxholeList[i].ClaimFoxhole(soldier);
                 soldier.NavigationAgent.GoToPosition(TerritoryFoxholeList[i].transform.position);
                 return true;
             }
         }
         return false;
     }
+
     public void HeadToExitRally(Soldier soldier)
     {
         switch (soldier.FactionAlignment.factionAlignmentType)
@@ -79,7 +79,7 @@ public class Territory : ContestableTerritory
                 break;
         }
     }
-    public override void UpdateFactionOwnership()
+    public void UpdateFactionOwnership()
     {
         blueFactionDefense = 0;
         redFactionDefense = 0;
@@ -102,7 +102,7 @@ public class Territory : ContestableTerritory
         //OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.NeutralFaction);
     }
 
-    public override DefensePosition ClosestDefensePosition(Transform goTranform)
+    public DefensePosition ClosestDefensePosition(Transform goTranform)
     {
         DefensePosition closestDefensePositionResult = null;
         if (defensePositions.Length > 0)

@@ -5,13 +5,9 @@ using UnityEngine.Events;
 
 public class DamageComponent : MonoBehaviour
 {
-    public int damageMultiplier;
+    [SerializeField] private Targetable targetable;
+    public Targetable Targetable { get => targetable; set => targetable = value; }
 
-    public UnityEvent<int> OnHit;
-
-    public void TakeDamage(int amount)
-    {
-        int totalDamage = amount * damageMultiplier;
-        OnHit.Invoke(totalDamage);
-    }
+    [SerializeField] private float damageMultiplier;
+    public float DamageMultiplier { get => damageMultiplier; set => damageMultiplier = value; }
 }

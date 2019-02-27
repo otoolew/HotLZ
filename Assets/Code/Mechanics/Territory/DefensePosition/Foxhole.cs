@@ -40,7 +40,7 @@ public class Foxhole : MonoBehaviour
             {
                 ClaimFoxhole(soldier);
                 entryCollider.enabled = false;
-                OccupantChanged?.Invoke();
+                //OccupantChanged?.Invoke();
             }
             else if(soldier != currentOccupant)
             {               

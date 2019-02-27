@@ -133,9 +133,10 @@ GameObject:
   - component: {fileID: 8733055730884941334}
   - component: {fileID: 8932824273800627913}
   - component: {fileID: 3147659781814207234}
-  - component: {fileID: 1200500797715779814}
-  - component: {fileID: 8962694386221248513}
+  - component: {fileID: 5726556211732904892}
   - component: {fileID: 6324192224402098802}
+  - component: {fileID: 8962694386221248513}
+  - component: {fileID: 7309467156483072985}
   m_Layer: 9
   m_Name: HueyHelicopter
   m_TagString: Untagged
@@ -209,26 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c71c5b7af930e47bb76b9293f5947f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RigidBody: {fileID: 8733055730884941334}
-  upKey: {fileID: 11400000, guid: 9dfcde08f452b59428768974944d9222, type: 2}
-  downKey: {fileID: 11400000, guid: 5b759f4ef8fb89a48b33c572af69ca97, type: 2}
-  leftStrafeKey: {fileID: 11400000, guid: dabddaa5a52ba06489838a35a63a7890, type: 2}
-  rightStrafeKey: {fileID: 11400000, guid: c04efa80795549e428e64e07a03a15ca, type: 2}
-  maxVelocity: 30
-  ThrustInput: 0
-  RotationInput: 0
---- !u!114 &1200500797715779814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989185418549420926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 595b39df9b901124cad606ef347b5c73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  helicopterMovement: {fileID: 0}
   offerPickUpKey: {fileID: 11400000, guid: a7e1f76e1484561428cd29a28bec5dc6, type: 2}
   debugDropKey: {fileID: 11400000, guid: fe01aa85a47a2ac49a582d01c7b5abf5, type: 2}
   operateCraneKey: {fileID: 11400000, guid: f8eeebbe087b1674581708205b78763e, type: 2}
@@ -239,23 +221,29 @@ MonoBehaviour:
   seatTotal: 0
   unitDropPoint: {fileID: 6382359076141335667}
   grounded: 0
-  layerMask:
+  soldierMask:
     serializedVersion: 2
     m_Bits: 512
---- !u!136 &8962694386221248513
-CapsuleCollider:
+--- !u!114 &5726556211732904892
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989185418549420926}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 2
-  m_Height: 7
-  m_Direction: 0
-  m_Center: {x: 0, y: 1.5, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0189a8e4704c8a459934a1e670e6126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RigidBody: {fileID: 8733055730884941334}
+  upKey: {fileID: 11400000, guid: 9dfcde08f452b59428768974944d9222, type: 2}
+  downKey: {fileID: 11400000, guid: 5b759f4ef8fb89a48b33c572af69ca97, type: 2}
+  rotationSpeed: 1
+  movementSpeed: 30
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 5632
 --- !u!114 &6324192224402098802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +261,36 @@ MonoBehaviour:
     m_Bits: 14897
   equippedWeapon: {fileID: 2639190977600983382}
   rocketWeapon: {fileID: 8538279870205516408}
+--- !u!136 &8962694386221248513
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989185418549420926}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 7
+  m_Direction: 0
+  m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!208 &7309467156483072985
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989185418549420926}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2, y: 1.5, z: 7.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.62, z: -3.5}
+  m_TimeToStationary: 0.1
 --- !u!1 &1565018548676380484
 GameObject:
   m_ObjectHideFlags: 0

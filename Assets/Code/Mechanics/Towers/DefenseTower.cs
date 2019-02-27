@@ -12,6 +12,9 @@ public class DefenseTower : MonoBehaviour
     [SerializeField] private DefenseTowerType defensePositionType;
     public DefenseTowerType DefensePositionType { get => defensePositionType; set => defensePositionType = value; }
 
+    [SerializeField] private DefensePosition parentDefensePosition;
+    public DefensePosition ParentDefensePosition { get => parentDefensePosition; set => parentDefensePosition = value; }
+
     [SerializeField] private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
 
@@ -23,10 +26,16 @@ public class DefenseTower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        parentDefensePosition = GetComponentInParent<DefensePosition>();
         currentTowerTurret = towerTurrets[0];
-        //currentTowerTurret.targetRemoved += HandleTowerDestruction;
+        parentDefensePosition.FactionComponent.FactionAlignmentChange.AddListener(OnFactionAlignmentChange);
     }
 
+    // TODO: This Method is redundant. Can be handled at the TargettingComponent
+    public void OnFactionAlignmentChange(FactionAlignment newFactionAlignment)
+    {
+        factionAlignment = newFactionAlignment;
+    }
     public void ActivateTurret(TowerTurret towerTurret)
     {
         currentTowerTurret = towerTurret;

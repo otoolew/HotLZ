@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class ContestableTerritory : MonoBehaviour
 {
-    public abstract FactionAlignment CurrentFaction { get; set; }
+    public abstract FactionAlignment ControllingFaction { get; set; }
     public abstract DefensePosition[] DefensePositions { get; }
     public abstract void UpdateFactionOwnership();
     public abstract DefensePosition ClosestDefensePosition(Transform goTranform);
