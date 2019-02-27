@@ -6,22 +6,11 @@ using UnityEngine;
 
 public class TowerTurret : Targetable
 {
-
-    [SerializeField] private DefensePosition parentDefensePosition;
-    public DefensePosition ParentDefensePosition { get => parentDefensePosition; set => parentDefensePosition = value; }
-
     [SerializeField] private TurretTransform turretTransform;
     public TurretTransform TurretTransform { get => turretTransform; set => turretTransform = value; }
 
     [SerializeField] private Transform turretBaseTransform;
     public Transform TurretBaseTransform { get => turretBaseTransform; set => turretBaseTransform = value; }
-
-    [SerializeField] private float viewRadius;
-    public float ViewRadius { get => viewRadius; set => viewRadius = value; }
-
-    [Range(0, 360)]
-    [SerializeField] private float viewAngle;
-    public float ViewAngle { get => viewAngle; set => viewAngle = value; }
 
     [SerializeField] private float turretRotationSpeed;
     public float TurrentRotationSpeed { get => turretRotationSpeed; set => turretRotationSpeed = value; }
@@ -32,49 +21,43 @@ public class TowerTurret : Targetable
     [SerializeField] private WeaponComponent weaponComponent;
     public WeaponComponent WeaponComponent { get => weaponComponent; set => weaponComponent = value; }
 
-    [SerializeField] private Targetable currentTarget;
-    public Targetable CurrentTarget { get => currentTarget; set => currentTarget = value; }
-
-    [SerializeField] private LayerMask targetLayer;
-    public LayerMask TargetLayer { get => targetLayer; set => targetLayer = value; }
+    public LayerMask targetLayer;
 
     private void InitializeComponents()
     {
-        if (parentDefensePosition == null)
-            parentDefensePosition = GetComponentInParent<DefensePosition>();
-        if (turretTransform == null)
-            turretTransform = GetComponentInChildren<TurretTransform>();
-        if (targettingComponent == null)
-            targettingComponent = GetComponentInChildren<AITargetingComponent>();
-        if (weaponComponent == null)
-            weaponComponent = GetComponent<WeaponComponent>();
+        //if (parentDefensePosition == null)
+        //    parentDefensePosition = GetComponentInParent<DefensePosition>();
+        //if (turretTransform == null)
+        //    turretTransform = GetComponentInChildren<TurretTransform>();
+        //if (targettingComponent == null)
+        //    targettingComponent = GetComponentInChildren<AITargetingComponent>();
+        //if (weaponComponent == null)
+        //    weaponComponent = GetComponent<WeaponComponent>();
 
-        targettingComponent.FactionAlignment = parentDefensePosition.FactionAlignment;
-        targettingComponent.ResetTargetter();
+        //targettingComponent.FactionAlignment = parentDefensePosition.FactionAlignment;
+        //targettingComponent.ResetTargetter();
 
     }
 
     private void OnEnable()
     {
-        InitializeComponents();
+        //InitializeComponents();
     }
     // Start is called before the first frame update
     void Start()
     {
-        parentDefensePosition.FactionComponent.FactionAlignmentChange.AddListener(OnFactionAlignmentChange);
-        targettingComponent.acquiredTarget += HandleTargetAquired;
-        targettingComponent.lostTarget += HandleTargetLost;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentTarget != null)
+        if (targettingComponent.CurrentTarget != null)
         {
             if (turretBaseTransform != null)
                 AimTurretBase();
             AimTurret();
-            if (TargetInSight(CurrentTarget))
+            if (TargetInSight(targettingComponent.CurrentTarget))
             {
                 weaponComponent.Fire();
             }
@@ -86,19 +69,12 @@ public class TowerTurret : Targetable
         targettingComponent.FactionAlignment = newFactionAlignment;
         targettingComponent.ResetTargetter();
     }
-    public void HandleTargetAquired(Targetable targetable)
-    {
-        currentTarget = targetable;
-    }
-    public void HandleTargetLost()
-    {
-        currentTarget = null;
-    }
+
     public void AimTurretBase()
     {
-        if (CurrentTarget != null)
+        if (targettingComponent.CurrentTarget != null)
         {
-            var lookDirection = Quaternion.LookRotation(currentTarget.transform.position - turretTransform.transform.position);
+            var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - turretTransform.transform.position);
             //lookDirection.x = 0;
             //lookDirection.z = 0;
             turretTransform.transform.rotation = Quaternion.RotateTowards(turretTransform.transform.rotation, lookDirection, (turretRotationSpeed * Time.deltaTime));
@@ -106,27 +82,25 @@ public class TowerTurret : Targetable
     }
     public void AimTurret()
     {
-        if (CurrentTarget != null)
+        if (targettingComponent.CurrentTarget != null)
         {
-            var lookDirection = Quaternion.LookRotation(currentTarget.transform.position - turretTransform.transform.position);
+            var lookDirection = Quaternion.LookRotation(targettingComponent.CurrentTarget.transform.position - turretTransform.transform.position);
             turretTransform.transform.rotation = Quaternion.RotateTowards(turretTransform.transform.rotation, lookDirection, (turretRotationSpeed * Time.deltaTime));
         }
     }
     public bool TargetInSight(Targetable targetable)
     {
-        if ((targetable != null) && (targetable.enabled))
+        if ((targetable != null) && (!targetable.IsDead))
         {
             Vector3 directionToTargetable = (targetable.transform.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, directionToTargetable) < viewAngle / 2)
-            {
-                float distanceToTargetable = Vector3.Distance(transform.position, targetable.transform.position);
 
-                if (!Physics.Raycast(transform.position, directionToTargetable, distanceToTargetable, targetLayer))
-                {
-                    //No Obsticles in way
-                    return true;
-                }
-            }
+            float distanceToTargetable = Vector3.Distance(transform.position, targetable.transform.position);
+
+            if (!Physics.Raycast(transform.position, directionToTargetable, distanceToTargetable, targetLayer))
+            {
+                //No Obsticles in way
+                return true;
+            }         
         }
         return false;
     }
@@ -138,7 +112,7 @@ public class TowerTurret : Targetable
         }
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
-    public void UnitActorDeath()
+    public void TowerDestroyed()
     {
         Debug.Log("Tower Destroyed");
     }

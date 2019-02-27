@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Targetable : MonoBehaviour
 {
+
     #region Fields and Properties
     [SerializeField] private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
@@ -35,20 +36,5 @@ public class Targetable : MonoBehaviour
     {
         removed?.Invoke(this);
     }
-    //public UnityEvent OnDeath;
-    //public void Start()
-    //{
-    //    targetable = GetComponent<Targetable>();
-    //    totalHealthPoints = maxHealthPoints;
 
-    //    if (OnDeath == null)
-    //        OnDeath = new UnityEvent();
-    //}
-    //// Start is called before the first frame update
-    //public void ApplyDamage(int amount)
-    //{
-    //    totalHealthPoints -= amount;
-    //    if (totalHealthPoints <= 0)
-    //        OnDeath.Invoke();
-    //}
 }

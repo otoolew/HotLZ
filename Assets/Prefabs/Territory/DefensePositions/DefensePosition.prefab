@@ -31,8 +31,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4461859971045668513}
-  - {fileID: 6598713266457453924}
-  - {fileID: 7887389091973971085}
   - {fileID: 8942193054508043103}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -55,8 +53,8 @@ MonoBehaviour:
   defenseTower: {fileID: 7430630706208699493}
   towerPowerLevel: 0
   foxholes:
-  - {fileID: 3318007390196314957}
-  - {fileID: 3364450648124962933}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!135 &931381222026518525
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -120,155 +118,6 @@ Transform:
   m_Father: {fileID: 4461859970427516920}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5492823052593336963
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6598713266457453924}
-  - component: {fileID: 389266039965672158}
-  - component: {fileID: 3318007390196314957}
-  - component: {fileID: 8833323888318546957}
-  m_Layer: 2
-  m_Name: FoxHole (0)
-  m_TagString: Untagged
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6598713266457453924
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492823052593336963}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4461859970427516920}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &389266039965672158
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492823052593336963}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &3318007390196314957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492823052593336963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aeb7a5fce5fe96499d019e1891d5d20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defensePosition: {fileID: 4461859970427516927}
-  currentOccupant: {fileID: 0}
-  entryCollider: {fileID: 8833323888318546957}
-  OccupantChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventOccupantChange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
---- !u!136 &8833323888318546957
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5492823052593336963}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!1 &8026119058307006432
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7887389091973971085}
-  - component: {fileID: 3364450648124962933}
-  - component: {fileID: 1887754032747809166}
-  m_Layer: 2
-  m_Name: FoxHole (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7887389091973971085
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8026119058307006432}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4461859970427516920}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3364450648124962933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8026119058307006432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aeb7a5fce5fe96499d019e1891d5d20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defensePosition: {fileID: 4461859970427516927}
-  currentOccupant: {fileID: 0}
-  entryCollider: {fileID: 1887754032747809166}
-  OccupantChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: EventOccupantChange, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
---- !u!136 &1887754032747809166
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8026119058307006432}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &48859672886576309
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -450,7 +299,7 @@ PrefabInstance:
     - target: {fileID: 2888351066851421413, guid: 0ae1f7a53d7f1ed44b708b1e8e16926e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2888351066851421413, guid: 0ae1f7a53d7f1ed44b708b1e8e16926e,
         type: 3}

@@ -17,8 +17,8 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
 
-    [SerializeField] private DefenseTower defenseTower;
-    public DefenseTower DefenseTower { get => defenseTower; set => defenseTower = value; }
+    [SerializeField] private TowerTurret towerTurret;
+    public TowerTurret TowerTurret { get => towerTurret; set => towerTurret = value; }
 
     [SerializeField] private int towerPowerLevel;
     public int TowerPowerLevel { get => towerPowerLevel; set => towerPowerLevel = value; }
@@ -35,10 +35,11 @@ public class DefensePosition : MonoBehaviour
     {
         factionComponent.GetComponent<FactionComponent>();
         factionComponent.FactionAlignment = FactionAlignment;
-        for (int i = 0; i < foxholes.Length; i++)
-        {
-            foxholes[i].OccupantChanged.AddListener(UpdateDefensePosition); // TODO: Sloppy handling of Occupant Swap
-        }   
+
+        //for (int i = 0; i < foxholes.Length; i++)
+        //{
+        //    foxholes[i].OccupantChanged.AddListener(UpdateDefensePosition); // TODO: Sloppy handling of Occupant Swap
+        //}   
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -49,21 +50,9 @@ public class DefensePosition : MonoBehaviour
                 return;
             Debug.Log("Defense Hit");
             soldier.ClosestDefensePosition = this;
-            FindFoxhole(soldier);
         }
     }
-    public void FindFoxhole(Soldier soldier)
-    {
-        for (int i = 0; i < foxholes.Length; i++)
-        {
-            if (foxholes[i].CurrentOccupant == null)
-            {
-                foxholes[i].ClaimFoxhole(soldier);
-                soldier.NavigationAgent.GoToPosition(foxholes[i].transform.position);
-                return;
-            }        
-        }
-    }
+
     public void UpdateDefensePosition()
     {
         int powerLevelResult = 0;
