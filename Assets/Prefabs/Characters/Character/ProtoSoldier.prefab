@@ -5915,7 +5915,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &747076376370016975
 MonoBehaviour:
@@ -5930,7 +5930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factionAlignment: {fileID: 0}
-  viewRadius: 10
+  viewRadius: 20
   viewAngle: 360
   targetMask:
     serializedVersion: 2
@@ -5942,6 +5942,7 @@ MonoBehaviour:
   searchRate: 1
   searchTimer: 1
   searchReady: 0
+  hadTarget: 0
   TargetList: []
 --- !u!1 &8114162356396693042
 GameObject:

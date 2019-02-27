@@ -7,6 +7,9 @@ public class RallyPoint : MonoBehaviour
     [SerializeField] private FactionAlignment faction;
     public FactionAlignment Faction { get => faction; set => faction = value; }
 
+    [SerializeField] private Territory territoryResiding;
+    public Territory TerritoryResiding { get => territoryResiding; set => territoryResiding = value; }
+
     [SerializeField] private RallyPoint nextRallyPoint;
     public RallyPoint NextRallyPoint { get => nextRallyPoint; set => nextRallyPoint = value; }
 
@@ -17,7 +20,7 @@ public class RallyPoint : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        TerritoryResiding = MapManager.Instance.ClosestTerritory(transform);
     }
 
     // Update is called once per frame
@@ -29,12 +32,13 @@ public class RallyPoint : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
         {
-            Soldier unit = other.GetComponentInParent<Soldier>();
-            if (unit == null)
+            Soldier soldier = other.GetComponentInParent<Soldier>();
+            if (soldier == null)
                 return;
-            if ((unit.UnitType != Enums.UnitType.SOLDIER) || (unit.FactionAlignment != faction))
+            if ((soldier.UnitType != Enums.UnitType.SOLDIER) || (soldier.FactionAlignment != faction))
                 return;
-            RallyUnit(unit);
+            RallyUnit(soldier);
+            soldier.CurrentTerritory = TerritoryResiding;
         }
     }
     public void RallyUnit(Soldier soldier)

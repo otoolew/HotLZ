@@ -6,11 +6,11 @@ using static Enums;
 
 public class DefenseTower : MonoBehaviour
 {
-    [SerializeField] private DefenseTowerType defensePositionType;
-    public DefenseTowerType DefensePositionType { get => defensePositionType; set => defensePositionType = value; }
-
     [SerializeField] private DefenseTowerState defenseTowerState;
     public DefenseTowerState DefenseTowerState { get => defenseTowerState; set => defenseTowerState = value; }
+
+    [SerializeField] private DefenseTowerType defensePositionType;
+    public DefenseTowerType DefensePositionType { get => defensePositionType; set => defensePositionType = value; }
 
     [SerializeField] private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
@@ -31,6 +31,7 @@ public class DefenseTower : MonoBehaviour
     {
         currentTowerTurret = towerTurret;
     }
+
     public void DeactivateTurret(TowerTurret towerTurret)
     {
 

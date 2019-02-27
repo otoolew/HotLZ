@@ -11,7 +11,7 @@ public class Enums
     [Serializable] public enum RotorAxisRotation { X, Y, Z }
     [Serializable] public enum UnitType { SOLDIER, HELICOPTER, VEHICLE, TOWER }
     [Serializable] public enum DefenseTowerType { RIFLE, ROCKET, MEDIC }
-    [Serializable] public enum DefenseTowerState { OCCUPIED, UNOCCUPIED, DESTROYED }
+    [Serializable] public enum DefenseTowerState { ACTIVATED, DEACTIVATED, DESTROYED }
     [Serializable] public enum FactionAlignmentType { NEUTRAL, BLUE, RED }
 
 }

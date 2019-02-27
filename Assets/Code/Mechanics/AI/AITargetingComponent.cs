@@ -53,18 +53,17 @@ public class AITargetingComponent : MonoBehaviour
     void Update()
     {
         if (!(searchTimer <= 0.0f))
+        {
             searchTimer -= Time.deltaTime;
-        if (searchTimer <= 0.0f && CurrentTarget == null)
+        }
+        else
         {
             CurrentTarget = GetNearestTarget();
             if (CurrentTarget != null)
-            {
                 acquiredTarget?.Invoke(CurrentTarget);
-                searchTimer = searchRate;
-            }
+            searchTimer = searchRate;
         }
-        //HadTarget = CurrentTarget != null;
-
+        hadTarget = CurrentTarget != null;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -10,4 +10,5 @@ public class GameEvents
     [Serializable] public class SceneChangeComplete : UnityEvent<bool> { }
     [Serializable] public class PlayerDeath : UnityEvent<bool> { }
     [Serializable] public class TargetableDeath : UnityEvent<Targetable> { }
+    [Serializable] public class EventTerritoryOwnerChange : UnityEvent<FactionAlignment> { }
 }

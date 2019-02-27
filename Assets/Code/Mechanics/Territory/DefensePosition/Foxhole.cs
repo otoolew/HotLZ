@@ -25,24 +25,37 @@ public class Foxhole : MonoBehaviour
     }
     public void ClaimFoxhole(Soldier soldier)
     {
-        //soldier.HealthComponent.OnDeath.AddListener(HandleOccupantDeath);
         currentOccupant = soldier;
+        currentOccupant.removed += HandleOccupantDeath;
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
         {
             Soldier soldier = other.GetComponentInParent<Soldier>();
-            if ((soldier != null) && (soldier == currentOccupant))
+            if (soldier != null)
+                return;
+            Debug.Log("Foxhole Hit");
+            if (currentOccupant == null)
             {
+                ClaimFoxhole(soldier);
                 entryCollider.enabled = false;
                 OccupantChanged?.Invoke();
-            }          
-        }       
+            }
+            else if(soldier != currentOccupant)
+            {               
+                soldier.CurrentTerritory.FindFoxhole(soldier);
+            }
+            
+        }
+        OccupantChanged?.Invoke();
     }
-    public void HandleOccupantDeath()
+    public void HandleOccupantDeath(Targetable targetable)
     {
-        //currentOccupant.HealthComponent.OnDeath.RemoveListener(HandleOccupantDeath);
+        //currentOccupant.removed -= HandleOccupantDeath;
+        //targetable.removed -= HandleOccupantDeath;
+        if (targetable == CurrentOccupant)
+            currentOccupant.removed -= HandleOccupantDeath;
         currentOccupant = null;
         entryCollider.enabled = true;
         OccupantChanged?.Invoke();

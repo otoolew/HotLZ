@@ -89,16 +89,16 @@ public class HelicopterCommands : MonoBehaviour
 
     public Territory ClosestTerritory()
     {
-        if (headQuarters.territories.Length <= 0)
+        if (MapManager.Instance.territories.Length <= 0)
             return null;
 
-        Territory closest = headQuarters.territories[0];
+        Territory closest = (Territory)MapManager.Instance.territories[0];
         float closestDistance = 0f;
-        for (int i = 0; i < headQuarters.territories.Length; i++)
+        for (int i = 0; i < MapManager.Instance.territories.Length; i++)
         {
-            float distance = Vector3.Distance(closest.transform.position, headQuarters.territories[i].transform.position);
+            float distance = Vector3.Distance(closest.transform.position, MapManager.Instance.territories[i].transform.position);
             if (distance < closestDistance)
-                closest = headQuarters.territories[i];
+                closest = (Territory)MapManager.Instance.territories[i];
         }
         return closest;
     }
@@ -111,16 +111,16 @@ public class HelicopterCommands : MonoBehaviour
         {
             for (int i = 0; i < troops.Length; i++)
             {
-                Soldier unit = troops[i].GetComponentInParent<Soldier>();
-                if (unit != null)
+                Soldier soldier = troops[i].GetComponentInParent<Soldier>();
+                if (soldier != null)
                 {
-                    if(unit.DefensePosition != null)
+                    if(soldier.ClosestDefensePosition != null)
                     {
-                        unit.DefensePosition.GetComponent<Collider>().enabled = true;
-                        unit.DefensePosition = null;
+                        soldier.ClosestDefensePosition.GetComponent<Collider>().enabled = true;
+                        soldier.ClosestDefensePosition = null;
                     }
 
-                    unit.NavigationAgent.GoToPosition(transform.position);
+                    soldier.NavigationAgent.GoToPosition(transform.position);
                 }
             }
         }
@@ -145,7 +145,8 @@ public class HelicopterCommands : MonoBehaviour
             Soldier unit = loadedUnits.Pop();
             unit.transform.position = unitDropPoint.position;
             unit.gameObject.SetActive(true);
-            ClosestTerritory().FindClosestPath(unit);
+
+            unit.NavigationAgent.GoToPosition(ClosestTerritory().ClosestDefensePosition(transform).transform.position);
         }
         else
         {

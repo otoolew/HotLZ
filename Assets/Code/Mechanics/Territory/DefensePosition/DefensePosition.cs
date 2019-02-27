@@ -42,6 +42,8 @@ public class DefensePosition : MonoBehaviour
             Soldier soldier = other.GetComponentInParent<Soldier>();
             if (soldier == null)
                 return;
+            Debug.Log("Defense Hit");
+            soldier.ClosestDefensePosition = this;
             FindFoxhole(soldier);
         }
     }
@@ -67,10 +69,6 @@ public class DefensePosition : MonoBehaviour
             {
                 factionAlignment = foxholes[i].CurrentOccupant.FactionAlignment;
                 powerLevelResult++;
-            }
-            else
-            {
-                powerLevelResult--;
             }
         }
         towerPowerLevel = powerLevelResult;
