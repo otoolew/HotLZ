@@ -5,9 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(NavigationAgent))]
 public class Soldier : Targetable
 {
-    [SerializeField] private FactionComponent factionComponent;
-    public FactionComponent FactionComponent { get => factionComponent; set => factionComponent = value; }
-
     [SerializeField] private Enums.UnitType unitType;
     public Enums.UnitType UnitType { get => unitType; set => unitType = value; }
 
@@ -23,14 +20,14 @@ public class Soldier : Targetable
     [SerializeField] private SoldierWeaponComponent weapon;
     public SoldierWeaponComponent Weapon { get => weapon; set => weapon = value; }
 
-    [SerializeField] private Territory currentTerritory;
-    public Territory CurrentTerritory { get => currentTerritory; set => currentTerritory = value; }
+    [SerializeField] private PositionAssignment positionAssignment;
+    public PositionAssignment PositionAssignment { get => positionAssignment; set => positionAssignment = value; }
 
     [SerializeField] private DefensePosition closestDefensePosition;
     public DefensePosition ClosestDefensePosition { get => closestDefensePosition; set => closestDefensePosition = value; }
 
-    [SerializeField] private Foxhole closestFoxhole;
-    public Foxhole ClosestFoxhole { get => closestFoxhole; set => closestFoxhole = value; }
+    [SerializeField] private Territory currentTerritory;
+    public Territory CurrentTerritory { get => currentTerritory; set => currentTerritory = value; }
 
     [SerializeField] private bool pooled;
     public bool Pooled { get => pooled; set => pooled = value; }
@@ -38,9 +35,11 @@ public class Soldier : Targetable
     // Start is called before the first frame update
     void Start()
     {
-        factionComponent = GetComponent<FactionComponent>();
+        
+        FactionComponent = GetComponent<FactionComponent>();
         targetingComponent.acquiredTarget += OnTargetAcquired;
         targetingComponent.lostTarget += OnTargetLost;
+        CurrentTerritory.DutyRequest(this);
     }
 
     // Update is called once per frame
@@ -86,14 +85,7 @@ public class Soldier : Targetable
     {
         animator.SetBool("HasTarget", false);
     }
-    public void OnFoxholeTaken()
-    {
-        Debug.Log("FoxHole Taken!");
-        if (!currentTerritory.FindFoxhole(this))
-        {
-            currentTerritory.HeadToExitRally(this);
-        }
-    }
+
     protected override void OnDeath()
     {
         base.OnDeath();

@@ -82,7 +82,7 @@ public class TowerTurret : Targetable
     }
     public void OnFactionAlignmentChange(FactionAlignment newFactionAlignment)
     {
-        FactionAlignment = newFactionAlignment;
+        FactionComponent.Alignment = newFactionAlignment;
         targettingComponent.FactionAlignment = newFactionAlignment;
         targettingComponent.ResetTargetter();
     }

@@ -6,6 +6,9 @@ public class Barracks : MonoBehaviour
 {
     public KeyCodeVariable debugSpawnKey;
 
+    [SerializeField] private Territory residingTerritory;
+    public Territory ResidingTerritory { get => residingTerritory; set => residingTerritory = value; }
+
     [SerializeField]
     private FactionAlignment faction;
     public FactionAlignment Faction { get => faction; set => faction = value; }
@@ -47,7 +50,7 @@ public class Barracks : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        ResidingTerritory = GetComponentInParent<Territory>();
         for (int i = 0; i < riflemenPoolCount; i++)
         {
             GameObject newUnit = SoldierFactory.InstantiatePrefab(soldierAsset);
@@ -111,8 +114,8 @@ public class Barracks : MonoBehaviour
                 infantry.IsDead = false;
                 infantry.CurrentHP = infantry.MaxHP;
                 infantry.transform.position = soldierSpawnPoint.position;
+                infantry.CurrentTerritory = residingTerritory;
                 infantry.gameObject.SetActive(true);
-                infantry.GetComponent<NavigationAgent>().GoToPosition(BaseRallyPoint.transform.position);
                 return;
             }
         }

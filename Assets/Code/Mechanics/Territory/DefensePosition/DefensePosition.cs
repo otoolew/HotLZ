@@ -23,7 +23,7 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private int towerPowerLevel;
     public int TowerPowerLevel { get => towerPowerLevel; set => towerPowerLevel = value; }
 
-    public Foxhole[] foxholes;
+    public PositionAssignment[] positionAssignments;
 
     #endregion
 
@@ -34,58 +34,57 @@ public class DefensePosition : MonoBehaviour
     private void Start()
     {
         factionComponent.GetComponent<FactionComponent>();
-        factionComponent.FactionAlignment = FactionAlignment;
-        for (int i = 0; i < foxholes.Length; i++)
-        {
-            foxholes[i].OccupantChanged.AddListener(UpdateDefensePosition); // TODO: Sloppy handling of Occupant Swap
-        }   
+        factionComponent.Alignment = FactionAlignment;
+  
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
-        {
-            Soldier soldier = other.GetComponentInParent<Soldier>();
-            if (soldier == null)
-                return;
-            Debug.Log("Defense Hit");
-            soldier.ClosestDefensePosition = this;
-            FindFoxhole(soldier);
-        }
-    }
-    public void FindFoxhole(Soldier soldier)
-    {
-        for (int i = 0; i < foxholes.Length; i++)
-        {
-            if (foxholes[i].CurrentOccupant == null)
-            {
-                foxholes[i].ClaimFoxhole(soldier);
-                soldier.NavigationAgent.GoToPosition(foxholes[i].transform.position);
-                return;
-            }        
-        }
-    }
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
+    //    {
+    //        Soldier soldier = other.GetComponentInParent<Soldier>();
+    //        if (soldier == null)
+    //            return;
+    //        Debug.Log("Defense Hit");
+    //        soldier.ClosestDefensePosition = this;
+    //        FindFoxhole(soldier);
+    //    }
+    //}
+    //public void RequestPosition(Soldier soldier)
+    //{
+    //    for (int i = 0; i < foxholes.Length; i++)
+    //    {
+    //        if (foxholes[i].CurrentOccupant == null)
+    //        {
+    //            foxholes[i].ClaimFoxhole(soldier);
+    //            soldier.NavigationAgent.GoToPosition(foxholes[i].transform.position);
+    //            return;
+    //        }        
+    //    }
+    //}
+
     public void UpdateDefensePosition()
     {
-        int powerLevelResult = 0;
+        //int powerLevelResult = 0;
 
-        for (int i = 0; i < foxholes.Length; i++)
-        {
+        //for (int i = 0; i < positionAssignments.Length; i++)
+        //{
 
-            if (foxholes[i].CurrentOccupant != null)
-            {
-                factionAlignment = foxholes[i].CurrentOccupant.FactionAlignment;
-                powerLevelResult++;
-                if (foxholes[i].CurrentOccupant.IsDead)
-                    foxholes[i].CurrentOccupant = null;
-            }           
-        }
-        towerPowerLevel = powerLevelResult;
+        //    if (positionAssignments[i].PositionClaimed)
+        //    {
+        //        factionAlignment = foxholes[i].CurrentOccupant.FactionComponent.Alignment;
+        //        powerLevelResult++;
+        //        if (foxholes[i].CurrentOccupant.IsDead)
+        //            foxholes[i].CurrentOccupant = null;
+        //    }           
+        //}
+        //towerPowerLevel = powerLevelResult;
 
-        if(towerPowerLevel <= 0)
-        {
-            factionAlignment = FactionManager.Instance.FactionProvider.NeutralFaction;
-        }
-        factionComponent.ChangeFactionAlignment(factionAlignment);
+        //if(towerPowerLevel <= 0)
+        //{
+        //    factionAlignment = FactionManager.Instance.FactionProvider.NeutralFaction;
+        //}
+        //factionComponent.ChangeFactionAlignment(factionAlignment);
     }
 
     /// <summary>

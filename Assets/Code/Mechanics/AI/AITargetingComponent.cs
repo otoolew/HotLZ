@@ -117,9 +117,9 @@ public class AITargetingComponent : MonoBehaviour
     }
     public bool IsTargetValid(Targetable targetable)
     {
-        if (targetable.FactionAlignment == null)
+        if (targetable.FactionComponent.Alignment == null)
             return false;
-        return factionAlignment.CanHarm(targetable.FactionAlignment);
+        return factionAlignment.CanHarm(targetable.FactionComponent.Alignment);
     }
 
     public bool TargetVisable(Targetable targetable)

@@ -6,8 +6,8 @@ using UnityEngine;
 public class Targetable : MonoBehaviour
 {
     #region Fields and Properties
-    [SerializeField] private FactionAlignment factionAlignment;
-    public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
+    [SerializeField] private FactionComponent factionComponent;
+    public FactionComponent FactionComponent { get => factionComponent; set => factionComponent = value; }
 
     [SerializeField] private float maxHP;
     public float MaxHP { get => maxHP; set => maxHP = value; }

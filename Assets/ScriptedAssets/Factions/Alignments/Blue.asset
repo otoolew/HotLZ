@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aacd7789ef5b6c0458c2f05389860262, type: 3}
   m_Name: Blue
   m_EditorClassIdentifier: 
+  factionAlignmentType: 1
   factionName: Blue
   uniform: {fileID: 11400000, guid: 665f0c6b6dd410049a403933f6cadf6d, type: 2}
   enemies:

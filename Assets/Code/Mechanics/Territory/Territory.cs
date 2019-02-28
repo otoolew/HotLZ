@@ -13,13 +13,10 @@ public class Territory : MonoBehaviour
     [SerializeField] private DefensePosition[] defensePositions;
     public DefensePosition[] DefensePositions { get => defensePositions; }
 
-    [SerializeField] private List<Foxhole> territoryFoxholeList;   
-    public List<Foxhole> TerritoryFoxholeList { get => territoryFoxholeList; }
+    [SerializeField] private List<PositionAssignment> territoryPositionList;   
+    public List<PositionAssignment> TerritoryPositionList { get => territoryPositionList; }
 
-    public RallyPoint blueEntrance;
     public RallyPoint blueExit;
-
-    public RallyPoint redEntrance;
     public RallyPoint redExit;
 
     public int blueFactionDefense;
@@ -38,9 +35,9 @@ public class Territory : MonoBehaviour
     {
         for (int i = 0; i < DefensePositions.Length; i++)
         {
-            for (int j = 0; j < DefensePositions[i].foxholes.Length; j++)
+            for (int j = 0; j < DefensePositions[i].positionAssignments.Length; j++)
             {
-                territoryFoxholeList.Add(DefensePositions[i].foxholes[j]);
+                territoryPositionList.Add(DefensePositions[i].positionAssignments[j]);
             }
         }
     }
@@ -50,13 +47,25 @@ public class Territory : MonoBehaviour
     {
 
     }
-    public bool FindFoxhole(Soldier soldier)
+    public void DutyRequest(Soldier soldier)
     {
-        for (int i = TerritoryFoxholeList.Count - 1; i >= 0; i--)
+        if(RequestPositionAssignment(soldier))
         {
-            if (TerritoryFoxholeList[i].CurrentOccupant == null)
+            Debug.Log(soldier.name + " Assigned to Defense Position");
+            return;
+        }
+        HeadToExitRally(soldier);
+        Debug.Log(soldier.name + " is heading to the " + name + " exit!");
+    }
+
+    public bool RequestPositionAssignment(Soldier soldier)
+    {
+        for (int i = TerritoryPositionList.Count - 1; i >= 0; i--)
+        {
+            if ((!TerritoryPositionList[i].PositionClaimed) && (TerritoryPositionList[i].FactionAlignment == soldier.FactionComponent.Alignment))
             {
-                soldier.NavigationAgent.GoToPosition(TerritoryFoxholeList[i].transform.position);
+                TerritoryPositionList[i].AssignPosition(soldier);
+                soldier.NavigationAgent.GoToPosition(TerritoryPositionList[i].transform.position);
                 return true;
             }
         }
@@ -65,7 +74,7 @@ public class Territory : MonoBehaviour
 
     public void HeadToExitRally(Soldier soldier)
     {
-        switch (soldier.FactionAlignment.factionAlignmentType)
+        switch (soldier.FactionComponent.Alignment.factionAlignmentType)
         {
             case Enums.FactionAlignmentType.NEUTRAL:
                 break;

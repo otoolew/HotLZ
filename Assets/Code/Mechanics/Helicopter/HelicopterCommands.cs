@@ -78,7 +78,7 @@ public class HelicopterCommands : MonoBehaviour
         Soldier unit = other.GetComponentInParent<Soldier>();
         if (unit == null)
             return;
-        if (unit.FactionAlignment == GetComponentInParent<HelicopterUnit>().FactionAlignment)
+        if (unit.FactionComponent.Alignment == GetComponentInParent<HelicopterUnit>().FactionComponent.Alignment)
             LoadUnit(unit);
 
     }
