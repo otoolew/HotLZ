@@ -318,7 +318,11 @@ MonoBehaviour:
   factionAlignment: {fileID: 11400000, guid: 7fc5788328993c24a95e2911e2079ae3, type: 2}
   defenseTower: {fileID: 7430630706208699493}
   towerPowerLevel: 0
-  positionAssignments: []
+  positionAssignments:
+  - {fileID: 4854650453623041080}
+  - {fileID: 8285259393724750532}
+  - {fileID: 8205678506365693144}
+  - {fileID: 2026441554271710831}
 --- !u!114 &9071744162866014115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4729cb1137bf62b4ebe82a1aaba6b6e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alignment: {fileID: 0}
+  alignment: {fileID: 11400000, guid: 7fc5788328993c24a95e2911e2079ae3, type: 2}
   FactionAlignmentChange:
     m_PersistentCalls:
       m_Calls: []
@@ -825,6 +829,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 849165642861014266, guid: 0ae1f7a53d7f1ed44b708b1e8e16926e,
+        type: 3}
+      propertyPath: m_Name
+      value: MockModel
+      objectReference: {fileID: 0}
     - target: {fileID: 7476756245084530089, guid: 0ae1f7a53d7f1ed44b708b1e8e16926e,
         type: 3}
       propertyPath: m_IsActive
@@ -835,11 +844,6 @@ PrefabInstance:
       propertyPath: parentDefensePosition
       value: 
       objectReference: {fileID: 4461859970427516927}
-    - target: {fileID: 849165642861014266, guid: 0ae1f7a53d7f1ed44b708b1e8e16926e,
-        type: 3}
-      propertyPath: m_Name
-      value: MockModel
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ae1f7a53d7f1ed44b708b1e8e16926e, type: 3}
 --- !u!4 &8942193054508043103 stripped

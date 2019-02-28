@@ -13,11 +13,14 @@ public class Territory : MonoBehaviour
     [SerializeField] private DefensePosition[] defensePositions;
     public DefensePosition[] DefensePositions { get => defensePositions; }
 
-    [SerializeField] private List<PositionAssignment> territoryPositionList;   
-    public List<PositionAssignment> TerritoryPositionList { get => territoryPositionList; }
+    [SerializeField] private List<PositionAssignment> positionAssignmentList;   
+    public List<PositionAssignment> PositionAssignmentList { get => positionAssignmentList; }
 
-    public RallyPoint blueExit;
-    public RallyPoint redExit;
+    [SerializeField] private Territory nextTerritory;
+    public Territory NextTerritory { get => nextTerritory; set => nextTerritory = value; }
+
+    [SerializeField] private RallyPoint[] rallyPoints;
+    public RallyPoint[] RallyPoints { get => rallyPoints;}
 
     public int blueFactionDefense;
     public int redFactionDefense;
@@ -33,11 +36,12 @@ public class Territory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        defensePositions = GetComponentsInChildren<DefensePosition>();
         for (int i = 0; i < DefensePositions.Length; i++)
         {
             for (int j = 0; j < DefensePositions[i].positionAssignments.Length; j++)
             {
-                territoryPositionList.Add(DefensePositions[i].positionAssignments[j]);
+                positionAssignmentList.Add(DefensePositions[i].positionAssignments[j]);
             }
         }
     }
@@ -51,64 +55,47 @@ public class Territory : MonoBehaviour
     {
         if(RequestPositionAssignment(soldier))
         {
-            Debug.Log(soldier.name + " Assigned to Defense Position");
+            //Debug.Log(soldier.name + " Assigned to Defense Position");
             return;
         }
-        HeadToExitRally(soldier);
-        Debug.Log(soldier.name + " is heading to the " + name + " exit!");
+        RequestRallyPoint(soldier);
     }
 
     public bool RequestPositionAssignment(Soldier soldier)
     {
-        for (int i = TerritoryPositionList.Count - 1; i >= 0; i--)
+        for (int i = PositionAssignmentList.Count - 1; i >= 0; i--)
         {
-            if ((!TerritoryPositionList[i].PositionClaimed) && (TerritoryPositionList[i].FactionAlignment == soldier.FactionComponent.Alignment))
+            if ((!PositionAssignmentList[i].PositionClaimed) && (PositionAssignmentList[i].FactionAlignment == soldier.FactionComponent.Alignment))
             {
-                TerritoryPositionList[i].AssignPosition(soldier);
-                soldier.NavigationAgent.GoToPosition(TerritoryPositionList[i].transform.position);
+                PositionAssignmentList[i].AssignPosition(soldier);
+                soldier.NavigationAgent.GoToPosition(PositionAssignmentList[i].transform.position);
                 return true;
             }
         }
         return false;
     }
 
-    public void HeadToExitRally(Soldier soldier)
+    public void RequestRallyPoint(Soldier soldier)
     {
-        switch (soldier.FactionComponent.Alignment.factionAlignmentType)
+        Debug.Log(soldier.name + "Requesting Rally at " + name);
+        for (int i = 0; i < rallyPoints.Length; i++)
         {
-            case Enums.FactionAlignmentType.NEUTRAL:
-                break;
-            case Enums.FactionAlignmentType.BLUE:
-                soldier.NavigationAgent.GoToPosition(blueExit.transform.position);
-                break;
-            case Enums.FactionAlignmentType.RED:
-                soldier.NavigationAgent.GoToPosition(redExit.transform.position);
-                break;
-            default:
-                break;
+            if(rallyPoints[i].FactionComponent.Alignment == soldier.FactionComponent.Alignment)
+            {
+                soldier.NavigationAgent.GoToPosition(rallyPoints[i].transform.position);
+                return;
+            }
         }
+        if(NextTerritory == null)
+        {
+            Debug.Log("No Territoies left");
+            return;
+        }
+        NextTerritory.RequestRallyPoint(soldier);
     }
     public void UpdateFactionOwnership()
     {
-        blueFactionDefense = 0;
-        redFactionDefense = 0;
-        for (int i = 0; i < defensePositions.Length; i++)
-        {
-            if (defensePositions[i].FactionAlignment.factionName == "Blue")
-            {
-                blueFactionDefense++;
-            }
-            if (defensePositions[i].FactionAlignment.factionName == "Red")
-            {
-                redFactionDefense++;
-            }
-        }
-        //if (blueFactionDefense > redFactionDefense)
-        //OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.BlueFaction);
-        //if (redFactionDefense > blueFactionDefense)
-        //OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.RedFaction);
-        //if (blueFactionDefense == redFactionDefense)
-        //OnTerritoryOwnerChange.Invoke(FactionManager.Instance.FactionProvider.NeutralFaction);
+
     }
 
     public DefensePosition ClosestDefensePosition(Transform goTranform)

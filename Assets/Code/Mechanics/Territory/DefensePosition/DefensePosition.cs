@@ -8,14 +8,10 @@ public class DefensePosition : MonoBehaviour
 {
     #region Fields and Properties
 
-    [SerializeField] private Territory territory;
-    public Territory Territory { get => territory; set => territory = value; }
+    public Territory ResidingTerritory { get; set; }
 
     [SerializeField] private FactionComponent factionComponent;
     public FactionComponent FactionComponent { get => factionComponent; set => factionComponent = value; }
-
-    [SerializeField] private FactionAlignment factionAlignment;
-    public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
 
     [SerializeField] private DefenseTower defenseTower;
     public DefenseTower DefenseTower { get => defenseTower; set => defenseTower = value; }
@@ -34,57 +30,12 @@ public class DefensePosition : MonoBehaviour
     private void Start()
     {
         factionComponent.GetComponent<FactionComponent>();
-        factionComponent.Alignment = FactionAlignment;
-  
+        ResidingTerritory = GetComponentInParent<Territory>();
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
-    //    {
-    //        Soldier soldier = other.GetComponentInParent<Soldier>();
-    //        if (soldier == null)
-    //            return;
-    //        Debug.Log("Defense Hit");
-    //        soldier.ClosestDefensePosition = this;
-    //        FindFoxhole(soldier);
-    //    }
-    //}
-    //public void RequestPosition(Soldier soldier)
-    //{
-    //    for (int i = 0; i < foxholes.Length; i++)
-    //    {
-    //        if (foxholes[i].CurrentOccupant == null)
-    //        {
-    //            foxholes[i].ClaimFoxhole(soldier);
-    //            soldier.NavigationAgent.GoToPosition(foxholes[i].transform.position);
-    //            return;
-    //        }        
-    //    }
-    //}
 
     public void UpdateDefensePosition()
     {
-        //int powerLevelResult = 0;
 
-        //for (int i = 0; i < positionAssignments.Length; i++)
-        //{
-
-        //    if (positionAssignments[i].PositionClaimed)
-        //    {
-        //        factionAlignment = foxholes[i].CurrentOccupant.FactionComponent.Alignment;
-        //        powerLevelResult++;
-        //        if (foxholes[i].CurrentOccupant.IsDead)
-        //            foxholes[i].CurrentOccupant = null;
-        //    }           
-        //}
-        //towerPowerLevel = powerLevelResult;
-
-        //if(towerPowerLevel <= 0)
-        //{
-        //    factionAlignment = FactionManager.Instance.FactionProvider.NeutralFaction;
-        //}
-        //factionComponent.ChangeFactionAlignment(factionAlignment);
     }
 
     /// <summary>

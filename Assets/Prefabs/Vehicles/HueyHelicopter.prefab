@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33c55ab4516ae724085b6abe0a32ad5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factionComponent: {fileID: 0}
+  factionComponent: {fileID: 1441904184321007813}
   maxHP: 1000
   currentHP: 1000
   isDead: 0

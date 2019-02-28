@@ -49,7 +49,7 @@ public class TowerTurret : Targetable
         if (weaponComponent == null)
             weaponComponent = GetComponent<WeaponComponent>();
 
-        targettingComponent.FactionAlignment = parentDefensePosition.FactionAlignment;
+        targettingComponent.FactionAlignment = parentDefensePosition.FactionComponent.Alignment;
         targettingComponent.ResetTargetter();
 
     }

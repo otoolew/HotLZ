@@ -20,8 +20,8 @@ public class Soldier : Targetable
     [SerializeField] private SoldierWeaponComponent weapon;
     public SoldierWeaponComponent Weapon { get => weapon; set => weapon = value; }
 
-    [SerializeField] private PositionAssignment positionAssignment;
-    public PositionAssignment PositionAssignment { get => positionAssignment; set => positionAssignment = value; }
+    [SerializeField] private PositionAssignment currentPositionAssignment;
+    public PositionAssignment CurrentPositionAssignment { get => currentPositionAssignment; set => currentPositionAssignment = value; }
 
     [SerializeField] private DefensePosition closestDefensePosition;
     public DefensePosition ClosestDefensePosition { get => closestDefensePosition; set => closestDefensePosition = value; }
@@ -34,8 +34,7 @@ public class Soldier : Targetable
 
     // Start is called before the first frame update
     void Start()
-    {
-        
+    {       
         FactionComponent = GetComponent<FactionComponent>();
         targetingComponent.acquiredTarget += OnTargetAcquired;
         targetingComponent.lostTarget += OnTargetLost;

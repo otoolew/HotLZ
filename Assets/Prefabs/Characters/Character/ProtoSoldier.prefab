@@ -5809,7 +5809,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4729cb1137bf62b4ebe82a1aaba6b6e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factionAlignment: {fileID: 0}
+  alignment: {fileID: 0}
+  FactionAlignmentChange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: GameEvents+FactionAlignmentChange, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &6125251845471742466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5822,7 +5827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62c492a4a825bfa4097ed20e8d6450dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factionAlignment: {fileID: 11400000, guid: 7fc5788328993c24a95e2911e2079ae3, type: 2}
+  factionComponent: {fileID: 0}
   maxHP: 100
   currentHP: 100
   isDead: 0
@@ -5831,7 +5836,9 @@ MonoBehaviour:
   navigationAgent: {fileID: 9040462231738959592}
   targetingComponent: {fileID: 747076376370016975}
   weapon: {fileID: 35863992671667055}
-  defensePosition: {fileID: 0}
+  positionAssignment: {fileID: 0}
+  closestDefensePosition: {fileID: 0}
+  currentTerritory: {fileID: 0}
   pooled: 0
 --- !u!195 &581166468070580100
 NavMeshAgent:
