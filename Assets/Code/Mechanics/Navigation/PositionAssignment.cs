@@ -8,8 +8,11 @@ public class PositionAssignment : MonoBehaviour
     [SerializeField] private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment { get => factionAlignment; set => factionAlignment = value; }
 
-    [SerializeField] private Targetable assignedSoldier;
-    public Targetable AssignedSoldier { get => assignedSoldier; set => assignedSoldier = value; }
+    [SerializeField] private Territory residingTerritory;
+    public Territory ResidingTerritory { get => residingTerritory; set => residingTerritory = value; }
+
+    [SerializeField] private Soldier assignedSoldier;
+    public Soldier AssignedSoldier { get => assignedSoldier; set => assignedSoldier = value; }
 
     [SerializeField] private bool soldierArrived;
     public bool SoldierArrived { get => soldierArrived; set => soldierArrived = value; }
@@ -19,16 +22,42 @@ public class PositionAssignment : MonoBehaviour
 
     public event Action<PositionAssignment> Assigned;
     public event Action<PositionAssignment> Unassigned;
-    private void Update()
-    {
-        // Can be Event or check could be removed
-        if(positionClaimed)
-        {
-            soldierArrived = HasSoldierArrived();
-        }
 
+    private void Start()
+    {
+        residingTerritory = GetComponentInParent<Territory>();
     }
-    public void AssignPosition(Targetable soldier)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Targetable"))
+        {
+            Soldier soldier = other.GetComponentInParent<Soldier>();
+            if (soldier == null)
+                return;
+            if (soldier.FactionComponent.Alignment != factionAlignment)
+                return;
+            if (positionClaimed && (assignedSoldier == soldier))
+            {
+                soldierArrived = true;
+                return;
+            }
+            if (assignedSoldier != soldier)
+            {
+                if (residingTerritory.RequestPositionAssignment(assignedSoldier))
+                {
+                    UnassignPosition();
+                    AssignPosition(soldier);
+                    soldierArrived = true;
+                    soldier.CurrentPositionAssignment = this;
+                    return;
+                }
+
+                if (residingTerritory.RequestCheckPointLocation(soldier))
+                    Debug.Log("TODO: NO AVAILABLE CHECKPOINT");
+            }
+        }
+    }
+    public void AssignPosition(Soldier soldier)
     {        
         soldier.removed += OnAssignedSoldierDeath;
         assignedSoldier = soldier;
@@ -42,26 +71,12 @@ public class PositionAssignment : MonoBehaviour
         assignedSoldier = null;
         positionClaimed = false;
         soldierArrived = false;
+        GetComponent<SphereCollider>().enabled = true;
         //Unassigned.Invoke(this);
     }
     public void OnAssignedSoldierDeath(Targetable soldier)
     {
         soldier.removed -= OnAssignedSoldierDeath;
         UnassignPosition();
-    }
-    public bool HasSoldierArrived()
-    {
-        if(assignedSoldier == null || assignedSoldier.IsDead)
-        {
-            Debug.Log("Soldier is MIA!");
-            return false;
-        }
-
-        float distance = Vector3.Distance(transform.position, assignedSoldier.transform.position);
-        if(distance <= 1f)
-        {
-            return true;
-        }
-        return false;
     }
 }

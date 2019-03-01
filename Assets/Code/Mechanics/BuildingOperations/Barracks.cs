@@ -30,8 +30,8 @@ public class Barracks : MonoBehaviour
     public Transform SoldierReturnPoint { get => soldierReturnPoint; set => soldierReturnPoint = value; }
 
     [SerializeField]
-    private RallyPoint baseRallyPoint;
-    public RallyPoint BaseRallyPoint { get => baseRallyPoint; set => baseRallyPoint = value; }
+    private TerritoryCheckPoint barracksCheckPoint;
+    public TerritoryCheckPoint BarracksCheckPoint { get => barracksCheckPoint; set => barracksCheckPoint = value; }
 
     [SerializeField]
     private float spawnCooldown;
@@ -105,17 +105,18 @@ public class Barracks : MonoBehaviour
     {
         spawnReady = false;
         spawnTimer = spawnCooldown;
-        foreach (var infantry in soldierList)
+        foreach (var soldier in soldierList)
         {
-            if (!infantry.isActiveAndEnabled && infantry.Pooled)
+            if (!soldier.isActiveAndEnabled && soldier.Pooled)
             {
-                infantry.GetComponent<Animator>().SetBool("IsDead", false);
-                infantry.Pooled = false;
-                infantry.IsDead = false;
-                infantry.CurrentHP = infantry.MaxHP;
-                infantry.transform.position = soldierSpawnPoint.position;
-                infantry.CurrentTerritory = residingTerritory;
-                infantry.gameObject.SetActive(true);
+                soldier.GetComponent<Animator>().SetBool("IsDead", false);
+                soldier.Pooled = false;
+                soldier.IsDead = false;
+                soldier.CurrentHP = soldier.MaxHP;
+                soldier.transform.position = soldierSpawnPoint.position;
+                soldier.CurrentTerritory = residingTerritory;
+                soldier.gameObject.SetActive(true);
+                soldier.NavigationAgent.GoToPosition(barracksCheckPoint.transform.position);
                 return;
             }
         }

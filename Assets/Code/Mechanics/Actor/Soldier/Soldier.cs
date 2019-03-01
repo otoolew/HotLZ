@@ -20,14 +20,17 @@ public class Soldier : Targetable
     [SerializeField] private SoldierWeaponComponent weapon;
     public SoldierWeaponComponent Weapon { get => weapon; set => weapon = value; }
 
-    [SerializeField] private PositionAssignment currentPositionAssignment;
-    public PositionAssignment CurrentPositionAssignment { get => currentPositionAssignment; set => currentPositionAssignment = value; }
+    [SerializeField] private Territory currentTerritory;
+    public Territory CurrentTerritory { get => currentTerritory; set => currentTerritory = value; }
 
     [SerializeField] private DefensePosition closestDefensePosition;
     public DefensePosition ClosestDefensePosition { get => closestDefensePosition; set => closestDefensePosition = value; }
 
-    [SerializeField] private Territory currentTerritory;
-    public Territory CurrentTerritory { get => currentTerritory; set => currentTerritory = value; }
+    [SerializeField] private PositionAssignment currentPositionAssignment;
+    public PositionAssignment CurrentPositionAssignment { get => currentPositionAssignment; set => currentPositionAssignment = value; }
+
+    [SerializeField] private bool inGarrison;
+    public bool InGarrison { get => inGarrison; set => inGarrison = value; }
 
     [SerializeField] private bool pooled;
     public bool Pooled { get => pooled; set => pooled = value; }
@@ -38,7 +41,6 @@ public class Soldier : Targetable
         FactionComponent = GetComponent<FactionComponent>();
         targetingComponent.acquiredTarget += OnTargetAcquired;
         targetingComponent.lostTarget += OnTargetLost;
-        CurrentTerritory.DutyRequest(this);
     }
 
     // Update is called once per frame

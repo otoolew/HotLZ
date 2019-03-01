@@ -2,42 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeadQuarters : ContestableTerritory
+public class HeadQuarters : MonoBehaviour
 {
-    [SerializeField]
-    private FactionAlignment currentFaction;
-    public override FactionAlignment ControllingFaction { get => currentFaction; set => currentFaction = value; }
+    [SerializeField] private FactionComponent factionComponent;
+    public FactionComponent FactionComponent { get => factionComponent; set => factionComponent = value; }
 
-    [SerializeField] private DefensePosition[] defensePositions;
-    public override DefensePosition[] DefensePositions { get => defensePositions; }
-
-    [SerializeField]
-    private Barracks barracks;
-    public Barracks Barracks { get => barracks; set => barracks = value; }
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public override void UpdateFactionOwnership()
-    {
-        Debug.Log("TODO: IMPLEMENT UpdateFactionOwnership()");
-    }
-
-    public override DefensePosition ClosestDefensePosition(Transform goTranform)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override bool FindFoxhole(Soldier soldier)
-    {
-        throw new System.NotImplementedException();
+        Soldier soldier = other.GetComponentInParent<Soldier>();
+        if (soldier != null)
+        {
+            if (soldier.FactionComponent.Alignment != FactionComponent.Alignment)
+                Debug.Log("Enemy Entered Base!");
+        }
     }
 }

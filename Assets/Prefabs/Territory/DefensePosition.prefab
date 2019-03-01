@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1239198564464908206}
   - component: {fileID: 8205678506365693144}
+  - component: {fileID: 8000975901424234989}
   m_Layer: 0
   m_Name: PositionAssignment (R1)
   m_TagString: Untagged
@@ -76,8 +77,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factionAlignment: {fileID: 11400000, guid: 0d50019ec79a3204299f15c06c904c43, type: 2}
+  residingTerritory: {fileID: 0}
   assignedSoldier: {fileID: 0}
+  soldierArrived: 0
   positionClaimed: 0
+--- !u!135 &8000975901424234989
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736813005602686309}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.85
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1945885576387933049
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1308803813679325618}
   - component: {fileID: 8285259393724750532}
+  - component: {fileID: 9064954594345605921}
   m_Layer: 0
   m_Name: PositionAssignment (B2)
   m_TagString: Untagged
@@ -123,8 +140,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factionAlignment: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
+  residingTerritory: {fileID: 0}
   assignedSoldier: {fileID: 0}
+  soldierArrived: 0
   positionClaimed: 0
+--- !u!135 &9064954594345605921
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945885576387933049}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.85
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2321984190662886975
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2561923093954369358}
   - component: {fileID: 4854650453623041080}
+  - component: {fileID: 4546017530942798189}
   m_Layer: 0
   m_Name: PositionAssignment (B1)
   m_TagString: Untagged
@@ -262,8 +295,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factionAlignment: {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}
+  residingTerritory: {fileID: 0}
   assignedSoldier: {fileID: 0}
+  soldierArrived: 0
   positionClaimed: 0
+--- !u!135 &4546017530942798189
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3072903859864454533}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.85
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &4461859970427516921
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,9 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc177e17751d4574dae156bc31ac5954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  territory: {fileID: 0}
   factionComponent: {fileID: 9071744162866014115}
-  factionAlignment: {fileID: 11400000, guid: 7fc5788328993c24a95e2911e2079ae3, type: 2}
   defenseTower: {fileID: 7430630706208699493}
   towerPowerLevel: 0
   positionAssignments:
@@ -566,6 +612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8993042476832019737}
   - component: {fileID: 2026441554271710831}
+  - component: {fileID: 7494607750897547000}
   m_Layer: 0
   m_Name: PositionAssignment (R2)
   m_TagString: Untagged
@@ -601,8 +648,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factionAlignment: {fileID: 11400000, guid: 0d50019ec79a3204299f15c06c904c43, type: 2}
+  residingTerritory: {fileID: 0}
   assignedSoldier: {fileID: 0}
+  soldierArrived: 0
   positionClaimed: 0
+--- !u!135 &7494607750897547000
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495291659715774418}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.85
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8715169471884932839
 GameObject:
   m_ObjectHideFlags: 0

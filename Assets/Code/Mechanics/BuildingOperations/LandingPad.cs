@@ -32,7 +32,7 @@ public class LandingPad : MonoBehaviour
             switch (soldier.UnitType)
             {
                 case Enums.UnitType.SOLDIER:
-                    soldier.GetComponent<NavigationAgent>().GoToPosition(headQuarters.Barracks.SoldierReturnPoint.position);
+                    //soldier.GetComponent<NavigationAgent>().GoToPosition(headQuarters.Barracks.SoldierReturnPoint.position);
                     break;
                 case Enums.UnitType.HELICOPTER:
                     Debug.Log("TODO: Implement Helicopter landing operations");

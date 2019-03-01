@@ -16,11 +16,14 @@ public class Territory : MonoBehaviour
     [SerializeField] private List<PositionAssignment> positionAssignmentList;   
     public List<PositionAssignment> PositionAssignmentList { get => positionAssignmentList; }
 
-    [SerializeField] private Territory nextTerritory;
-    public Territory NextTerritory { get => nextTerritory; set => nextTerritory = value; }
+    [SerializeField] private Territory nextBlueTerritory;
+    public Territory NextBlueTerritory { get => nextBlueTerritory; set => nextBlueTerritory = value; }
 
-    [SerializeField] private RallyPoint[] rallyPoints;
-    public RallyPoint[] RallyPoints { get => rallyPoints;}
+    [SerializeField] private Territory nextRedTerritory;
+    public Territory NextRedTerritory { get => nextRedTerritory; set => nextRedTerritory = value; }
+
+    [SerializeField] private List<TerritoryCheckPoint> checkPointList;
+    public List<TerritoryCheckPoint> CheckPointList { get => checkPointList; private set => checkPointList = value; }
 
     public int blueFactionDefense;
     public int redFactionDefense;
@@ -33,9 +36,23 @@ public class Territory : MonoBehaviour
     }
     #endregion  
 
+    private void SetUpCheckPoints()
+    {
+        TerritoryCheckPoint[] checkPoints = GetComponentsInChildren<TerritoryCheckPoint>();
+        if(checkPoints.Length > 0)
+        {
+            for (int i = 0; i < checkPoints.Length; i++)
+            {
+                checkPointList.Add(checkPoints[i]);
+            }
+        }
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        SetUpCheckPoints();
         defensePositions = GetComponentsInChildren<DefensePosition>();
         for (int i = 0; i < DefensePositions.Length; i++)
         {
@@ -51,18 +68,11 @@ public class Territory : MonoBehaviour
     {
 
     }
-    public void DutyRequest(Soldier soldier)
-    {
-        if(RequestPositionAssignment(soldier))
-        {
-            //Debug.Log(soldier.name + " Assigned to Defense Position");
-            return;
-        }
-        RequestRallyPoint(soldier);
-    }
 
     public bool RequestPositionAssignment(Soldier soldier)
     {
+        if (soldier == null)
+            return false;
         for (int i = PositionAssignmentList.Count - 1; i >= 0; i--)
         {
             if ((!PositionAssignmentList[i].PositionClaimed) && (PositionAssignmentList[i].FactionAlignment == soldier.FactionComponent.Alignment))
@@ -74,24 +84,29 @@ public class Territory : MonoBehaviour
         }
         return false;
     }
-
-    public void RequestRallyPoint(Soldier soldier)
+    public TerritoryCheckPoint FindNextTerritoryEntryPoint(FactionComponent faction)
     {
-        Debug.Log(soldier.name + "Requesting Rally at " + name);
-        for (int i = 0; i < rallyPoints.Length; i++)
+
+        for (int i = CheckPointList.Count - 1; i >= 0; i--)
         {
-            if(rallyPoints[i].FactionComponent.Alignment == soldier.FactionComponent.Alignment)
+            if (checkPointList[i].IsEntryPoint && checkPointList[i].FactionComponent.Alignment == faction.Alignment)
             {
-                soldier.NavigationAgent.GoToPosition(rallyPoints[i].transform.position);
-                return;
+                return CheckPointList[i];
             }
         }
-        if(NextTerritory == null)
+        return null;
+    }
+    public bool RequestCheckPointLocation(Soldier soldier)
+    {
+        for (int i = CheckPointList.Count - 1; i >= 0; i--)
         {
-            Debug.Log("No Territoies left");
-            return;
+            if (checkPointList[i].IsExitPoint && checkPointList[i].FactionComponent.Alignment == soldier.FactionComponent.Alignment)
+            {
+                soldier.NavigationAgent.GoToPosition(checkPointList[i].transform.position);
+                return true;
+            }               
         }
-        NextTerritory.RequestRallyPoint(soldier);
+        return false;
     }
     public void UpdateFactionOwnership()
     {
