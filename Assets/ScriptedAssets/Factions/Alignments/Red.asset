@@ -15,5 +15,6 @@ MonoBehaviour:
   factionAlignmentType: 2
   factionName: Red
   uniform: {fileID: 11400000, guid: bfb04b861ee9fb4469fc90e3b37eba4e, type: 2}
+  towerMGPaint: {fileID: 11400000, guid: 559fd03b500ca1842beb20f0149be237, type: 2}
   enemies:
   - {fileID: 11400000, guid: 13dbaf30f3284504fb8119e6c21de88c, type: 2}

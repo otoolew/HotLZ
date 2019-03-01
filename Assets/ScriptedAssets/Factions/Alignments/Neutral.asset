@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aacd7789ef5b6c0458c2f05389860262, type: 3}
   m_Name: Neutral
   m_EditorClassIdentifier: 
+  factionAlignmentType: 0
   factionName: Neutral
   uniform: {fileID: 0}
+  towerMGPaint: {fileID: 11400000, guid: 21f03cf5e1a35e94eafbf1240c7a6e76, type: 2}
   enemies: []

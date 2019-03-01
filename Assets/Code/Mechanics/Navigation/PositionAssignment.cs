@@ -20,8 +20,7 @@ public class PositionAssignment : MonoBehaviour
     [SerializeField] private bool positionClaimed;
     public bool PositionClaimed { get => positionClaimed; set => positionClaimed = value; }
 
-    public event Action<PositionAssignment> Assigned;
-    public event Action<PositionAssignment> Unassigned;
+    public event Action SoldierChange;
 
     private void Start()
     {
@@ -39,6 +38,7 @@ public class PositionAssignment : MonoBehaviour
             if (positionClaimed && (assignedSoldier == soldier))
             {
                 soldierArrived = true;
+                SoldierChange.Invoke();
                 return;
             }
             if (assignedSoldier != soldier)
@@ -49,6 +49,7 @@ public class PositionAssignment : MonoBehaviour
                     AssignPosition(soldier);
                     soldierArrived = true;
                     soldier.CurrentPositionAssignment = this;
+                    SoldierChange.Invoke();
                     return;
                 }
 
@@ -63,7 +64,6 @@ public class PositionAssignment : MonoBehaviour
         assignedSoldier = soldier;
         assignedSoldier.GetComponent<Soldier>().CurrentPositionAssignment = this;
         positionClaimed = true;
-        //Assigned?.Invoke(this);
     }
     public void UnassignPosition()
     {
@@ -71,8 +71,8 @@ public class PositionAssignment : MonoBehaviour
         assignedSoldier = null;
         positionClaimed = false;
         soldierArrived = false;
-        GetComponent<SphereCollider>().enabled = true;
-        //Unassigned.Invoke(this);
+        SoldierChange.Invoke();
+        //GetComponent<SphereCollider>().enabled = true;
     }
     public void OnAssignedSoldierDeath(Targetable soldier)
     {

@@ -10,8 +10,8 @@ public class TowerTurret : Targetable
     [SerializeField] private DefensePosition parentDefensePosition;
     public DefensePosition ParentDefensePosition { get => parentDefensePosition; set => parentDefensePosition = value; }
 
-    [SerializeField] private TurretTransform turretTransform;
-    public TurretTransform TurretTransform { get => turretTransform; set => turretTransform = value; }
+    [SerializeField] private Transform turretTransform;
+    public Transform TurretTransform { get => turretTransform; set => turretTransform = value; }
 
     [SerializeField] private Transform turretBaseTransform;
     public Transform TurretBaseTransform { get => turretBaseTransform; set => turretBaseTransform = value; }
@@ -42,18 +42,16 @@ public class TowerTurret : Targetable
     {
         if (parentDefensePosition == null)
             parentDefensePosition = GetComponentInParent<DefensePosition>();
-        if (turretTransform == null)
-            turretTransform = GetComponentInChildren<TurretTransform>();
+
         if (targettingComponent == null)
             targettingComponent = GetComponentInChildren<AITargetingComponent>();
         if (weaponComponent == null)
             weaponComponent = GetComponent<WeaponComponent>();
 
-        targettingComponent.FactionAlignment = parentDefensePosition.FactionComponent.Alignment;
-        targettingComponent.ResetTargetter();
+        ResetTowerTurret();
 
     }
-
+    
     private void OnEnable()
     {
         InitializeComponents();
@@ -69,15 +67,17 @@ public class TowerTurret : Targetable
     // Update is called once per frame
     void Update()
     {
-        if (currentTarget != null)
+        if (targettingComponent.CurrentTarget != null)
         {
+            currentTarget = targettingComponent.CurrentTarget;
             if (turretBaseTransform != null)
                 AimTurretBase();
             AimTurret();
-            if (TargetInSight(CurrentTarget))
-            {
-                weaponComponent.Fire();
-            }
+            weaponComponent.Fire();
+            //if (TargetInSight(CurrentTarget))
+            //{
+            //    weaponComponent.Fire();
+            //}
         }
     }
     public void OnFactionAlignmentChange(FactionAlignment newFactionAlignment)
@@ -101,16 +101,17 @@ public class TowerTurret : Targetable
             var lookDirection = Quaternion.LookRotation(currentTarget.transform.position - turretTransform.transform.position);
             //lookDirection.x = 0;
             //lookDirection.z = 0;
-            turretTransform.transform.rotation = Quaternion.RotateTowards(turretTransform.transform.rotation, lookDirection, (turretRotationSpeed * Time.deltaTime));
+
+            turretTransform.transform.rotation = lookDirection;
         }
     }
     public void AimTurret()
     {
-        if (CurrentTarget != null)
-        {
-            var lookDirection = Quaternion.LookRotation(currentTarget.transform.position - turretTransform.transform.position);
-            turretTransform.transform.rotation = Quaternion.RotateTowards(turretTransform.transform.rotation, lookDirection, (turretRotationSpeed * Time.deltaTime));
-        }
+
+        var lookDirection = Quaternion.LookRotation(currentTarget.transform.position - turretTransform.transform.position);
+        turretTransform.transform.LookAt(lookDirection.eulerAngles);
+        //turretTransform.transform.rotation = Quaternion.RotateTowards(turretTransform.transform.rotation, lookDirection, (turretRotationSpeed));
+        
     }
     public bool TargetInSight(Targetable targetable)
     {
@@ -129,6 +130,12 @@ public class TowerTurret : Targetable
             }
         }
         return false;
+    }
+    public void ResetTowerTurret()
+    {
+        targettingComponent.FactionAlignment = parentDefensePosition.FactionComponent.Alignment;
+        targettingComponent.ResetTargetter();
+        FactionComponent.Alignment.towerMGPaint.ChangeMaterial(this);
     }
     public Vector3 DirectionFromAngle(float angleInDegrees, bool angleIsGlobal)
     {

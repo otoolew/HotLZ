@@ -13,11 +13,15 @@ public class DefensePosition : MonoBehaviour
     [SerializeField] private FactionComponent factionComponent;
     public FactionComponent FactionComponent { get => factionComponent; set => factionComponent = value; }
 
-    [SerializeField] private DefenseTower defenseTower;
-    public DefenseTower DefenseTower { get => defenseTower; set => defenseTower = value; }
+    [SerializeField] private TowerTurret towerTurret;
+    public TowerTurret TowerTurret { get => towerTurret; set => towerTurret = value; }
 
     [SerializeField] private int towerPowerLevel;
     public int TowerPowerLevel { get => towerPowerLevel; set => towerPowerLevel = value; }
+
+    [SerializeField] private int positionTotal;
+    [SerializeField] private int blueTroopCount;
+    [SerializeField] private int redTroopCount;
 
     public PositionAssignment[] positionAssignments;
 
@@ -31,8 +35,54 @@ public class DefensePosition : MonoBehaviour
     {
         factionComponent.GetComponent<FactionComponent>();
         ResidingTerritory = GetComponentInParent<Territory>();
-    }
+        positionTotal = positionAssignments.Length;
 
+        for (int i = 0; i < positionTotal; i++)
+        {
+            positionAssignments[i].SoldierChange += OnSoldierChange;
+        }       
+    }
+    public void OnSoldierChange()
+    {
+        int blueCount = 0;
+        int redCount = 0;
+        for (int i = 0; i < positionAssignments.Length; i++)
+        {
+            if(positionAssignments[i].SoldierArrived && positionAssignments[i].AssignedSoldier != null)
+            {
+                switch (positionAssignments[i].FactionAlignment.factionAlignmentType)
+                {
+                    case FactionAlignmentType.NEUTRAL:
+                        break;
+                    case FactionAlignmentType.BLUE:
+                        blueCount++;
+                        break;
+                    case FactionAlignmentType.RED:
+                        redCount++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        blueTroopCount = blueCount;
+        redTroopCount = redCount;
+        if((blueTroopCount > redTroopCount) && factionComponent.Alignment != FactionManager.Instance.FactionProvider.BlueFaction)
+        {
+            FactionComponent.ChangeFactionAlignment(FactionManager.Instance.FactionProvider.BlueFaction);
+            TowerTurret.FactionComponent.Alignment = FactionManager.Instance.FactionProvider.BlueFaction;
+            TowerTurret.ResetTowerTurret();
+            return;
+        }
+        if ((redTroopCount > blueTroopCount) && factionComponent.Alignment != FactionManager.Instance.FactionProvider.RedFaction)
+        {
+            FactionComponent.ChangeFactionAlignment(FactionManager.Instance.FactionProvider.RedFaction);
+            TowerTurret.FactionComponent.Alignment = FactionManager.Instance.FactionProvider.RedFaction;
+            TowerTurret.ResetTowerTurret();
+            return;
+        }
+    }
+    
     public void UpdateDefensePosition()
     {
 

@@ -9,6 +9,7 @@ public class FactionAlignment : ScriptableObject, IFactionProvider
     public FactionAlignmentType factionAlignmentType;
     public string factionName;
     public FactionUniform uniform;
+    public FactionMGTurretMaterial towerMGPaint;
     /// <summary>
     /// A collection of other alignment objects that we can harm
     /// </summary>
